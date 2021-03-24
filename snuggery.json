@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "projects": {
+    "all": {
+      "root": "",
+      "architect": {
+        "build": {
+          "builder": "@snuggery/snuggery:glob",
+          "options": {
+            "include": "@ngx-playwright/*"
+          }
+        },
+        "deploy": {
+          "builder": "$direct:./scripts/deploy",
+          "configurations": {
+            "next": {
+              "tag": "next"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@snuggery/snuggery:execute",
+          "options": {
+            "package": "eslint",
+            "arguments": ["packages", "integration"]
+          },
+          "configurations": {
+            "fix": {
+              "arguments": ["--fix", "packages", "integration"]
+            }
+          }
+        }
+      }
+    },
+    "@ngx-playwright/harness": {
+      "root": "packages/harness",
+      "architect": {
+        "build": {
+          "builder": "$direct:./scripts/build"
+        }
+      }
+    },
+    "@ngx-playwright/jest": {
+      "root": "packages/jest",
+      "architect": {
+        "build": {
+          "builder": "$direct:./scripts/build"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "builders": {
+    "run": {
+      "implementation": "./builder/builder",
+      "schema": "./builder/schema.json",
+      "description": "Run e2e tests via playwright and jest"
+    }
+  }
+}

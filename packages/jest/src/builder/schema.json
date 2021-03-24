@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "title": "Jest Target",
+  "description": "Jest target options",
+  "type": "object",
+  "properties": {
+    "jestConfig": {
+      "type": "string",
+      "description": "The path of the Jest configuration file."
+    },
+    "devServerTarget": {
+      "type": "string",
+      "description": "A dev-server builder target to run tests against in the format of `project:target[:configuration]`. You can also pass in more than one configuration name as a comma-separated list. Example: `project:target:production,staging`.",
+      "pattern": "^([^:\\s]+:[^:\\s]+(:[^\\s]+)?)?$"
+    },
+    "grep": {
+      "type": "string",
+      "description": "Execute specs whose names match the pattern, which is internally compiled to a RegExp."
+    },
+    "invertGrep": {
+      "type": "boolean",
+      "description": "Invert the selection specified by the 'grep' option.",
+      "default": false
+    },
+    "specs": {
+      "type": "array",
+      "description": "Override specs in the protractor config.",
+      "default": [],
+      "items": {
+        "type": "string",
+        "description": "Spec name."
+      }
+    },
+    "suite": {
+      "type": "string",
+      "description": "Override suite in the protractor config."
+    },
+    "port": {
+      "type": "number",
+      "description": "The port to use to serve the application."
+    },
+    "host": {
+      "type": "string",
+      "description": "Host to listen on."
+    },
+    "baseUrl": {
+      "type": "string",
+      "description": "Base URL for playwright to connect to."
+    }
+  },
+  "additionalProperties": false,
+  "required": ["jestConfig"]
+}
