@@ -1,0 +1,7 @@
+*         text=auto
+
+/.pnp.js  linguist-generated
+/.yarn    linguist-vendored
+
+/.vscode/*.json   linguist-language=jsonc
+/snuggery.json    linguist-language=jsonc
