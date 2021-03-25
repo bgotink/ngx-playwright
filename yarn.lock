@@ -1779,16 +1779,13 @@ __metadata:
     "@angular/cdk": ^11.2.5
     "@angular/common": ^11.2.7
     "@angular/core": ^11.2.7
-    playwright: ^1.9.2
+    playwright-core: ^1.10.0
     rxjs: ^6.6.6
     typescript: ~4.2.3
     zone.js: ~0.10.3
   peerDependencies:
     "@angular/cdk": ^11.0.0
-    playwright: ^1.9.2
-  peerDependenciesMeta:
-    playwright:
-      optional: true
+    playwright-core: ^1.10.0
   languageName: unknown
   linkType: soft
 
@@ -1814,7 +1811,7 @@ __metadata:
     jest-environment-node: ^26.6.2
     jest-runner: ^26.6.3
     lodash.merge: 4.6.2
-    playwright-core: ^1.9.2
+    playwright-core: ^1.10.0
     rxjs: ^6.6.6
     typescript: ~4.2.3
     zone.js: ~0.10.3
@@ -1822,10 +1819,10 @@ __metadata:
     "@angular/cdk": ^11.0.0
     "@types/jest": ^26.0.21
     jest: ^26.6.3
-    playwright: ^1.9.2
-    playwright-chromium: ^1.9.2
-    playwright-firefox: ^1.9.2
-    playwright-webkit: ^1.9.2
+    playwright: ^1.10.0
+    playwright-chromium: ^1.10.0
+    playwright-firefox: ^1.10.0
+    playwright-webkit: ^1.10.0
   peerDependenciesMeta:
     "@types/jest":
       optional: true
@@ -9694,9 +9691,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:^1.9.2":
-  version: 1.9.2
-  resolution: "playwright-core@npm:1.9.2"
+"playwright-core@npm:^1.10.0":
+  version: 1.10.0
+  resolution: "playwright-core@npm:1.10.0"
   dependencies:
     commander: ^6.1.0
     debug: ^4.1.1
@@ -9713,30 +9710,7 @@ fsevents@^1.2.7:
     ws: ^7.3.1
   bin:
     playwright: lib/cli/cli.js
-  checksum: 6d56a13265f9180ed20adca94ead93efe0dd0b9df039a9621b0b64ac500b69b7fb31f7ea22a91a3d6b508fe7ab6361e992d00d0f734ba15627d2984adb23a98e
-  languageName: node
-  linkType: hard
-
-"playwright@npm:^1.9.2":
-  version: 1.9.2
-  resolution: "playwright@npm:1.9.2"
-  dependencies:
-    commander: ^6.1.0
-    debug: ^4.1.1
-    extract-zip: ^2.0.1
-    https-proxy-agent: ^5.0.0
-    jpeg-js: ^0.4.2
-    mime: ^2.4.6
-    pngjs: ^5.0.0
-    progress: ^2.0.3
-    proper-lockfile: ^4.1.1
-    proxy-from-env: ^1.1.0
-    rimraf: ^3.0.2
-    stack-utils: ^2.0.3
-    ws: ^7.3.1
-  bin:
-    playwright: lib/cli/cli.js
-  checksum: cbcdd4adc56eb30dfc758392f03424c3fb919f1e2202ac092d9c4761c4860d2c2e6e6cfd0b0752c7cb8f7313cf739ee4b49012bf80f9904b0373a6212af726ec
+  checksum: 04b374f79ff9a7fef08b7b62a4c67c99e6c7cbf012b2a588cb99e6a69873c5f8b4e9ab02e8800d3c2fa80597b87d7f34758542458044a1a5bb5db4dde3f0d63c
   languageName: node
   linkType: hard
 

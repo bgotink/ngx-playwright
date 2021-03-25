@@ -2937,8 +2937,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@angular/common", "virtual:c7241933abc9f75a245503d0d8db4e0295b4ea6a893b51947ba5059ac9780b8ac1c62cc53b9ad8d2307a2630c55a754800da8d85e6028e2703749b73cae75dc7#npm:11.2.7"],
             ["@angular/core", "virtual:c7241933abc9f75a245503d0d8db4e0295b4ea6a893b51947ba5059ac9780b8ac1c62cc53b9ad8d2307a2630c55a754800da8d85e6028e2703749b73cae75dc7#npm:11.2.7"],
             ["@types/angular__cdk", null],
-            ["@types/playwright", null],
-            ["playwright", "npm:1.9.2"],
+            ["@types/playwright-core", null],
+            ["playwright-core", "npm:1.10.0"],
             ["rxjs", "npm:6.6.6"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
             ["zone.js", "npm:0.10.3"]
@@ -2946,7 +2946,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packagePeers": [
             "@angular/cdk",
             "@types/angular__cdk",
-            "@types/playwright"
+            "@types/playwright-core",
+            "playwright-core"
           ],
           "linkType": "SOFT",
         }],
@@ -2957,7 +2958,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@angular/cdk", "virtual:c7241933abc9f75a245503d0d8db4e0295b4ea6a893b51947ba5059ac9780b8ac1c62cc53b9ad8d2307a2630c55a754800da8d85e6028e2703749b73cae75dc7#npm:11.2.5"],
             ["@angular/common", "virtual:c7241933abc9f75a245503d0d8db4e0295b4ea6a893b51947ba5059ac9780b8ac1c62cc53b9ad8d2307a2630c55a754800da8d85e6028e2703749b73cae75dc7#npm:11.2.7"],
             ["@angular/core", "virtual:c7241933abc9f75a245503d0d8db4e0295b4ea6a893b51947ba5059ac9780b8ac1c62cc53b9ad8d2307a2630c55a754800da8d85e6028e2703749b73cae75dc7#npm:11.2.7"],
-            ["playwright", "npm:1.9.2"],
+            ["playwright-core", "npm:1.10.0"],
             ["rxjs", "npm:6.6.6"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
             ["zone.js", "npm:0.10.3"]
@@ -2988,7 +2989,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["jest-environment-node", "npm:26.6.2"],
             ["jest-runner", "npm:26.6.3"],
             ["lodash.merge", "npm:4.6.2"],
-            ["playwright-core", "npm:1.9.2"],
+            ["playwright-core", "npm:1.10.0"],
             ["rxjs", "npm:6.6.6"],
             ["typescript", "patch:typescript@npm%3A4.2.3#builtin<compat/typescript>::version=4.2.3&hash=a45b0e"],
             ["zone.js", "npm:0.10.3"]
@@ -9936,7 +9937,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["whatwg-encoding", "npm:1.0.5"],
             ["whatwg-mimetype", "npm:2.3.0"],
             ["whatwg-url", "npm:8.4.0"],
-            ["ws", "virtual:f0abfe37921936c289a881f404e1688b526c367fdf2d8dbaff9b23c3ed57eae1ed8cdb4bee33fffdef7943dea2878a2445d1d5f63dd692cc2454836cd5c9051e#npm:7.4.4"],
+            ["ws", "virtual:a535c2c2230a8e9f7703b9a0af55459eb2ff751a3db553841b420106d70c4d7eccd9a478cc4def25793e218f1781045ebf15d85f49a1a0e578c8965cd17853ab#npm:7.4.4"],
             ["xml-name-validator", "npm:3.0.0"]
           ],
           "packagePeers": [
@@ -11984,33 +11985,11 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD",
         }]
       ]],
-      ["playwright", [
-        ["npm:1.9.2", {
-          "packageLocation": "./.yarn/unplugged/playwright-npm-1.9.2-f0abfe3792/node_modules/playwright/",
-          "packageDependencies": [
-            ["playwright", "npm:1.9.2"],
-            ["commander", "npm:6.2.1"],
-            ["debug", "virtual:92a28e392bb7746809827b7e8ebf6aec49c5f04125481214ae6ea6f4de204344bcccbe5eb3a2f4388bb368cfa5d84f03ce0d8f32a9fcc3f5e92ea34723da1c56#npm:4.3.2"],
-            ["extract-zip", "npm:2.0.1"],
-            ["https-proxy-agent", "npm:5.0.0"],
-            ["jpeg-js", "npm:0.4.3"],
-            ["mime", "npm:2.5.2"],
-            ["pngjs", "npm:5.0.0"],
-            ["progress", "npm:2.0.3"],
-            ["proper-lockfile", "npm:4.1.2"],
-            ["proxy-from-env", "npm:1.1.0"],
-            ["rimraf", "npm:3.0.2"],
-            ["stack-utils", "npm:2.0.3"],
-            ["ws", "virtual:f0abfe37921936c289a881f404e1688b526c367fdf2d8dbaff9b23c3ed57eae1ed8cdb4bee33fffdef7943dea2878a2445d1d5f63dd692cc2454836cd5c9051e#npm:7.4.4"]
-          ],
-          "linkType": "HARD",
-        }]
-      ]],
       ["playwright-core", [
-        ["npm:1.9.2", {
-          "packageLocation": "./.yarn/cache/playwright-core-npm-1.9.2-6801fd2903-6d56a13265.zip/node_modules/playwright-core/",
+        ["npm:1.10.0", {
+          "packageLocation": "./.yarn/cache/playwright-core-npm-1.10.0-a535c2c223-04b374f79f.zip/node_modules/playwright-core/",
           "packageDependencies": [
-            ["playwright-core", "npm:1.9.2"],
+            ["playwright-core", "npm:1.10.0"],
             ["commander", "npm:6.2.1"],
             ["debug", "virtual:92a28e392bb7746809827b7e8ebf6aec49c5f04125481214ae6ea6f4de204344bcccbe5eb3a2f4388bb368cfa5d84f03ce0d8f32a9fcc3f5e92ea34723da1c56#npm:4.3.2"],
             ["extract-zip", "npm:2.0.1"],
@@ -12023,7 +12002,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["proxy-from-env", "npm:1.1.0"],
             ["rimraf", "npm:3.0.2"],
             ["stack-utils", "npm:2.0.3"],
-            ["ws", "virtual:f0abfe37921936c289a881f404e1688b526c367fdf2d8dbaff9b23c3ed57eae1ed8cdb4bee33fffdef7943dea2878a2445d1d5f63dd692cc2454836cd5c9051e#npm:7.4.4"]
+            ["ws", "virtual:a535c2c2230a8e9f7703b9a0af55459eb2ff751a3db553841b420106d70c4d7eccd9a478cc4def25793e218f1781045ebf15d85f49a1a0e578c8965cd17853ab#npm:7.4.4"]
           ],
           "linkType": "HARD",
         }]
@@ -16324,10 +16303,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],
           "linkType": "HARD",
         }],
-        ["virtual:f0abfe37921936c289a881f404e1688b526c367fdf2d8dbaff9b23c3ed57eae1ed8cdb4bee33fffdef7943dea2878a2445d1d5f63dd692cc2454836cd5c9051e#npm:7.4.4", {
-          "packageLocation": "./.yarn/$$virtual/ws-virtual-fefea32a20/0/cache/ws-npm-7.4.4-745c19daca-ad08761ed7.zip/node_modules/ws/",
+        ["virtual:a535c2c2230a8e9f7703b9a0af55459eb2ff751a3db553841b420106d70c4d7eccd9a478cc4def25793e218f1781045ebf15d85f49a1a0e578c8965cd17853ab#npm:7.4.4", {
+          "packageLocation": "./.yarn/$$virtual/ws-virtual-3544c01ef8/0/cache/ws-npm-7.4.4-745c19daca-ad08761ed7.zip/node_modules/ws/",
           "packageDependencies": [
-            ["ws", "virtual:f0abfe37921936c289a881f404e1688b526c367fdf2d8dbaff9b23c3ed57eae1ed8cdb4bee33fffdef7943dea2878a2445d1d5f63dd692cc2454836cd5c9051e#npm:7.4.4"],
+            ["ws", "virtual:a535c2c2230a8e9f7703b9a0af55459eb2ff751a3db553841b420106d70c4d7eccd9a478cc4def25793e218f1781045ebf15d85f49a1a0e578c8965cd17853ab#npm:7.4.4"],
             ["@types/bufferutil", null],
             ["@types/utf-8-validate", null],
             ["bufferutil", null],

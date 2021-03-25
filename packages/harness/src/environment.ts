@@ -1,5 +1,5 @@
 import {HarnessEnvironment, TestElement} from '@angular/cdk/testing';
-import type {ElementHandle, Page} from 'playwright';
+import type {ElementHandle, Page} from 'playwright-core';
 
 import {PlaywrightElement} from './element';
 import {LazyBodyHandle} from './lazy-handle';

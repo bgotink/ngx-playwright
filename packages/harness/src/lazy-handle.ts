@@ -1,9 +1,9 @@
-import type {ElementHandle, Frame, JSHandle, Page} from 'playwright';
+import type {ElementHandle, Frame, JSHandle, Page} from 'playwright-core';
 import type {
   PageFunctionOn,
   EvaluationArgument,
   SmartHandle,
-} from 'playwright/types/structs';
+} from 'playwright-core/types/structs';
 
 export class LazyBodyHandle implements ElementHandle<HTMLBodyElement> {
   private _loaded?: Promise<ElementHandle<HTMLBodyElement>> = undefined;

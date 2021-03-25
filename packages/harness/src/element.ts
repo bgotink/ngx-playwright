@@ -1,4 +1,4 @@
-import type {ElementHandle} from 'playwright';
+import type {ElementHandle} from 'playwright-core';
 import {
   ElementDimensions,
   ModifierKeys,
