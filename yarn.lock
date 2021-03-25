@@ -1809,7 +1809,7 @@ __metadata:
     "@snuggery/architect": ~0.1.0
     "@types/jest": ~26.0.21
     "@types/lodash.merge": 4.6.6
-    jest: 26.6.3
+    jest: ^26.6.3
     jest-circus: ^26.6.3
     jest-environment-node: ^26.6.2
     jest-runner: ^26.6.3
@@ -1821,6 +1821,7 @@ __metadata:
   peerDependencies:
     "@angular/cdk": ^11.0.0
     "@types/jest": ^26.0.21
+    jest: ^26.6.3
     playwright: ^1.9.2
     playwright-chromium: ^1.9.2
     playwright-firefox: ^1.9.2
@@ -7779,7 +7780,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"jest@npm:26.6.3":
+"jest@npm:^26.6.3":
   version: 26.6.3
   resolution: "jest@npm:26.6.3"
   dependencies:

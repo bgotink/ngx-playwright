@@ -23,6 +23,7 @@
   "peerDependencies": {
     "@angular/cdk": "^11.0.0",
     "@types/jest": "^26.0.21",
+    "jest": "^26.6.3",
     "playwright": "^1.9.2",
     "playwright-chromium": "^1.9.2",
     "playwright-firefox": "^1.9.2",
@@ -50,7 +51,7 @@
     "@angular-devkit/core": "^11.2.5",
     "@ngx-playwright/harness": "0.1.0",
     "@snuggery/architect": "~0.1.0",
-    "jest": "26.6.3",
+    "jest": "^26.6.3",
     "jest-circus": "^26.6.3",
     "jest-environment-node": "^26.6.2",
     "jest-runner": "^26.6.3",
