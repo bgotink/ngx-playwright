@@ -1,16 +1,11 @@
 import {
   createBuilder,
   targetFromTargetString,
-  BuilderContext,
   BuilderOutput,
 } from '@angular-devkit/architect';
 import type {DevServerBuilderOptions} from '@angular-devkit/build-angular';
 import type {JsonObject} from '@angular-devkit/core';
-import {
-  getProjectPath,
-  resolveTargetString,
-  resolveWorkspacePath,
-} from '@snuggery/architect';
+import {resolveTargetString, resolveWorkspacePath} from '@snuggery/architect';
 import {runCLI} from 'jest';
 import type {Config as JestConfig} from '@jest/types';
 
@@ -19,7 +14,6 @@ import type {Schema} from './schema';
 async function runJest(
   baseUrl: string,
   jestConfig: string,
-  context: BuilderContext,
 ): Promise<BuilderOutput> {
   try {
     const {
@@ -29,7 +23,7 @@ async function runJest(
         config: jestConfig,
         testURL: baseUrl,
       } as JestConfig.Argv,
-      [await getProjectPath(context)],
+      [jestConfig],
     );
 
     return {success};
@@ -112,7 +106,6 @@ export default createBuilder<Schema & JsonObject>(async (input, context) => {
     return await runJest(
       baseUrl,
       resolveWorkspacePath(context, input.jestConfig),
-      context,
     );
   } catch {
     return {success: false};
