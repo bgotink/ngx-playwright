@@ -206,6 +206,8 @@ export class PlaywrightElement implements TestElement {
       modifiers = getModifiers(modifiersObject).join('+');
     }
 
+    await this.handle.focus();
+
     const {keyboard} = (await this.handle.ownerFrame())?.page() || {};
 
     if (keyboard == null) {
