@@ -1,9 +1,48 @@
-export interface Schema {
-  /**
-   * The path of the Jest configuration file
-   */
-  readonly jestConfig: string;
+import type {Config} from '@jest/types';
 
+export type JestConfig = Partial<
+  Pick<
+    Config.Argv,
+    | 'cache'
+    | 'changedFilesWithAncestor'
+    | 'changedSince'
+    | 'ci'
+    | 'clearCache'
+    | 'config'
+    | 'colors'
+    | 'debug'
+    | 'detectOpenHandles'
+    | 'expand'
+    | 'findRelatedTests'
+    | 'forceExit'
+    | 'json'
+    | 'lastCommit'
+    | 'listTests'
+    | 'logHeapUsage'
+    | 'maxConcurrency'
+    | 'maxWorkers'
+    | 'noStackTrace'
+    | 'onlyChanged'
+    | 'outputFile'
+    | 'passWithNoTests'
+    | 'runInBand'
+    | 'runTestsByPath'
+    | 'showConfig'
+    | 'silent'
+    | 'testLocationInResults'
+    | 'testNamePattern'
+    | 'testPathPattern'
+    | 'updateSnapshot'
+    | 'useStderr'
+    | 'verbose'
+    | 'version'
+    | 'watch'
+    | 'watchAll'
+    | 'watchman'
+  >
+>;
+
+export interface Schema extends JestConfig {
   /**
    * A dev-server builder target to run tests against in the format of `target` or `[project]:target[:configuration]`. You can also pass in more than one configuration name as a comma-separated list. Example: `project:target:production,staging`.
    */
