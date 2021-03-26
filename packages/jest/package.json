@@ -1,6 +1,6 @@
 {
   "name": "@ngx-playwright/jest",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "main": "index.js",
   "builders": "./builders.json",
   "author": {
@@ -49,7 +49,7 @@
   "dependencies": {
     "@angular-devkit/architect": ">= 0.1102.5 < 0.1200.0",
     "@angular-devkit/core": "^11.2.5",
-    "@ngx-playwright/harness": "0.2.0",
+    "@ngx-playwright/harness": "0.3.0",
     "@snuggery/architect": "~0.1.0",
     "jest": "^26.6.3",
     "jest-circus": "^26.6.3",
