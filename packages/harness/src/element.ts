@@ -1,6 +1,7 @@
 import type {ElementHandle} from 'playwright-core';
 import {
   ElementDimensions,
+  EventData,
   ModifierKeys,
   TestElement,
   TestKey,
@@ -47,17 +48,38 @@ const keyMap = new Map<TestKey, string>([
   [TestKey.UP_ARROW, 'ArrowUp'],
 ]);
 
-const typingModifiers = [
+const modifierMapping = [
   ['alt', 'Alt'],
   ['shift', 'Shift'],
   ['meta', 'Meta'],
   ['control', 'Control'],
 ] as const;
 
+// prettier-ignore
+function getModifiers(
+  modifiers: ModifierKeys,
+): (typeof modifierMapping[0 | 1 | 2 | 3][1])[] {
+  return modifierMapping
+    .filter(([modifier]) => modifiers[modifier])
+    .map(([, modifier]) => modifier);
+}
+
 function hasModifiers(
   keys: (string | TestKey)[] | [ModifierKeys, ...(string | TestKey)[]],
 ): keys is [ModifierKeys, ...(string | TestKey)[]] {
   return typeof keys[0] === 'object';
+}
+
+function isCenterClick<T extends unknown[]>(
+  args: T,
+): args is T & ['center', ...unknown[]] {
+  return args[0] === 'center';
+}
+
+function isPositionedClick<T extends unknown[]>(
+  args: T,
+): args is T & [number, ...unknown[]] {
+  return typeof args[0] === 'number';
 }
 
 /**
@@ -81,30 +103,70 @@ export class PlaywrightElement implements TestElement {
   }
 
   click(): Promise<void>;
+  click(modifierKeys: ModifierKeys): Promise<void>;
   click(location: 'center'): Promise<void>;
+  click(location: 'center', modifierKeys: ModifierKeys): Promise<void>;
   click(relativeX: number, relativeY: number): Promise<void>;
-  async click(...args: [] | ['center'] | [number, number]) {
-    switch (args.length) {
-      case 0:
-        await this.handle.click();
-        break;
+  click(
+    relativeX: number,
+    relativeY: number,
+    modifierKeys: ModifierKeys,
+  ): Promise<void>;
+  async click(
+    ...args:
+      | []
+      | [ModifierKeys | undefined]
+      | ['center']
+      | ['center', ModifierKeys | undefined]
+      | [number, number]
+      | [number, number, ModifierKeys | undefined]
+  ) {
+    const clickOptions: Parameters<ElementHandle['click']>[0] = {};
+    let modifierKeys: ModifierKeys | undefined;
 
-      case 1:
-        {
-          const size = await this.getDimensions();
+    if (isCenterClick(args)) {
+      const size = await this.getDimensions();
 
-          await this.handle.click({
-            position: {
-              x: size.width / 2,
-              y: size.height / 2,
-            },
-          });
-        }
-        break;
+      clickOptions.position = {
+        x: size.width / 2,
+        y: size.height / 2,
+      };
 
-      case 2:
-        await this.handle.click({position: {x: args[0], y: args[1]}});
+      modifierKeys = args[1];
+    } else if (isPositionedClick(args)) {
+      clickOptions.position = {x: args[0], y: args[1]};
+      modifierKeys = args[2];
+    } else {
+      modifierKeys = args[0];
     }
+
+    if (modifierKeys) {
+      clickOptions.modifiers = getModifiers(modifierKeys);
+    }
+
+    await this.handle.click(clickOptions);
+  }
+
+  async rightClick(
+    relativeX: number,
+    relativeY: number,
+    modifiers?: ModifierKeys,
+  ): Promise<void> {
+    await this.handle.click({
+      button: 'right',
+      position: {
+        x: relativeX,
+        y: relativeY,
+      },
+      modifiers: modifiers && getModifiers(modifiers),
+    });
+  }
+
+  async dispatchEvent(
+    name: string,
+    data?: Record<string, EventData>,
+  ): Promise<void> {
+    await this.handle.dispatchEvent(name, data);
   }
 
   async focus(): Promise<void> {
@@ -126,6 +188,10 @@ export class PlaywrightElement implements TestElement {
     throw new Error('Method not implemented.');
   }
 
+  async selectOptions(...optionIndexes: number[]): Promise<void> {
+    await this.handle.selectOption(optionIndexes.map(index => ({index})));
+  }
+
   sendKeys(...keys: (string | TestKey)[]): Promise<void>;
   sendKeys(
     modifiers: ModifierKeys,
@@ -139,10 +205,7 @@ export class PlaywrightElement implements TestElement {
       let modifiersObject: ModifierKeys;
       [modifiersObject, ...keys] = keys;
 
-      modifiers = typingModifiers
-        .filter(([property]) => modifiersObject[property])
-        .map(([, key]) => key)
-        .join('+');
+      modifiers = getModifiers(modifiersObject).join('+');
     }
 
     const {keyboard} = (await this.handle.ownerFrame())?.page() || {};
@@ -170,6 +233,10 @@ export class PlaywrightElement implements TestElement {
         await keyboard.up(modifiers);
       }
     }
+  }
+
+  async setInputValue(value: string): Promise<void> {
+    await this.handle.fill(value);
   }
 
   async text(options?: TextOptions): Promise<string> {
@@ -201,7 +268,7 @@ export class PlaywrightElement implements TestElement {
     try {
       return await property.jsonValue();
     } finally {
-      property.dispose();
+      await property.dispose();
     }
   }
 
