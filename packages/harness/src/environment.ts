@@ -1,8 +1,7 @@
 import {HarnessEnvironment, TestElement} from '@angular/cdk/testing';
-import type {ElementHandle, Page} from 'playwright-core';
+import type {ElementHandle} from 'playwright-core';
 
 import {PlaywrightElement} from './element';
-import {LazyBodyHandle} from './lazy-handle';
 
 /**
  * @internal
@@ -10,25 +9,15 @@ import {LazyBodyHandle} from './lazy-handle';
 export class PlaywrightHarnessEnvironment extends HarnessEnvironment<
   ElementHandle<HTMLElement | SVGElement>
 > {
-  readonly #documentRoot: LazyBodyHandle;
+  readonly #documentRoot: ElementHandle<HTMLBodyElement>;
 
   constructor(
-    documentRoot: LazyBodyHandle,
+    documentRoot: ElementHandle<HTMLBodyElement>,
     element: ElementHandle<HTMLElement | SVGElement> = documentRoot,
   ) {
     super(element);
 
     this.#documentRoot = documentRoot;
-  }
-
-  /**
-   * Create a HarnessEnvironment for
-   *
-   * @param page The page to create an environment for
-   * @returns The created environment
-   */
-  static load(page: Page): PlaywrightHarnessEnvironment {
-    return new PlaywrightHarnessEnvironment(new LazyBodyHandle(page));
   }
 
   async forceStabilize() {

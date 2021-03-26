@@ -3,6 +3,7 @@ import type {ElementHandle, Page} from 'playwright-core';
 
 import {PlaywrightElement} from './element';
 import {PlaywrightHarnessEnvironment} from './environment';
+import {LazyBodyHandle} from './lazy-handle';
 
 /**
  * Create a harness environment for the given page
@@ -14,7 +15,7 @@ import {PlaywrightHarnessEnvironment} from './environment';
  * @public
  */
 export function createEnvironment(page: Page): HarnessEnvironment<unknown> {
-  return PlaywrightHarnessEnvironment.load(page);
+  return new PlaywrightHarnessEnvironment(new LazyBodyHandle(page));
 }
 
 /**

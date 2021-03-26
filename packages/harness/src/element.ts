@@ -83,6 +83,11 @@ function isPositionedClick<T extends unknown[]>(
   return typeof args[0] === 'number';
 }
 
+type ClickParameters =
+  | [ModifierKeys?]
+  | ['center', ModifierKeys?]
+  | [number, number, ModifierKeys?];
+
 /**
  * `TestElement` implementation backed by playwright's `ElementHandle`
  *
@@ -93,35 +98,19 @@ export class PlaywrightElement implements TestElement {
     readonly handle: ElementHandle<HTMLElement | SVGElement>,
   ) {}
 
-  async blur(): Promise<void> {
-    // Playwright exposes a `focus` function but no `blur` function, so we have
-    // to resort to executing a function ourselves.
-    await this.handle.evaluate(blur);
-  }
+  #getPage = async () => {
+    const page = await (await this.handle.ownerFrame())?.page();
 
-  async clear(): Promise<void> {
-    await this.handle.fill('');
-  }
+    if (page == null) {
+      throw new Error('Expected element to be attached to a page');
+    }
 
-  click(): Promise<void>;
-  click(modifierKeys: ModifierKeys): Promise<void>;
-  click(location: 'center'): Promise<void>;
-  click(location: 'center', modifierKeys: ModifierKeys): Promise<void>;
-  click(relativeX: number, relativeY: number): Promise<void>;
-  click(
-    relativeX: number,
-    relativeY: number,
-    modifierKeys: ModifierKeys,
-  ): Promise<void>;
-  async click(
-    ...args:
-      | []
-      | [ModifierKeys | undefined]
-      | ['center']
-      | ['center', ModifierKeys | undefined]
-      | [number, number]
-      | [number, number, ModifierKeys | undefined]
-  ) {
+    return page;
+  };
+
+  #toClickOptions = async (
+    ...args: ClickParameters
+  ): Promise<Parameters<ElementHandle['click']>[0]> => {
     const clickOptions: Parameters<ElementHandle['click']>[0] = {};
     let modifierKeys: ModifierKeys | undefined;
 
@@ -145,21 +134,41 @@ export class PlaywrightElement implements TestElement {
       clickOptions.modifiers = getModifiers(modifierKeys);
     }
 
-    await this.handle.click(clickOptions);
+    return clickOptions;
+  };
+
+  async blur(): Promise<void> {
+    // Playwright exposes a `focus` function but no `blur` function, so we have
+    // to resort to executing a function ourselves.
+    await this.handle.evaluate(blur);
   }
 
-  async rightClick(
+  async clear(): Promise<void> {
+    await this.handle.fill('');
+  }
+
+  click(modifierKeys?: ModifierKeys): Promise<void>;
+  click(location: 'center', modifierKeys?: ModifierKeys): Promise<void>;
+  click(
     relativeX: number,
     relativeY: number,
-    modifiers?: ModifierKeys,
-  ): Promise<void> {
+    modifierKeys?: ModifierKeys,
+  ): Promise<void>;
+  async click(...args: ClickParameters) {
+    await this.handle.click(await this.#toClickOptions(...args));
+  }
+
+  rightClick(modifierKeys?: ModifierKeys): Promise<void>;
+  rightClick(location: 'center', modifierKeys?: ModifierKeys): Promise<void>;
+  rightClick(
+    relativeX: number,
+    relativeY: number,
+    modifierKeys?: ModifierKeys,
+  ): Promise<void>;
+  async rightClick(...args: ClickParameters): Promise<void> {
     await this.handle.click({
+      ...(await this.#toClickOptions(...args)),
       button: 'right',
-      position: {
-        x: relativeX,
-        y: relativeY,
-      },
-      modifiers: modifiers && getModifiers(modifiers),
     });
   }
 
@@ -182,8 +191,16 @@ export class PlaywrightElement implements TestElement {
     await this.handle.hover();
   }
 
-  mouseAway(): Promise<void> {
-    throw new Error('Method not implemented.');
+  async mouseAway(): Promise<void> {
+    const {mouse} = await this.#getPage();
+    let {left, top} = await this.getDimensions();
+
+    if (left < 0 && top < 0) {
+      await this.handle.scrollIntoViewIfNeeded();
+      ({left, top} = await this.getDimensions());
+    }
+
+    await mouse.move(Math.max(0, left - 1), Math.max(0, top - 1));
   }
 
   async selectOptions(...optionIndexes: number[]): Promise<void> {
@@ -208,7 +225,7 @@ export class PlaywrightElement implements TestElement {
 
     await this.handle.focus();
 
-    const {keyboard} = (await this.handle.ownerFrame())?.page() || {};
+    const {keyboard} = await this.#getPage();
 
     if (keyboard == null) {
       throw new Error(`Expected element to be shown on the page`);
