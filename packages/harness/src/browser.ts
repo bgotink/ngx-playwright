@@ -25,7 +25,12 @@ export function getTextWithExcludedElements(
     child.parentNode?.removeChild(child);
   }
 
-  return (clone.textContent || '').trim();
+  // Fallback to textContent for SVG elements
+  return (
+    (clone as Element & Partial<HTMLElement>).innerText ??
+    clone.textContent ??
+    ''
+  );
 }
 
 /**

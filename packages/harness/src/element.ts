@@ -177,7 +177,7 @@ export class PlaywrightElement implements TestElement {
       return this.handle.evaluate(getTextWithExcludedElements, options.exclude);
     }
 
-    return (await this.handle.textContent()) ?? '';
+    return this.handle.innerText();
   }
 
   getAttribute(name: string): Promise<string | null> {
