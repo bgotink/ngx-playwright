@@ -11,6 +11,7 @@ import {
 import {
   blur,
   getBoundingClientRect,
+  getStyleProperty,
   getTextWithExcludedElements,
   matches,
 } from './browser';
@@ -174,10 +175,7 @@ export class PlaywrightElement implements TestElement {
   }
 
   async getCssValue(property: string): Promise<string> {
-    return this.handle.evaluate(
-      (element, property) => element.style.getPropertyValue(property),
-      property,
-    );
+    return this.handle.evaluate(getStyleProperty, property);
   }
 
   async hover(): Promise<void> {

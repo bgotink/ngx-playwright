@@ -65,3 +65,17 @@ export function getBoundingClientRect(element: Element): ElementDimensions {
   const {left, top, width, height} = element.getBoundingClientRect();
   return {left, top, width, height};
 }
+
+/**
+ * Returns the computed value for the given style property on the given element
+ *
+ * @param element The element for which to get the style property
+ * @param styleProperty The style property to get
+ * @returns The value for the style property
+ */
+export function getStyleProperty(
+  element: Element,
+  styleProperty: string,
+): string {
+  return getComputedStyle(element).getPropertyValue(styleProperty);
+}
