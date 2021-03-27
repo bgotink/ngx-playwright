@@ -1,10 +1,11 @@
-# `@ngx-playwright/jest`
+# `@ngx-playwright/jest` ![Latest published version on NPM](https://img.shields.io/npm/v/@ngx-playwright/jest)
 
 Builder for running e2e tests in an angular application using jest and playwright with Angular CDK's component harnesses.
 
 ## Set up
 
-1. Install this package and playwright or one of the playwright flavours
+1. Install this package
+1. Depending on your usage, you may have to install `playwright`, `playwright-chromium`, `playwright-firefox` or `playwright-webkit`
 1. Create an `application/jest.e2e-config.js` e.g.
 
    ```js
@@ -29,7 +30,7 @@ Builder for running e2e tests in an angular application using jest and playwrigh
    "e2e": {
      "builder": "@ngx-playwright/jest:e2e",
      "options": {
-       "devServerTarget": "application:serve:e2e",
+       "devServerTarget": "application:serve:run",
        "jestConfig": "application/jest.e2e-config.js"
      }
    },
@@ -45,8 +46,10 @@ Builder for running e2e tests in an angular application using jest and playwrigh
 
    ```json
    {
-     // include any compiler options you want
-     "types": ["jest"],
+     "compilerOptions": {
+       // include any compiler options you want
+       "types": ["jest"]
+     },
      "include": ["setup/types.d.ts", "specs/*.spec.ts"]
    }
    ```
@@ -56,3 +59,7 @@ Builder for running e2e tests in an angular application using jest and playwrigh
 ## Configuration
 
 TODO
+
+## License
+
+Licensed under the MIT license, see `LICENSE.md`.

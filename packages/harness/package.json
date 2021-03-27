@@ -1,7 +1,7 @@
 {
   "name": "@ngx-playwright/harness",
   "version": "0.3.1",
-  "main": "index.js",
+  "license": "MIT",
   "author": {
     "name": "Bram Gotink",
     "email": "bram@gotink.me",
@@ -18,6 +18,10 @@
     "cdk",
     "test-harness"
   ],
+  "main": "index.js",
+  "scripts": {
+    "build": "sn build"
+  },
   "peerDependencies": {
     "@angular/cdk": "^11.0.0",
     "playwright-core": "^1.10.0"

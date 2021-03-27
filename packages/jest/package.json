@@ -1,8 +1,7 @@
 {
   "name": "@ngx-playwright/jest",
   "version": "0.3.1",
-  "main": "index.js",
-  "builders": "./builders.json",
+  "license": "MIT",
   "author": {
     "name": "Bram Gotink",
     "email": "bram@gotink.me",
@@ -20,6 +19,11 @@
     "test-harness",
     "jest"
   ],
+  "main": "index.js",
+  "builders": "./builders.json",
+  "scripts": {
+    "build": "sn build"
+  },
   "peerDependencies": {
     "@angular/cdk": "^11.0.0",
     "@types/jest": "^26.0.21",
