@@ -56,9 +56,10 @@ async function getLauncherConfig(
 
       if (launcher == null) {
         launcher = getLauncher(browser);
-        await launcher.setup?.();
         launchersByKey.set(cacheKey, launcher);
       }
+
+      await launcher.setup?.();
 
       return launcher;
     }),

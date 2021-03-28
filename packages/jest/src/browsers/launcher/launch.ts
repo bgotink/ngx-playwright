@@ -43,11 +43,9 @@ export class LaunchLauncher implements BrowserLauncher {
   }
 
   async setup() {
-    if (this.#browser != null) {
-      throw new Error(`Setup already called`);
+    if (this.#browser == null) {
+      this.#browser = await this.#browserType.launchServer(this.#options);
     }
-
-    this.#browser = await this.#browserType.launchServer(this.#options);
   }
 
   async teardown() {
