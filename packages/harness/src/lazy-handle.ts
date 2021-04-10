@@ -5,23 +5,25 @@ import type {
   SmartHandle,
 } from 'playwright-core/types/structs';
 
-export class LazyBodyHandle implements ElementHandle<HTMLBodyElement> {
-  private _loaded?: Promise<ElementHandle<HTMLBodyElement>> = undefined;
+export class LazyRootHandle implements ElementHandle<HTMLElement | SVGElement> {
+  private _loaded?: Promise<
+    ElementHandle<HTMLElement | SVGElement>
+  > = undefined;
 
   constructor(private readonly _page: Page) {}
 
   private async _exec<R>(
-    fn: (element: ElementHandle<HTMLBodyElement>) => Promise<R>,
+    fn: (element: ElementHandle<HTMLElement | SVGElement>) => Promise<R>,
   ): Promise<R> {
     this._loaded = (async () => {
-      let element = (await (this._loaded ?? this._page.$('body')))!;
+      let element = (await (this._loaded ?? this._page.$(':root')))!;
 
       try {
         // If the page was navigated to since the last time we queried the body,
         // we will have a stale handle.
         await element.isVisible();
       } catch {
-        element = (await this._page.$('body'))!;
+        element = (await this._page.$(':root'))!;
       }
 
       return element;
@@ -281,26 +283,29 @@ export class LazyBodyHandle implements ElementHandle<HTMLBodyElement> {
     return this._exec(el => el.waitForElementState(state, options));
   }
 
-  evaluate<R, O extends HTMLBodyElement = HTMLBodyElement>(
+  evaluate<R, O extends HTMLElement | SVGElement = HTMLElement | SVGElement>(
     pageFunction: PageFunctionOn<O, void, R>,
     arg?: any,
   ): Promise<R> {
     return this._exec(el => el.evaluate(pageFunction, arg));
   }
 
-  evaluateHandle<R, O extends HTMLBodyElement = HTMLBodyElement>(
+  evaluateHandle<
+    R,
+    O extends HTMLElement | SVGElement = HTMLElement | SVGElement
+  >(
     pageFunction: PageFunctionOn<O, void, R>,
     arg?: any,
   ): Promise<SmartHandle<R>> {
     return this._exec(el => el.evaluateHandle(pageFunction, arg));
   }
 
-  jsonValue(): Promise<HTMLBodyElement> {
+  jsonValue(): Promise<HTMLElement | SVGElement> {
     return this._exec(el => el.jsonValue());
   }
 
-  asElement(): ElementHandle<HTMLBodyElement> {
-    return this;
+  asElement(): ElementHandle<HTMLElement> | ElementHandle<SVGElement> {
+    return this as ElementHandle<HTMLElement> | ElementHandle<SVGElement>;
   }
 
   dispose(): Promise<void> {

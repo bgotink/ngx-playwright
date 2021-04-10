@@ -1,0 +1,12 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "esnext",
+    "experimentalDecorators": true,
+    "types": ["jest"]
+  },
+  "files": ["src/main.ts", "src/polyfills.ts"],
+  "angularCompilerOptions": {
+    "strictTemplates": true
+  }
+}

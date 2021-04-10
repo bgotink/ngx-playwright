@@ -1,9 +1,7 @@
 import type {HarnessEnvironment, TestElement} from '@angular/cdk/testing';
 import type {ElementHandle, Page} from 'playwright-core';
 
-import {PlaywrightElement} from './element';
 import {PlaywrightHarnessEnvironment} from './environment';
-import {LazyBodyHandle} from './lazy-handle';
 
 /**
  * Create a harness environment for the given page
@@ -15,7 +13,7 @@ import {LazyBodyHandle} from './lazy-handle';
  * @public
  */
 export function createEnvironment(page: Page): HarnessEnvironment<unknown> {
-  return new PlaywrightHarnessEnvironment(new LazyBodyHandle(page));
+  return new PlaywrightHarnessEnvironment(page);
 }
 
 /**
@@ -34,11 +32,12 @@ export function createEnvironment(page: Page): HarnessEnvironment<unknown> {
 export function getNativeElement(
   element: TestElement,
 ): ElementHandle<HTMLElement | SVGElement> {
-  if (!(element instanceof PlaywrightElement)) {
+  const handle = PlaywrightHarnessEnvironment.unwrap(element);
+  if (handle == null) {
     throw new Error(
       'This TestElement was not created by PlaywrightHarnessEnvironment',
     );
   }
 
-  return element.handle;
+  return handle;
 }

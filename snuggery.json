@@ -32,6 +32,35 @@
         }
       }
     },
+    "integration": {
+      "root": "integration",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "aot": true,
+            "index": "integration/src/index.html",
+            "main": "integration/src/main.ts",
+            "outputPath": "integration/dist",
+            "polyfills": "integration/src/polyfills.ts",
+            "tsConfig": "integration/tsconfig.json"
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "integration:build"
+          }
+        },
+        "test": {
+          "builder": "@ngx-playwright/jest:run",
+          "options": {
+            "config": "integration/jest.e2e-config.js",
+            "devServerTarget": "serve"
+          }
+        }
+      }
+    },
     "@ngx-playwright/harness": {
       "root": "packages/harness",
       "architect": {

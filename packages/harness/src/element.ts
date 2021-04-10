@@ -1,4 +1,3 @@
-import type {ElementHandle} from 'playwright-core';
 import {
   ElementDimensions,
   EventData,
@@ -7,9 +6,11 @@ import {
   TestKey,
   TextOptions,
 } from '@angular/cdk/testing';
+import type {ElementHandle, Page} from 'playwright-core';
 
 import {
   blur,
+  dispatchEvent,
   getBoundingClientRect,
   getStyleProperty,
   getTextWithExcludedElements,
@@ -94,19 +95,49 @@ type ClickParameters =
  * @internal
  */
 export class PlaywrightElement implements TestElement {
+  /**
+   * The page the element is on
+   */
+  readonly #page: () => Page;
+
+  /**
+   * Awaits for the angular app to become stable
+   *
+   * This function has to be called after every manipulation and before any query
+   */
+  readonly #query: <T>(
+    fn: (handle: ElementHandle<HTMLElement | SVGElement>) => Promise<T>,
+  ) => Promise<T>;
+
+  /**
+   * Awaits for the angular app to become stable
+   *
+   * This function has to be called after every manipulation and before any query
+   */
+  readonly #perform: (
+    fn: (handle: ElementHandle<HTMLElement | SVGElement>) => Promise<void>,
+  ) => Promise<void>;
+
   public constructor(
-    readonly handle: ElementHandle<HTMLElement | SVGElement>,
-  ) {}
+    page: () => Page,
+    handle: ElementHandle<HTMLElement | SVGElement>,
+    whenStable: () => Promise<void>,
+  ) {
+    this.#page = page;
 
-  #getPage = async () => {
-    const page = await (await this.handle.ownerFrame())?.page();
+    this.#query = async fn => {
+      await whenStable();
+      return fn(handle);
+    };
 
-    if (page == null) {
-      throw new Error('Expected element to be attached to a page');
-    }
-
-    return page;
-  };
+    this.#perform = async fn => {
+      try {
+        return fn(handle);
+      } finally {
+        await whenStable();
+      }
+    };
+  }
 
   #toClickOptions = async (
     ...args: ClickParameters
@@ -137,14 +168,14 @@ export class PlaywrightElement implements TestElement {
     return clickOptions;
   };
 
-  async blur(): Promise<void> {
+  blur(): Promise<void> {
     // Playwright exposes a `focus` function but no `blur` function, so we have
     // to resort to executing a function ourselves.
-    await this.handle.evaluate(blur);
+    return this.#perform(handle => handle.evaluate(blur));
   }
 
-  async clear(): Promise<void> {
-    await this.handle.fill('');
+  clear(): Promise<void> {
+    return this.#perform(handle => handle.fill(''));
   }
 
   click(modifierKeys?: ModifierKeys): Promise<void>;
@@ -154,8 +185,10 @@ export class PlaywrightElement implements TestElement {
     relativeY: number,
     modifierKeys?: ModifierKeys,
   ): Promise<void>;
-  async click(...args: ClickParameters) {
-    await this.handle.click(await this.#toClickOptions(...args));
+  click(...args: ClickParameters) {
+    return this.#perform(async handle =>
+      handle.click(await this.#toClickOptions(...args)),
+    );
   }
 
   rightClick(modifierKeys?: ModifierKeys): Promise<void>;
@@ -165,46 +198,67 @@ export class PlaywrightElement implements TestElement {
     relativeY: number,
     modifierKeys?: ModifierKeys,
   ): Promise<void>;
-  async rightClick(...args: ClickParameters): Promise<void> {
-    await this.handle.click({
-      ...(await this.#toClickOptions(...args)),
-      button: 'right',
-    });
+  rightClick(...args: ClickParameters): Promise<void> {
+    return this.#perform(async handle =>
+      handle.click({
+        ...(await this.#toClickOptions(...args)),
+        button: 'right',
+      }),
+    );
   }
 
-  async dispatchEvent(
-    name: string,
-    data?: Record<string, EventData>,
-  ): Promise<void> {
-    await this.handle.dispatchEvent(name, data);
+  dispatchEvent(name: string, data?: Record<string, EventData>): Promise<void> {
+    // ElementHandle#dispatchEvent executes the equivalent of
+    //   `element.dispatchEvent(new CustomEvent(name, {detail: data}))`
+    // which doesn't match what angular wants: `data` are properties to be
+    // placed on the event directly rather than on the `details` property
+
+    return this.#perform(handle =>
+      handle.evaluate(dispatchEvent, [name, data] as [string, any]),
+    );
   }
 
-  async focus(): Promise<void> {
-    await this.handle.focus();
+  focus(): Promise<void> {
+    return this.#perform(handle => handle.focus());
   }
 
   async getCssValue(property: string): Promise<string> {
-    return this.handle.evaluate(getStyleProperty, property);
+    return this.#query(handle => handle.evaluate(getStyleProperty, property));
   }
 
   async hover(): Promise<void> {
-    await this.handle.hover();
+    return this.#perform(handle => handle.hover());
   }
 
   async mouseAway(): Promise<void> {
-    const {mouse} = await this.#getPage();
-    let {left, top} = await this.getDimensions();
+    const {left, top} = await this.#query(async handle => {
+      let {left, top} = await handle.evaluate(getBoundingClientRect);
 
-    if (left < 0 && top < 0) {
-      await this.handle.scrollIntoViewIfNeeded();
-      ({left, top} = await this.getDimensions());
-    }
+      if (left < 0 && top < 0) {
+        await handle.scrollIntoViewIfNeeded();
+        ({left, top} = await handle.evaluate(getBoundingClientRect));
+      }
 
-    await mouse.move(Math.max(0, left - 1), Math.max(0, top - 1));
+      return {left, top};
+    });
+
+    return this.#perform(() =>
+      this.#page().mouse.move(Math.max(0, left - 1), Math.max(0, top - 1)),
+    );
   }
 
-  async selectOptions(...optionIndexes: number[]): Promise<void> {
-    await this.handle.selectOption(optionIndexes.map(index => ({index})));
+  selectOptions(...optionIndexes: number[]): Promise<void> {
+    // ElementHandle#selectOption supports selecting multiple options at once,
+    // but that triggers only one change event.
+    // So we select options as if we're a user: one at a time
+
+    return this.#perform(async handle => {
+      const selections: {index: number}[] = [];
+      for (const index of optionIndexes) {
+        selections.push({index});
+        await handle.selectOption(selections);
+      }
+    });
   }
 
   sendKeys(...keys: (string | TestKey)[]): Promise<void>;
@@ -212,7 +266,7 @@ export class PlaywrightElement implements TestElement {
     modifiers: ModifierKeys,
     ...keys: (string | TestKey)[]
   ): Promise<void>;
-  async sendKeys(
+  sendKeys(
     ...keys: (string | TestKey)[] | [ModifierKeys, ...(string | TestKey)[]]
   ) {
     let modifiers: string | undefined;
@@ -223,64 +277,66 @@ export class PlaywrightElement implements TestElement {
       modifiers = getModifiers(modifiersObject).join('+');
     }
 
-    await this.handle.focus();
+    return this.#perform(async handle => {
+      await handle.focus();
 
-    const {keyboard} = await this.#getPage();
+      const {keyboard} = this.#page();
 
-    if (keyboard == null) {
-      throw new Error(`Expected element to be shown on the page`);
-    }
+      if (modifiers) {
+        await keyboard.down(modifiers);
+      }
 
-    if (modifiers) {
-      await keyboard.down(modifiers);
-    }
-
-    try {
-      for (const key of keys as (string | TestKey)[]) {
-        if (typeof key === 'string') {
-          await keyboard.type(key);
-        } else if (keyMap.has(key)) {
-          await keyboard.press(keyMap.get(key)!);
-        } else {
-          throw new Error(`Unknown key: ${TestKey[key] ?? key}`);
+      try {
+        for (const key of keys as (string | TestKey)[]) {
+          if (typeof key === 'string') {
+            await keyboard.type(key);
+          } else if (keyMap.has(key)) {
+            await keyboard.press(keyMap.get(key)!);
+          } else {
+            throw new Error(`Unknown key: ${TestKey[key] ?? key}`);
+          }
+        }
+      } finally {
+        if (modifiers) {
+          await keyboard.up(modifiers);
         }
       }
-    } finally {
-      if (modifiers) {
-        await keyboard.up(modifiers);
+    });
+  }
+
+  setInputValue(value: string): Promise<void> {
+    return this.#perform(handle => handle.fill(value));
+  }
+
+  text(options?: TextOptions): Promise<string> {
+    return this.#query(handle => {
+      if (options?.exclude) {
+        return handle.evaluate(getTextWithExcludedElements, options.exclude);
       }
-    }
-  }
 
-  async setInputValue(value: string): Promise<void> {
-    await this.handle.fill(value);
-  }
-
-  async text(options?: TextOptions): Promise<string> {
-    if (options?.exclude) {
-      return this.handle.evaluate(getTextWithExcludedElements, options.exclude);
-    }
-
-    return this.handle.innerText();
+      return handle.innerText();
+    });
   }
 
   getAttribute(name: string): Promise<string | null> {
-    return this.handle.getAttribute(name);
+    return this.#query(handle => handle.getAttribute(name));
   }
 
   async hasClass(name: string): Promise<boolean> {
     const classes =
-      (await this.handle.getAttribute('class'))?.split(/\s+/) ?? [];
+      (await this.#query(handle => handle.getAttribute('class')))?.split(
+        /\s+/,
+      ) ?? [];
 
     return classes.includes(name);
   }
 
   async getDimensions(): Promise<ElementDimensions> {
-    return this.handle.evaluate(getBoundingClientRect);
+    return this.#query(handle => handle.evaluate(getBoundingClientRect));
   }
 
   async getProperty(name: string): Promise<any> {
-    const property = await this.handle.getProperty(name);
+    const property = await this.#query(handle => handle.getProperty(name));
 
     try {
       return await property.jsonValue();
@@ -290,7 +346,7 @@ export class PlaywrightElement implements TestElement {
   }
 
   async matchesSelector(selector: string): Promise<boolean> {
-    return this.handle.evaluate(matches, selector);
+    return this.#query(handle => handle.evaluate(matches, selector));
   }
 
   async isFocused(): Promise<boolean> {

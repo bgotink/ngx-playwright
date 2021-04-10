@@ -6,7 +6,13 @@
  * other functions in this file.
  */
 
-import type {ElementDimensions} from '@angular/cdk/testing';
+import type {ElementDimensions, EventData} from '@angular/cdk/testing';
+
+declare global {
+  const frameworkStabilizers:
+    | ((callback: (didWork: boolean) => void) => void)[]
+    | undefined;
+}
 
 /**
  * Gets text of element excluding certain selectors within the element.
@@ -78,4 +84,34 @@ export function getStyleProperty(
   styleProperty: string,
 ): string {
   return getComputedStyle(element).getPropertyValue(styleProperty);
+}
+
+/**
+ * Returns whether the angular app is bootstrapped
+ */
+export function isAngularBootstrapped() {
+  return typeof frameworkStabilizers !== 'undefined';
+}
+
+/**
+ * Waits until the angular app is stable
+ */
+export async function waitUntilAngularStable() {
+  if (typeof frameworkStabilizers === 'undefined') {
+    throw new Error("Angular isn't bootstrapped yet");
+  }
+
+  await Promise.all(frameworkStabilizers!.map(fn => new Promise(fn)));
+}
+
+export function dispatchEvent(
+  element: Element,
+  [name, properties]: [name: string, properties: Record<string, EventData>],
+): void {
+  const {detail, ...otherProps} = properties ?? {};
+
+  const event = new CustomEvent(name, {detail});
+  Object.assign(event, otherProps);
+
+  element.dispatchEvent(event);
 }

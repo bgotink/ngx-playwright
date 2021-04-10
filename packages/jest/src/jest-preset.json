@@ -1,8 +1,0 @@
-{
-  "testRunner": "jest-circus/runner",
-
-  "testEnvironment": "@ngx-playwright/jest/preset/environment.js",
-  "runner": "@ngx-playwright/jest/preset/runner.js",
-
-  "setupFilesAfterEnv": ["@ngx-playwright/jest/preset/beforeAll.js"]
-}

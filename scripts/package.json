@@ -1,8 +1,11 @@
 {
+  "name": "@ngx-playwright/workspace-scripts",
+  "private": true,
   "dependencies": {
     "@angular-devkit/architect": "0.1101.2",
     "@angular-devkit/core": "11.1.2",
     "@yarnpkg/fslib": "^2.4.0",
+    "ts-node": "9.1.1",
     "typescript": "~4.2.3"
   }
 }
