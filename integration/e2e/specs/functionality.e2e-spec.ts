@@ -1,20 +1,14 @@
 import {parallel} from '@angular/cdk/testing';
-// import {
-//   waitForAngularReady,
-//   WebDriverHarnessEnvironment,
-// } from '@angular/cdk/testing';
 import {crossEnvironmentSpecs} from './cross-environment-specs';
 import {MainComponentHarness} from '../harnesses/app-component-harness';
 
 describe('PlaywrightHarnessEnvironment', () => {
   async function getUrl(path: string) {
     await page.goto(`${baseUrl}${path}`);
-    // await waitForAngularReady();
   }
 
   beforeEach(async () => {
     await getUrl('/');
-    // await harnessEnvironment.forceStabilize();
   });
 
   describe('environment specific', () => {
@@ -43,7 +37,9 @@ describe('PlaywrightHarnessEnvironment', () => {
       });
 
       it('should be able to retrieve the WebElement from a WebDriverElement', async () => {
-        const element = getHandle(await harness.host());
+        const element = harnessEnvironment.getPlaywrightHandle(
+          await harness.host(),
+        );
         expect(
           (
             await (await element.getProperty('tagName')).jsonValue()

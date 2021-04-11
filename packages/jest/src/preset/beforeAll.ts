@@ -1,7 +1,11 @@
 /// <reference path="../global.d.ts" />
 
 import type {HarnessEnvironment} from '@angular/cdk/testing';
-import {createEnvironment, getNativeElement} from '@ngx-playwright/harness';
+import {
+  createEnvironment,
+  manuallyStabilize,
+  autoStabilize,
+} from '@ngx-playwright/harness';
 import type {Page} from 'playwright-core';
 
 const cachedEnvironments = new WeakMap<Page, HarnessEnvironment<unknown>>();
@@ -20,4 +24,7 @@ Object.defineProperty(globalThis, 'harnessEnvironment', {
   },
 });
 
-globalThis.getHandle = getNativeElement;
+global.autoStabilize = () => autoStabilize(() => page);
+global.manuallyStabilize = manuallyStabilize;
+
+global.autoStabilize();

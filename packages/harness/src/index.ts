@@ -1,7 +1,11 @@
-import type {HarnessEnvironment, TestElement} from '@angular/cdk/testing';
-import type {ElementHandle, Page} from 'playwright-core';
+import type {Page} from 'playwright-core';
 
-import {PlaywrightHarnessEnvironment} from './environment';
+import {
+  PlaywrightHarnessEnvironment,
+  PlaywrightHarnessEnvironmentImplementation,
+} from './environment';
+
+export {PlaywrightHarnessEnvironment};
 
 /**
  * Create a harness environment for the given page
@@ -12,32 +16,8 @@ import {PlaywrightHarnessEnvironment} from './environment';
  * @returns The harness environment
  * @public
  */
-export function createEnvironment(page: Page): HarnessEnvironment<unknown> {
-  return new PlaywrightHarnessEnvironment(page);
+export function createEnvironment(page: Page): PlaywrightHarnessEnvironment {
+  return new PlaywrightHarnessEnvironmentImplementation(page);
 }
 
-/**
- * Get the playwright element handle backing the given test element
- *
- * This function allows for escaping the harness API provided by `@angular/cdk/testing` to use playwright APIs directly.
- *
- * This function should not be used from within a component harness, as that links the harness to the playwright environment.
- * It can safely be used inside tests that run playwright.
- *
- * @throws If the given test element wasn't created by the playwright harness environment
- * @param element - The test element to get the native element for
- * @returns The playwright element backing the given test element
- * @public
- */
-export function getNativeElement(
-  element: TestElement,
-): ElementHandle<HTMLElement | SVGElement> {
-  const handle = PlaywrightHarnessEnvironment.unwrap(element);
-  if (handle == null) {
-    throw new Error(
-      'This TestElement was not created by PlaywrightHarnessEnvironment',
-    );
-  }
-
-  return handle;
-}
+export {autoStabilize, manuallyStabilize} from './change-detection';

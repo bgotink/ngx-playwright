@@ -19,11 +19,26 @@ declare global {
 
   const page: import('playwright-core').Page;
 
-  const harnessEnvironment: import('@angular/cdk/testing').HarnessEnvironment<unknown>;
+  const harnessEnvironment: import('@ngx-playwright/harness').PlaywrightHarnessEnvironment;
 
-  function getHandle(
-    element: import('@angular/cdk/testing').TestElement,
-  ): import('playwright-core').ElementHandle<HTMLElement | SVGElement>;
+  /**
+   * Automatically wait for the angular application to be come stable
+   *
+   * Calling this function makes all elements created in all environments
+   * automatically wait. Waiting is done before anything is read from the page,
+   * and after anything is done to the page.
+   *
+   * The environment automatically waits for stabilization by default, unless
+   * {@link #manuallyStabilize} is called.
+   */
+  function autoStabilize(): void;
+
+  /**
+   * Stop automatically waiting for the angular application to become stable
+   *
+   * Call {@link #forceStabilize} to manually wait until the app stabilizes.
+   */
+  function manuallyStabilize(): void;
 }
 
 export {};
