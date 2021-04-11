@@ -8,13 +8,13 @@ This repository contains multiple packages in the `packages/` folder. Every pack
 
 This repository is set up using [yarn 2](https://yarnpkg.com) and [snuggery](https://github.com/snuggery/snuggery).
 
-To install dependencies, run the following comment in the folder of the package, or run in the repository root folder to build all packages:
+To install dependencies, run the following command:
 
 ```bash
 yarn
 ```
 
-To build a package, run
+To build a package, run this in the folder of the package, or run it in the repository root folder to build all packages:
 
 ```bash
 yarn build
@@ -31,6 +31,16 @@ The package will be built in `<package folder>/dist`, e.g. `packages/jest/dist`.
 {
   "@ngx-playwright/jest": "file:///path/to/ngx-playwright/packages/jest/dist"
 }
+```
+
+To run the integration tests, run
+
+```bash
+yarn test
+# or
+yarn sn test
+# or, if you have @snuggery/global installed globally
+sn test
 ```
 
 Before opening a pull request, mark the packages that need to be released afterwards using
