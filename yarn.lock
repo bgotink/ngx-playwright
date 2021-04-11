@@ -6506,7 +6506,7 @@ fsevents@^1.2.7:
     jest: ^26.6.3
     rxjs: ^6.6.7
     ts-jest: ^26.5.4
-    typescript: ~4.1.5
+    typescript: ~4.2.3
     zone.js: ~0.10.3
   languageName: unknown
   linkType: soft
@@ -12249,7 +12249,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"typescript@4.1.5, typescript@~4.1.5":
+typescript@4.1.5:
   version: 4.1.5
   resolution: "typescript@npm:4.1.5"
   bin:
@@ -12259,7 +12259,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.1.5#builtin<compat/typescript>, typescript@patch:typescript@~4.1.5#builtin<compat/typescript>":
+"typescript@patch:typescript@4.1.5#builtin<compat/typescript>":
   version: 4.1.5
   resolution: "typescript@patch:typescript@npm%3A4.1.5#builtin<compat/typescript>::version=4.1.5&hash=a45b0e"
   bin:
