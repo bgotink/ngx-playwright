@@ -48,17 +48,13 @@ describe('PlaywrightHarnessEnvironment', () => {
       });
     });
 
-    describe.skip('shadow DOM interaction', () => {
-      it('should not pierce shadow boundary by default', async () => {
+    describe('shadow DOM interaction', () => {
+      it('should pierce shadow boundary by default', async () => {
+        expect(harnessEnvironment.respectShadowBoundaries).toBe(false);
+
         const harness = await harnessEnvironment.getHarness(
           MainComponentHarness,
         );
-        expect(await harness.shadows()).toEqual([]);
-      });
-
-      it('should pierce shadow boundary when using piercing query', async () => {
-        const harness = await harnessEnvironment /* with query function `piercingQueryFn` */
-          .getHarness(MainComponentHarness);
         const shadows = await harness.shadows();
         expect(
           await parallel(() => {
@@ -67,9 +63,17 @@ describe('PlaywrightHarnessEnvironment', () => {
         ).toEqual(['Shadow 1', 'Shadow 2']);
       });
 
-      it('should allow querying across shadow boundary', async () => {
-        const harness = await harnessEnvironment /* with query function `piercingQueryFn` */
+      it('should respect shadow boundaries when `respectShadowBoundaries` is set to true', async () => {
+        const harness = await harnessEnvironment
+          .withOptions({respectShadowBoundaries: true})
           .getHarness(MainComponentHarness);
+        expect(await harness.shadows()).toEqual([]);
+      });
+
+      it('should allow querying across shadow boundary', async () => {
+        const harness = await harnessEnvironment.getHarness(
+          MainComponentHarness,
+        );
         expect(await (await harness.deepShadow()).text()).toBe('Shadow 2');
       });
     });

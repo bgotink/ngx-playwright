@@ -11,9 +11,25 @@ const elementHandles = new WeakMap<
   ElementHandle<HTMLElement | SVGElement>
 >();
 
+export interface PlaywrightHarnessEnvironmentOptions {
+  /**
+   * If true, all query selectors respect shadowroots
+   *
+   * By default, shadow boundaries are pierced by all queries.
+   */
+  respectShadowBoundaries?: boolean;
+}
+
 export abstract class PlaywrightHarnessEnvironment extends HarnessEnvironment<
   ElementHandle<HTMLElement | SVGElement>
 > {
+  /**
+   * If true, all query selectors respect shadowroots
+   *
+   * By default, shadow boundaries are pierced by all queries.
+   */
+  abstract readonly respectShadowBoundaries: boolean;
+
   /**
    * Wait until the angular app is bootstrapped and stable
    *
@@ -31,6 +47,13 @@ export abstract class PlaywrightHarnessEnvironment extends HarnessEnvironment<
   abstract getPlaywrightHandle(
     element: TestElement,
   ): ElementHandle<HTMLElement | SVGElement>;
+
+  /**
+   * Create a copy of the current environment with the given options
+   */
+  abstract withOptions(
+    options: PlaywrightHarnessEnvironmentOptions,
+  ): PlaywrightHarnessEnvironment;
 }
 
 /**
@@ -40,17 +63,28 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
   readonly #page: Page;
   readonly #documentRoot: ElementHandle<HTMLElement | SVGElement>;
 
+  readonly #opts: Required<PlaywrightHarnessEnvironmentOptions>;
+
   constructor(
     page: Page,
     documentRoot: ElementHandle<HTMLElement | SVGElement> = new LazyRootHandle(
       page,
     ),
     element: ElementHandle<HTMLElement | SVGElement> = documentRoot,
+    options: PlaywrightHarnessEnvironmentOptions = {},
   ) {
     super(element);
 
     this.#page = page;
     this.#documentRoot = documentRoot;
+    this.#opts = {
+      respectShadowBoundaries: false,
+      ...options,
+    };
+  }
+
+  get respectShadowBoundaries(): boolean {
+    return this.#opts.respectShadowBoundaries;
   }
 
   async waitForAngularReady() {
@@ -85,6 +119,20 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
     return handle;
   }
 
+  public withOptions(
+    options: PlaywrightHarnessEnvironmentOptions,
+  ): PlaywrightHarnessEnvironment {
+    return new PlaywrightHarnessEnvironmentImplementation(
+      this.#page,
+      this.#documentRoot,
+      this.rawRootElement,
+      {
+        ...this.#opts,
+        ...options,
+      },
+    );
+  }
+
   protected getDocumentRoot(): ElementHandle<HTMLElement | SVGElement> {
     return this.#documentRoot;
   }
@@ -116,12 +164,17 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
       this.#page,
       this.#documentRoot,
       element,
+      this.#opts,
     );
   }
 
   protected getAllRawElements(
     selector: string,
   ): Promise<ElementHandle<HTMLElement | SVGElement>[]> {
-    return this.rawRootElement.$$(selector);
+    return this.rawRootElement.$$(
+      this.respectShadowBoundaries
+        ? `css:light=${selector}`
+        : `css=${selector}`,
+    );
   }
 }
