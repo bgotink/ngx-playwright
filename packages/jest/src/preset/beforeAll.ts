@@ -3,12 +3,17 @@
 import type {HarnessEnvironment} from '@angular/cdk/testing';
 import {
   createEnvironment,
-  manuallyStabilize,
-  autoStabilize,
+  manuallyStabilize as _manuallyStabilize,
+  autoStabilize as _autoStabilize,
+  isAutoStabilizing,
 } from '@ngx-playwright/harness';
 import type {Page} from 'playwright-core';
 
 const cachedEnvironments = new WeakMap<Page, HarnessEnvironment<unknown>>();
+
+function isPromiseLike(value: any): value is PromiseLike<any> {
+  return !!value && typeof value.then === 'function';
+}
 
 Object.defineProperty(globalThis, 'harnessEnvironment', {
   configurable: true,
@@ -24,7 +29,66 @@ Object.defineProperty(globalThis, 'harnessEnvironment', {
   },
 });
 
-global.autoStabilize = () => autoStabilize(() => page);
-global.manuallyStabilize = manuallyStabilize;
+global.autoStabilize = (fn?: () => any): any => {
+  if (!fn) {
+    _autoStabilize(() => page);
+    return;
+  }
 
-global.autoStabilize();
+  return () => {
+    if (isAutoStabilizing()) {
+      // already automatically stabilizing
+      return fn();
+    }
+
+    _autoStabilize(() => page);
+    let isPromise = false;
+    try {
+      const result = fn();
+
+      if (isPromiseLike(result)) {
+        isPromise = true;
+        return Promise.resolve(result).finally(() => manuallyStabilize());
+      } else {
+        return result;
+      }
+    } finally {
+      if (!isPromise) {
+        manuallyStabilize();
+      }
+    }
+  };
+};
+
+global.manuallyStabilize = (fn?: () => any): any => {
+  if (!fn) {
+    _manuallyStabilize();
+    return;
+  }
+
+  return () => {
+    if (!isAutoStabilizing()) {
+      // already manually stabilizing
+      return fn();
+    }
+
+    _manuallyStabilize();
+    let isPromise = false;
+    try {
+      const result = fn();
+
+      if (isPromiseLike(result)) {
+        isPromise = true;
+        return Promise.resolve(result).finally(() => autoStabilize());
+      } else {
+        return result;
+      }
+    } finally {
+      if (!isPromise) {
+        autoStabilize();
+      }
+    }
+  };
+};
+
+autoStabilize();

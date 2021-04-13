@@ -25,5 +25,8 @@
       "built": false,
       "unplugged": false
     }
+  },
+  "resolutions": {
+    "@angular/cdk": "patch:@angular/cdk@npm:11.2.8#.yarn/patches/@angular__cdk.patch"
   }
 }

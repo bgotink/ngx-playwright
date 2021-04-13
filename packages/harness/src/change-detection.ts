@@ -10,9 +10,22 @@ let disabledCount = 0;
 
 /**
  * Returns whether the stabilize function should be executed automatically
+ *
+ * This takes into account whether automatic stabilization is turned on (see
+ * {@link isAutoStabilizing}) and whether batch-mode is currently enabled.
  */
 export function shouldStabilizeAutomatically() {
   return isRegistered && disabledCount === 0;
+}
+
+/**
+ * Returns whether automatic stabilization is turned on
+ *
+ * Note this function doesn't take into account whether batch mode is enabled,
+ * use {@link shouldStabilizeAutomatically} for that.
+ */
+export function isAutoStabilizing(): boolean {
+  return isRegistered;
 }
 
 /**

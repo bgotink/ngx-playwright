@@ -79,6 +79,33 @@ describe('PlaywrightHarnessEnvironment', () => {
     });
   });
 
+  describe('change detection', () => {
+    it('should wait for stability by default', async () => {
+      const harness = await harnessEnvironment.getHarness(MainComponentHarness);
+      const asyncCounter = await harness.asyncCounter();
+      expect(await asyncCounter.text()).toBe('5');
+      await harness.increaseCounter(3);
+      expect(await asyncCounter.text()).toBe('8');
+    });
+
+    it(
+      'should not wait for stability when disabled',
+      manuallyStabilize(async () => {
+        const harness = await harnessEnvironment.getHarness(
+          MainComponentHarness,
+        );
+        const asyncCounter = await harness.asyncCounter();
+        expect(await asyncCounter.text()).toBe('0');
+        await harnessEnvironment.forceStabilize();
+        expect(await asyncCounter.text()).toBe('5');
+        await harness.increaseCounter(3);
+        expect(await asyncCounter.text()).toBe('5');
+        await harnessEnvironment.forceStabilize();
+        expect(await asyncCounter.text()).toBe('8');
+      }),
+    );
+  });
+
   describe('environment independent', () =>
     crossEnvironmentSpecs(
       () => harnessEnvironment,

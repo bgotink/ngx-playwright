@@ -32,6 +32,14 @@ declare global {
    * {@link #manuallyStabilize} is called.
    */
   function autoStabilize(): void;
+  /**
+   * Returns a function that executes the given function with auto stabilization turned on
+   */
+  function autoStabilize(fn: () => Promise<any>): () => Promise<any>;
+  /**
+   * Returns a function that executes the given function with auto stabilization turned on
+   */
+  function autoStabilize(fn: () => any): () => any;
 
   /**
    * Stop automatically waiting for the angular application to become stable
@@ -39,6 +47,14 @@ declare global {
    * Call {@link #forceStabilize} to manually wait until the app stabilizes.
    */
   function manuallyStabilize(): void;
+  /**
+   * Returns a function that executes the given function with auto stabilization turned off
+   */
+  function manuallyStabilize(fn: () => Promise<any>): () => Promise<any>;
+  /**
+   * Returns a function that executes the given function with auto stabilization turned off
+   */
+  function manuallyStabilize(fn: () => any): () => any;
 }
 
 export {};

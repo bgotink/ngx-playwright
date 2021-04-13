@@ -197,7 +197,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cdk@npm:^11.2.8":
+"@angular/cdk@npm:11.2.8":
   version: 11.2.8
   resolution: "@angular/cdk@npm:11.2.8"
   dependencies:
@@ -210,6 +210,22 @@ __metadata:
     parse5:
       optional: true
   checksum: 6c6c99e2d4c4e57e3ba460349c9424f4f5bffd3c58e0bfe28d7351d2eba01df1233273994cd35a4669dc3548cd69efee9bb421bb1bee3928347c60bb6d0d1ad8
+  languageName: node
+  linkType: hard
+
+"@angular/cdk@patch:@angular/cdk@npm:11.2.8#.yarn/patches/@angular__cdk.patch::locator=root-workspace-0b6124%40workspace%3A.":
+  version: 11.2.8
+  resolution: "@angular/cdk@patch:@angular/cdk@npm%3A11.2.8#.yarn/patches/@angular__cdk.patch::version=11.2.8&hash=f53206&locator=root-workspace-0b6124%40workspace%3A."
+  dependencies:
+    parse5: ^5.0.0
+    tslib: ^2.0.0
+  peerDependencies:
+    "@angular/common": ^11.0.0 || ^12.0.0-0
+    "@angular/core": ^11.0.0 || ^12.0.0-0
+  dependenciesMeta:
+    parse5:
+      optional: true
+  checksum: fb2e4e22ab1407494b5f1f8500b71b3304a8f14636f697623d1111dace79e000d30e0d1ca5fbdfb729b678c4590050f10f609fb125fe96d078e35e72ed940848
   languageName: node
   linkType: hard
 

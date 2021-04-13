@@ -1,0 +1,13 @@
+diff --git a/bundles/cdk-testing.umd.js b/bundles/cdk-testing.umd.js
+index 45987090a1902d7867d4f4fcdb6b62b83d09722c..915cab6e18fea02dcfd7cfa1fb6747d7c2ce42cf 100755
+--- a/bundles/cdk-testing.umd.js
++++ b/bundles/cdk-testing.umd.js
+@@ -360,7 +360,7 @@
+                     case 2:
+                         // If nothing is handling change detection batching, install the default handler.
+                         if (!autoChangeDetectionSubscription) {
+-                            autoChangeDetectionSubject.subscribe(defaultAutoChangeDetectionHandler);
++                            autoChangeDetectionSubscription = autoChangeDetectionSubject.subscribe(defaultAutoChangeDetectionHandler);
+                         }
+                         if (!triggerBeforeAndAfter) return [3 /*break*/, 9];
+                         return [4 /*yield*/, new Promise(function (resolve) { return autoChangeDetectionSubject.next({

@@ -20,4 +20,8 @@ export function createEnvironment(page: Page): PlaywrightHarnessEnvironment {
   return new PlaywrightHarnessEnvironmentImplementation(page);
 }
 
-export {autoStabilize, manuallyStabilize} from './change-detection';
+export {
+  autoStabilize,
+  manuallyStabilize,
+  isAutoStabilizing,
+} from './change-detection';
