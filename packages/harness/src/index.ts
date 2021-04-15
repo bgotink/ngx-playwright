@@ -5,7 +5,7 @@ import {
   PlaywrightHarnessEnvironmentImplementation,
 } from './environment';
 
-export {PlaywrightHarnessEnvironment};
+export type {PlaywrightHarnessEnvironment};
 
 /**
  * Create a harness environment for the given page
