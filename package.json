@@ -10,7 +10,9 @@
     "build": "sn build"
   },
   "devDependencies": {
-    "@snuggery/snuggery": "0.2.0",
+    "@snuggery/node": "0.1.0",
+    "@snuggery/snuggery": "0.2.2",
+    "@snuggery/yarn": "0.1.1",
     "husky": "^5.2.0",
     "is-ci": "^3.0.0",
     "prettier": "^2.2.1",

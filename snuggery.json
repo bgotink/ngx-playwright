@@ -11,22 +11,14 @@
           }
         },
         "deploy": {
-          "builder": "$direct:./scripts/deploy",
+          "builder": "@snuggery/yarn:deploy",
+          "options": {
+            "useWorkspacePlugin": true,
+            "buildTarget": "build"
+          },
           "configurations": {
             "next": {
               "tag": "next"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@snuggery/snuggery:execute",
-          "options": {
-            "package": "eslint",
-            "arguments": ["packages", "integration"]
-          },
-          "configurations": {
-            "fix": {
-              "arguments": ["--fix", "packages", "integration"]
             }
           }
         }
@@ -65,7 +57,19 @@
       "root": "packages/harness",
       "architect": {
         "build": {
-          "builder": "$direct:./scripts/build"
+          "builder": "@snuggery/node:build",
+          "options": {
+            "assets": [
+              {
+                "include": "README.md"
+              },
+              {
+                "include": "LICENSE.md",
+                "from": "."
+              }
+            ],
+            "packager": "@snuggery/yarn"
+          }
         }
       }
     },
@@ -73,7 +77,23 @@
       "root": "packages/jest",
       "architect": {
         "build": {
-          "builder": "$direct:./scripts/build"
+          "builder": "@snuggery/node:build",
+          "options": {
+            "assets": [
+              {
+                "include": "README.md"
+              },
+              {
+                "include": ["**/*.d.ts", "**/*.json"],
+                "from": "packages/jest/src"
+              },
+              {
+                "include": "LICENSE.md",
+                "from": "."
+              }
+            ],
+            "packager": "@snuggery/yarn"
+          }
         }
       }
     }

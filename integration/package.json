@@ -14,7 +14,6 @@
     "@angular/cdk": "^11.2.8",
     "@angular/compiler-cli": "^11.2.9",
     "@ngx-playwright/jest": "workspace:packages/jest",
-    "@snuggery/snuggery": "0.2.0",
     "@types/jest": "26.0.22",
     "jest": "^26.6.3",
     "ts-jest": "^26.5.4",

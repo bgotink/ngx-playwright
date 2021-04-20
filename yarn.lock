@@ -1864,7 +1864,7 @@ __metadata:
     "@jest/types": 26.6.2
     "@ngx-playwright/harness": 0.4.0
     "@ngx-playwright/workspace-scripts": "workspace:scripts"
-    "@snuggery/architect": ~0.1.0
+    "@snuggery/architect": ~0.2.0
     "@types/jest": ~26.0.21
     "@types/lodash.merge": 4.6.6
     jest: ^26.6.3
@@ -1902,9 +1902,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ngx-playwright/workspace-scripts@workspace:scripts"
   dependencies:
-    "@angular-devkit/architect": 0.1101.2
-    "@angular-devkit/core": 11.1.2
-    "@yarnpkg/fslib": ^2.4.0
     ts-node: 9.1.1
     typescript: ~4.2.3
   languageName: unknown
@@ -1965,14 +1962,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snuggery/architect@npm:0.1.0, @snuggery/architect@npm:~0.1.0":
-  version: 0.1.0
-  resolution: "@snuggery/architect@npm:0.1.0"
+"@snuggery/architect@npm:0.2.0, @snuggery/architect@npm:~0.2.0":
+  version: 0.2.0
+  resolution: "@snuggery/architect@npm:0.2.0"
+  dependencies:
+    fs-extra: 9.1.0
+    glob: ^7.1.6
   peerDependencies:
     "@angular-devkit/architect": ">= 0.1101.2 < 0.1200.0"
     "@angular-devkit/core": ^11.1.2
     rxjs: ^6.6.3
-  checksum: af2990c295de2e8c782b93d96e11fe771379151632a0930cf41fa9cdefa6938a3d13cc1699bc8dcfa783b7fb2a221e454a2bb60f60704ca4996632c77f18ad61
+  checksum: 809d6f6b29d375b698e3d51c0c7a3f3e54852384256d22639d63c1cf348a031f8a397fdee29a53addbec1d306ca6189e7adbf2a2f74415b124364bee8302a3bb
   languageName: node
   linkType: hard
 
@@ -1986,15 +1986,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snuggery/snuggery@npm:0.2.0":
-  version: 0.2.0
-  resolution: "@snuggery/snuggery@npm:0.2.0"
+"@snuggery/node@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@snuggery/node@npm:0.1.0"
+  dependencies:
+    "@angular-devkit/architect": 0.1101.2
+    "@angular-devkit/core": 11.1.2
+    "@angular-devkit/schematics": 11.1.2
+    "@snuggery/architect": 0.2.0
+    rxjs: 6.6.3
+  peerDependencies:
+    typescript: ">= 4.0.0 < 4.3.0"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: e18d6a240d3d059a8c220cbbbb5de087eeb4b286e987f1afcc84a86d70349113f829c23bbaeb75c10aa5b57c2fece857e4c1c0b1a5e868a56a91986a82d9193b
+  languageName: node
+  linkType: hard
+
+"@snuggery/snuggery@npm:0.2.2":
+  version: 0.2.2
+  resolution: "@snuggery/snuggery@npm:0.2.2"
   dependencies:
     "@angular-devkit/architect": 0.1101.2
     "@angular-devkit/core": 11.1.2
     "@angular-devkit/schematics": 11.1.2
     "@arcanis/slice-ansi": 1.0.2
-    "@snuggery/architect": 0.1.0
+    "@snuggery/architect": 0.2.0
     "@snuggery/core": 0.1.1
     clipanion: 3.0.0-rc.9
     json5: 2.1.3
@@ -2009,7 +2027,21 @@ __metadata:
     which-pm-runs: 1.0.0
   bin:
     sn: bin.js
-  checksum: b0fc0d0111a7956fba2813de5f42363b8b5a0eb19d476d05d2e193ff0b443d1f33e5bad4f7187521752287199c42b409aa08caba725131fb67acdee5a2f9b243
+  checksum: d46dc5ef63fd8045201576e839b746466d6d5b9f59b3beea38078bb29cd4b0dfd37bcf0d73ce4140d88b6f317dd2e6b261d3edcf62a17062f7e389b9422e18d8
+  languageName: node
+  linkType: hard
+
+"@snuggery/yarn@npm:0.1.1":
+  version: 0.1.1
+  resolution: "@snuggery/yarn@npm:0.1.1"
+  dependencies:
+    "@angular-devkit/architect": 0.1101.2
+    "@angular-devkit/core": 11.1.2
+    "@angular-devkit/schematics": 11.1.2
+    "@snuggery/architect": 0.2.0
+    "@yarnpkg/parsers": ^2.3.1-rc.2
+    rxjs: 6.6.3
+  checksum: aa069c68f08f7b1137cf7561c80c4cc25b0c211a5fa84abd936474dc82088db708a417b5d80f6a7d1881cc1f196e4ad786852dd8e3218afd3af6fe02fbd4fa3e
   languageName: node
   linkType: hard
 
@@ -2051,13 +2083,6 @@ __metadata:
   dependencies:
     "@babel/types": ^7.3.0
   checksum: 676150e00d1f6b535a3c53f9c22ae4abb3707abdbf71a9ebf200a8722fc0cd9b7c677165c0dea35616fed5af9f93b40aaa58ba56fd21bb2c843cd03c12419afd
-  languageName: node
-  linkType: hard
-
-"@types/emscripten@npm:^1.38.0":
-  version: 1.39.4
-  resolution: "@types/emscripten@npm:1.39.4"
-  checksum: b848421e2597a0ce56b74c6427f843cfd8f26dec8eaaa1929317e9417bc06eaa934057c317cbb561ade2f5462b6906e37868608211e09f9f507dca62066795a8
   languageName: node
   linkType: hard
 
@@ -2425,23 +2450,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@yarnpkg/fslib@npm:^2.4.0":
-  version: 2.4.0
-  resolution: "@yarnpkg/fslib@npm:2.4.0"
+"@yarnpkg/parsers@npm:^2.3.1-rc.2":
+  version: 2.3.1-rc.2
+  resolution: "@yarnpkg/parsers@npm:2.3.1-rc.2"
   dependencies:
-    "@yarnpkg/libzip": ^2.2.1
+    js-yaml: ^3.10.0
     tslib: ^1.13.0
-  checksum: da4bfaee70132c778b824fc198d795b2b56edf9069b0592800acffa6fd7670c12e72d80f162ea1d85dd2fe0e63ae1461823dd4aa1fecfc141145e2809bd3d46f
-  languageName: node
-  linkType: hard
-
-"@yarnpkg/libzip@npm:^2.2.1":
-  version: 2.2.1
-  resolution: "@yarnpkg/libzip@npm:2.2.1"
-  dependencies:
-    "@types/emscripten": ^1.38.0
-    tslib: ^1.13.0
-  checksum: 75813c2dbed76fd81aa7ba04f592888c45c58334c901edf3782105baa9b11e084473db5a3da678626509a7de3196e5297c0a790424e86d6976e916502b576c81
+  checksum: 079a7a5233eedb7d97b1a1e8ca854f7ba7f9812346fda4aa9f299e784d596a8c276cc2ab938dd83ae6af4c1700b7f1ee0a9e4177777160effbbecbc97f4d4bc1
   languageName: node
   linkType: hard
 
@@ -2868,6 +2883,13 @@ __metadata:
   version: 0.4.0
   resolution: "asynckit@npm:0.4.0"
   checksum: a024000b9ddd938e2f27b3cb8188f96a5e1fff58185e98b84862fc4e01de279a547874a800340c2b106bb9de9b0fc61c6c683bc6892abf65e6be29a96addafd3
+  languageName: node
+  linkType: hard
+
+"at-least-node@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "at-least-node@npm:1.0.0"
+  checksum: 8f33efc16287ed39766065c718a2d36a469f702c66c6eb41fa460c0c62bca395301a6a02946e315ae4a84c9cc7f44c94ec73a556bc2a1049350da98d0b013afe
   languageName: node
   linkType: hard
 
@@ -5758,6 +5780,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fs-extra@npm:9.1.0":
+  version: 9.1.0
+  resolution: "fs-extra@npm:9.1.0"
+  dependencies:
+    at-least-node: ^1.0.0
+    graceful-fs: ^4.2.0
+    jsonfile: ^6.0.1
+    universalify: ^2.0.0
+  checksum: e667d8df54113b527bf5830dd9db8f142618db488894b329fe07724c7020dfacf8a372b144a74e683ae44e66f56117adca9cac165950dda7d83537c46c10dc4b
+  languageName: node
+  linkType: hard
+
 "fs-minipass@npm:^2.0.0":
   version: 2.1.0
   resolution: "fs-minipass@npm:2.1.0"
@@ -5980,7 +6014,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"graceful-fs@npm:^4.1.11, graceful-fs@npm:^4.1.15, graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.3, graceful-fs@npm:^4.2.4":
+"graceful-fs@npm:^4.1.11, graceful-fs@npm:^4.1.15, graceful-fs@npm:^4.1.2, graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0, graceful-fs@npm:^4.2.3, graceful-fs@npm:^4.2.4":
   version: 4.2.6
   resolution: "graceful-fs@npm:4.2.6"
   checksum: 84d39c7756892553da990a9db7e45f844b3309b37b5a00174cbb4748476f2250c54f24594d4d252f64f085c65c2fdac7c809419bf6d55f0e6e42eb07ac0f5bf2
@@ -6517,7 +6551,6 @@ fsevents@^1.2.7:
     "@angular/platform-browser": ^11.2.9
     "@angular/platform-browser-dynamic": ^11.2.9
     "@ngx-playwright/jest": "workspace:packages/jest"
-    "@snuggery/snuggery": 0.2.0
     "@types/jest": 26.0.22
     jest: ^26.6.3
     rxjs: ^6.6.7
@@ -7594,7 +7627,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"js-yaml@npm:^3.13.1":
+"js-yaml@npm:^3.10.0, js-yaml@npm:^3.13.1":
   version: 3.14.1
   resolution: "js-yaml@npm:3.14.1"
   dependencies:
@@ -7761,6 +7794,19 @@ fsevents@^1.2.7:
     graceful-fs:
       optional: true
   checksum: a40b7b64da41c84b0dc7ad753737ba240bb0dc50a94be20ec0b73459707dede69a6f89eb44b4d29e6994ed93ddf8c9b6e57f6b1f09dd707567959880ad6cee7f
+  languageName: node
+  linkType: hard
+
+"jsonfile@npm:^6.0.1":
+  version: 6.1.0
+  resolution: "jsonfile@npm:6.1.0"
+  dependencies:
+    graceful-fs: ^4.1.6
+    universalify: ^2.0.0
+  dependenciesMeta:
+    graceful-fs:
+      optional: true
+  checksum: 9419c886abc6f8a5088cbb222b7bc17c76e8ee9f6c0e5c38781a4e09488166084f25247bc0b58e025b08c43064c82ae860ad89a992e35fc8cfae639323b7edbc
   languageName: node
   linkType: hard
 
@@ -10694,7 +10740,9 @@ fsevents@^1.2.7:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@snuggery/snuggery": 0.2.0
+    "@snuggery/node": 0.1.0
+    "@snuggery/snuggery": 0.2.2
+    "@snuggery/yarn": 0.1.1
     husky: ^5.2.0
     is-ci: ^3.0.0
     prettier: ^2.2.1
@@ -12396,6 +12444,13 @@ typescript@~4.2.3:
   version: 0.1.2
   resolution: "universalify@npm:0.1.2"
   checksum: 420fc6547357782c700d53e9a92506a8e95345b13e97684c8f9ab75237912ec2ebb6af8ac10d4f7406b7b6bd21c58f6c5c0811414fb0b4091b78b4743fa6806e
+  languageName: node
+  linkType: hard
+
+"universalify@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "universalify@npm:2.0.0"
+  checksum: 36bfbdc97bd4b483596e66ea65e20663f5ab9ec3650157d99b075b7f97afcdefe46bbb23f89171dd75595d398cea3769a5b6d7130f5c66cae2a0f00904780f62
   languageName: node
   linkType: hard
 
