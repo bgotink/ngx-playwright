@@ -116,7 +116,7 @@ export function getDestructuredArguments(
       );
     }
 
-    const delimiter = maybeConsume(/["']/) as '"' | "'" | null;
+    const delimiter = maybeConsume(/^["']/) as '"' | "'" | null;
     if (delimiter) {
       names.push(consume(new RegExp(`^[^${delimiter}]+`)));
       consume(delimiter);
