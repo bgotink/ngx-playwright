@@ -1,3 +1,5 @@
+// cspell: disable
+
 /**
  * @license
  * Copyright Google LLC All Rights Reserved.
@@ -17,6 +19,7 @@ export class WrongComponentHarness extends ComponentHarness {
 }
 
 export class MainComponentHarness extends ComponentHarness {
+  static readonly path = '/';
   static readonly hostSelector = 'test-main';
 
   readonly title = this.locatorFor('h1');

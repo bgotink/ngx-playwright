@@ -9,16 +9,34 @@ declare global {
 
   type LaunchType = 'launch' | 'persistent' | 'server';
 
+  /**
+   * The base URL the app being tested is hosted at
+   */
   const baseUrl: string;
 
+  /**
+   * The active browser's name
+   */
   const browserName: BrowserName;
 
+  /**
+   * The browser instance the active `page` is created in
+   */
   const browser: import('playwright-core').Browser;
 
+  /**
+   * The browser context the `page` was created in
+   */
   const browserContext: import('playwright-core').BrowserContext;
 
+  /**
+   * The active page
+   */
   const page: import('playwright-core').Page;
 
+  /**
+   * Harness environment for the active page
+   */
   const harnessEnvironment: import('@ngx-playwright/harness').PlaywrightHarnessEnvironment;
 
   /**
@@ -55,6 +73,35 @@ declare global {
    * Returns a function that executes the given function with auto stabilization turned off
    */
   function manuallyStabilize(fn: () => any): () => any;
+
+  /**
+   * [experimental] Open the given screen and execute the given function
+   *
+   * @param page Page to open the screen in
+   * @param screen The screen to open
+   * @param fn Function to execute once the given screen is opened
+   */
+  function inScreen<T extends import('@angular/cdk/testing').ComponentHarness>(
+    page: import('playwright-core').Page,
+    screen: import('@ngx-playwright/jest').PlaywrightScreen<T>,
+    fn: (
+      props: import('@ngx-playwright/jest').ExtractablePropertiesOfScreen<T>,
+      screen: T,
+    ) => void | Promise<void>,
+  ): () => Promise<void>;
+  /**
+   * [experimental] Open the given screen and execute the given function
+   *
+   * @param screen The screen to open
+   * @param fn Function to execute once the given screen is opened
+   */
+  function inScreen<T extends import('@angular/cdk/testing').ComponentHarness>(
+    screen: import('@ngx-playwright/jest').PlaywrightScreen<T>,
+    fn: (
+      props: import('@ngx-playwright/jest').ExtractablePropertiesOfScreen<T>,
+      screen: T,
+    ) => void | Promise<void>,
+  ): () => Promise<void>;
 }
 
 export {};

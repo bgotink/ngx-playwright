@@ -16,6 +16,7 @@
     "@ngx-playwright/jest": "workspace:packages/jest",
     "@types/jest": "26.0.22",
     "jest": "^26.6.3",
+    "playwright-core": "1.10.0",
     "ts-jest": "^26.5.4",
     "typescript": "~4.2.3"
   }
