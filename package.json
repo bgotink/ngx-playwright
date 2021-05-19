@@ -10,9 +10,9 @@
     "build": "sn build"
   },
   "devDependencies": {
-    "@snuggery/node": "0.1.0",
-    "@snuggery/snuggery": "0.2.2",
-    "@snuggery/yarn": "0.1.1",
+    "@snuggery/node": "0.2.0",
+    "@snuggery/snuggery": "0.3.0",
+    "@snuggery/yarn": "0.2.0",
     "husky": "^5.2.0",
     "is-ci": "^3.0.0",
     "prettier": "^2.2.1",
@@ -27,8 +27,5 @@
       "built": false,
       "unplugged": false
     }
-  },
-  "resolutions": {
-    "@angular/cdk": "patch:@angular/cdk@npm:11.2.8#.yarn/patches/@angular__cdk.patch"
   }
 }

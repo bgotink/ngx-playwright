@@ -1,18 +1,18 @@
 {
   "dependencies": {
-    "@angular/common": "^11.2.9",
-    "@angular/compiler": "^11.2.9",
-    "@angular/core": "^11.2.9",
-    "@angular/forms": "^11.2.9",
-    "@angular/platform-browser": "^11.2.9",
-    "@angular/platform-browser-dynamic": "^11.2.9",
+    "@angular/common": "^12.0.0",
+    "@angular/compiler": "^12.0.0",
+    "@angular/core": "^12.0.0",
+    "@angular/forms": "^12.0.0",
+    "@angular/platform-browser": "^12.0.0",
+    "@angular/platform-browser-dynamic": "^12.0.0",
     "rxjs": "^6.6.7",
-    "zone.js": "~0.10.3"
+    "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": ">= 0.1102.6 < 0.1200.0",
-    "@angular/cdk": "^11.2.8",
-    "@angular/compiler-cli": "^11.2.9",
+    "@angular-devkit/build-angular": "^12.0.0",
+    "@angular/cdk": "^12.0.0",
+    "@angular/compiler-cli": "^12.0.0",
     "@ngx-playwright/jest": "workspace:packages/jest",
     "@types/jest": "26.0.22",
     "jest": "^26.6.3",
