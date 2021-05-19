@@ -35,7 +35,12 @@
             "main": "integration/src/main.ts",
             "outputPath": "integration/dist",
             "polyfills": "integration/src/polyfills.ts",
-            "tsConfig": "integration/tsconfig.json"
+            "tsConfig": "integration/tsconfig.json",
+            "buildOptimizer": false,
+            "extractLicenses": false,
+            "namedChunks": true,
+            "optimization": false,
+            "sourceMap": true
           }
         },
         "serve": {
