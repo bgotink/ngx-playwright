@@ -5,23 +5,13 @@ __metadata:
   version: 4
   cacheKey: 7
 
-"@angular-devkit/architect@npm:0.1200.0, @angular-devkit/architect@npm:>= 0.1200.0 < 0.1300.0":
+"@angular-devkit/architect@npm:0.1200.0":
   version: 0.1200.0
   resolution: "@angular-devkit/architect@npm:0.1200.0"
   dependencies:
     "@angular-devkit/core": 12.0.0
     rxjs: 6.6.7
   checksum: c91dc7cddc2af42eef71e424522cf80b6e3317ad0e0f07d4a3367355593ba75efc9aa8d046112c02f0277aa63d60ae4efae3bc9810b9e7b1415ba5e5d76b31a6
-  languageName: node
-  linkType: hard
-
-"@angular-devkit/architect@npm:0.1200.0-rc.2":
-  version: 0.1200.0-rc.2
-  resolution: "@angular-devkit/architect@npm:0.1200.0-rc.2"
-  dependencies:
-    "@angular-devkit/core": 12.0.0-rc.2
-    rxjs: 6.6.7
-  checksum: 76fd381790e2f27529bbdad7c04ecf38ce12d65cb8f08a83e311cc59a55f38435e2b4bc65b17e70fe402b02fb7703f7a0b6c6cbc3d2d5b73afde5057be008f93
   languageName: node
   linkType: hard
 
