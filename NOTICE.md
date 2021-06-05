@@ -1,6 +1,6 @@
 ## Compatibility tests
 
-Part of the test suite is copied out of the angular/components repository to ensure compatiblity. The relevant files have their license header kept intact, they were copied from https://github.com/angular/components/tree/ff69e199bc8d598e12fdc7e35edd770f90dae3df/src/cdk/testing/tests and are available under the following license:
+Part of the test suite is copied out of the angular/components repository to ensure compatibility. The relevant files have their license header kept intact, they were copied from https://github.com/angular/components/tree/ff69e199bc8d598e12fdc7e35edd770f90dae3df/src/cdk/testing/tests and are available under the following license:
 
 ```
 The MIT License

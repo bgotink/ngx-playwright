@@ -60,7 +60,7 @@ export class PersistentContextRunnerLauncher implements RunnerBrowserLauncher {
 
   getBrowser(): Browser {
     throw new Error(
-      'There is no `browser` value when using the PersistenContext launch type',
+      'There is no `browser` value when using the PersistentContext launch type',
     );
   }
 

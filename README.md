@@ -24,7 +24,7 @@ yarn sn build
 sn build
 ```
 
-The package will be built in `<package folder>/dist`, e.g. `packages/jest/dist`. You can test your build by refering to that folder in a package.json, e.g.
+The package will be built in `<package folder>/dist`, e.g. `packages/jest/dist`. You can test your build by referring to that folder in a package.json, e.g.
 
 ```json
 // in dependencies, or via resolutions

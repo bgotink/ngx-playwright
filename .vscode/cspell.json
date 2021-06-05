@@ -1,4 +1,18 @@
 {
   "version": "0.1",
-  "words": ["destructure", "destructured", "devkit"]
+  "ignorePaths": ["yarn.lock", "node_modules", "dist", ".yarn"],
+  "words": [
+    "bram",
+    "cdk's",
+    "destructure",
+    "destructured",
+    "devkit",
+    "gotink",
+    "parens",
+    "prefs",
+    "pwdebug",
+    "shadowroots",
+    "structs",
+    "yarnpkg"
+  ]
 }

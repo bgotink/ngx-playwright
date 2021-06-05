@@ -64,7 +64,7 @@ export function matches(element: Element, selector: string): boolean {
  * Returns the dimensions of the given element
  *
  * @param element The element for which to get the dimensions
- * @returns The dimentions of the element
+ * @returns The dimensions of the element
  * @internal
  */
 export function getBoundingClientRect(element: Element): ElementDimensions {
