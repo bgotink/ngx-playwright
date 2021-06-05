@@ -90,10 +90,10 @@
     },
     "maxConcurrency": {
       "type": "number",
-      "description": "Specifies the maximum number of tests that are allowed to runconcurrently. This only affects tests using `test.concurrent`."
+      "description": "Specifies the maximum number of tests that are allowed to run concurrently. This only affects tests using `test.concurrent`."
     },
     "maxWorkers": {
-      "type": "string",
+      "oneOf": [{"type": "string"}, {"type": "number"}],
       "description": "Specifies the maximum number of workers the worker-pool will spawn for running tests. This defaults to the number of the cores available on your machine. (its usually best not to override this default)",
       "aliases": ["w"]
     },
