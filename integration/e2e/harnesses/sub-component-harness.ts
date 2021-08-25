@@ -37,9 +37,8 @@ export class SubComponentHarness extends ComponentHarness {
 
   readonly title = this.locatorFor('h2');
   readonly getItems = this.locatorForAll('li');
-  readonly globalElement = this.documentRootLocatorFactory().locatorFor(
-    '#username',
-  );
+  readonly globalElement =
+    this.documentRootLocatorFactory().locatorFor('#username');
 
   async titleText() {
     return (await this.title()).text();

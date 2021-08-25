@@ -3,7 +3,7 @@ module.exports = {
   preset: '@ngx-playwright/jest',
 
   rootDir: __dirname,
-  testMatch: ['<rootDir>/e2e/specs/**/*.e2e-spec.ts'],
+  testMatch: ['<rootDir>/e2e/jest-specs/**/*.e2e-spec.ts'],
 
   testEnvironmentOptions: {
     launchOptions: {
@@ -13,7 +13,7 @@ module.exports = {
 
   globals: {
     'ts-jest': {
-      tsconfig: '<rootDir>/e2e/tsconfig.json',
+      tsconfig: '<rootDir>/e2e/tsconfig.jest.json',
     },
   },
 };

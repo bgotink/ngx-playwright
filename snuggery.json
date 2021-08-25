@@ -49,10 +49,17 @@
             "browserTarget": "integration:build"
           }
         },
-        "test": {
+        "jest": {
           "builder": "@ngx-playwright/jest:run",
           "options": {
             "config": "integration/jest.e2e-config.js",
+            "devServerTarget": "serve"
+          }
+        },
+        "test": {
+          "builder": "@ngx-playwright/test:run",
+          "options": {
+            "config": "integration/playwright-test.e2e-config.js",
             "devServerTarget": "serve"
           }
         }
@@ -91,6 +98,30 @@
               {
                 "include": ["**/*.d.ts", "**/*.json"],
                 "from": "packages/jest/src"
+              },
+              {
+                "include": "LICENSE.md",
+                "from": "."
+              }
+            ],
+            "packager": "@snuggery/yarn"
+          }
+        }
+      }
+    },
+    "@ngx-playwright/test": {
+      "root": "packages/test",
+      "architect": {
+        "build": {
+          "builder": "@snuggery/node:build",
+          "options": {
+            "assets": [
+              {
+                "include": "README.md"
+              },
+              {
+                "include": ["**/*.d.ts", "**/*.json"],
+                "from": "packages/test/src"
               },
               {
                 "include": "LICENSE.md",

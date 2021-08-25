@@ -58,7 +58,12 @@ export function autoStabilize(page: () => Page): void {
     }
 
     if (status.onDetectChangesNow) {
-      page().evaluate(waitUntilAngularStable).then(status.onDetectChangesNow);
+      page()
+        .evaluate(waitUntilAngularStable)
+        .then(
+          () => status.onDetectChangesNow?.(),
+          () => status.onDetectChangesNow?.(),
+        );
     }
   });
 }

@@ -6,9 +6,8 @@ import type {
 } from 'playwright-core/types/structs';
 
 export class LazyRootHandle implements ElementHandle<HTMLElement | SVGElement> {
-  private _loaded?: Promise<
-    ElementHandle<HTMLElement | SVGElement>
-  > = undefined;
+  private _loaded?: Promise<ElementHandle<HTMLElement | SVGElement>> =
+    undefined;
 
   constructor(private readonly _page: Page) {}
 
@@ -292,7 +291,7 @@ export class LazyRootHandle implements ElementHandle<HTMLElement | SVGElement> {
 
   evaluateHandle<
     R,
-    O extends HTMLElement | SVGElement = HTMLElement | SVGElement
+    O extends HTMLElement | SVGElement = HTMLElement | SVGElement,
   >(
     pageFunction: PageFunctionOn<O, void, R>,
     arg?: any,
@@ -318,5 +317,9 @@ export class LazyRootHandle implements ElementHandle<HTMLElement | SVGElement> {
 
   getProperty(propertyName: string): Promise<JSHandle<any>> {
     return this._exec(el => el.getProperty(propertyName));
+  }
+
+  inputValue(options?: {timeout?: number | undefined}): Promise<string> {
+    return this._exec(el => el.inputValue(options));
   }
 }

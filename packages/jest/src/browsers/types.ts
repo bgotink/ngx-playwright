@@ -54,7 +54,7 @@ export interface BrowserSpec {
   readonly connectOptions?: Omit<
     ConnectOptions,
     'logger' | 'slowMo' | 'timeout'
-  >;
+  > & {wsEndpoint?: string};
   readonly persistentContextOptions?: Omit<
     PersistentContextOptions,
     'logger' | 'slowMo' | 'timeout'

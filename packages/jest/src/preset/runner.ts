@@ -1,1 +1,3 @@
-module.exports = (require('../runner') as typeof import('../runner')).PlaywrightRunner;
+module.exports = (
+  require('../runner') as typeof import('../runner')
+).PlaywrightRunner;

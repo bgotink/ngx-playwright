@@ -97,11 +97,9 @@ export function isAngularBootstrapped() {
  * Waits until the angular app is stable
  */
 export async function waitUntilAngularStable() {
-  if (typeof frameworkStabilizers === 'undefined') {
-    throw new Error("Angular isn't bootstrapped yet");
+  if (typeof frameworkStabilizers !== 'undefined') {
+    await Promise.all(frameworkStabilizers.map(fn => new Promise(fn)));
   }
-
-  await Promise.all(frameworkStabilizers!.map(fn => new Promise(fn)));
 }
 
 export function dispatchEvent(

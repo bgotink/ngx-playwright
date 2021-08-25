@@ -17,6 +17,7 @@ export class ConnectRunnerLauncher implements RunnerBrowserLauncher {
   #browser?: Browser;
   #browserContext?: BrowserContext;
 
+  #wsEndpoint: string;
   #options: ConnectOptions;
 
   constructor(spec: RunnerBrowserSpec) {
@@ -28,8 +29,8 @@ export class ConnectRunnerLauncher implements RunnerBrowserLauncher {
 
     this.#type = getBrowserType(spec);
 
+    this.#wsEndpoint = spec.connectOptions.wsEndpoint;
     this.#options = {
-      wsEndpoint: spec.connectOptions.wsEndpoint,
       slowMo: spec.slowMo,
       timeout: spec.timeout,
     };
@@ -47,7 +48,7 @@ export class ConnectRunnerLauncher implements RunnerBrowserLauncher {
       return;
     }
 
-    const browser = await this.#type.connect(this.#options);
+    const browser = await this.#type.connect(this.#wsEndpoint, this.#options);
 
     this.#browserContext = await browser.newContext();
     this.#browser = browser;

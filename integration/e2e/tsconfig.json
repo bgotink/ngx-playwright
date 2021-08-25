@@ -1,7 +1,3 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "types": ["jest", "node"]
-  },
-  "include": ["setup/types.d.ts", "specs/**/*.ts", "harnesses/**/*"]
+  "references": [{"path": "tsconfig.jest.json"}, {"path": "tsconfig.test.json"}]
 }

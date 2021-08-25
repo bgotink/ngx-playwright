@@ -124,10 +124,8 @@ export class AppComponent implements OnDestroy {
     event: MouseEvent,
     obj: {x: number; y: number},
   ) {
-    const {
-      top,
-      left,
-    } = this.clickTestElement.nativeElement.getBoundingClientRect();
+    const {top, left} =
+      this.clickTestElement.nativeElement.getBoundingClientRect();
     obj.x = Math.round(event.clientX - left);
     obj.y = Math.round(event.clientY - top);
   }

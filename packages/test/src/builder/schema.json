@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "type": "object",
+  "properties": {
+    "devServerTarget": {
+      "description": "A dev-server builder target to run tests against in the format of `target` or `[project]:target[:configuration]`. You can also pass in more than one configuration name as a comma-separated list. Example: `project:target:production,staging`.",
+      "type": "string"
+    },
+    "baseUrl": {
+      "description": "Base URL for playwright to connect to.",
+      "type": "string"
+    },
+    "host": {
+      "description": "Host to listen on",
+      "type": "string"
+    },
+    "port": {
+      "description": "The port to use to serve the application",
+      "type": "number"
+    },
+
+    "browser": {
+      "description": "Run test in a specific browser",
+      "type": "string",
+      "enum": ["chromium", "firefox", "webkit", "all"]
+    },
+    "config": {
+      "description": "Configuration file, if not passed, defaults to `playwright.config.ts` or `playwright.config.js` in the project's folder",
+      "type": "string",
+      "aliases": ["c"]
+    },
+    "forbidOnly": {
+      "description": "Whether to disallow `test.only`, useful on CI",
+      "type": "boolean"
+    },
+    "grep": {
+      "description": "Only run tests matching this regular expression",
+      "type": "string",
+      "aliases": ["g"]
+    },
+    "grepInvert": {
+      "description": "Only run tests not matching this regular expression, the opposite of `grep`",
+      "type": "string"
+    },
+    "globalTimeout": {
+      "description": "Total timeout for the whole test run in milliseconds, by default there is no global timeout",
+      "type": "number"
+    },
+    "headed": {
+      "description": "Run tests in headed browsers, useful for debugging",
+      "type": "boolean"
+    },
+    "list": {
+      "description": "List all the tests, but do not run them",
+      "type": "boolean"
+    },
+    "maxFailures": {
+      "description": "Stop after the first `N` test failures, passing `true` stops after the first failure",
+      "type": "number"
+    },
+    "output": {
+      "description": "Directory for artifacts produced by tests, defaults to `test-results`",
+      "type": "string"
+    },
+    "project": {
+      "description": "Only run tests from one of the specified projects, defaults to running all projects defined in the configuration file",
+      "type": "string"
+    },
+    "quiet": {
+      "description": "Whether to suppress stdout and stderr from the tests",
+      "type": "boolean"
+    },
+    "repeatEach": {
+      "description": "Run each test `N` times, defaults to one",
+      "type": "number"
+    },
+    "reporter": {
+      "description": "Choose a reporter: minimalist `dot`, concise `line`, detailed `list`, machine-readable `json` or `junit` or the package name of a 3rd party reporter",
+      "type": "string"
+    },
+    "retries": {
+      "description": "The maximum number of retries for flaky tests, defaults to zero (no retries)",
+      "type": "number"
+    },
+    "shard": {
+      "description": "Shard tests and execute only selected shard, specified in the form `current/all`, 1-based, for example `3/5`.",
+      "type": "string"
+    },
+    "timeout": {
+      "description": "Maximum timeout in milliseconds for each test, defaults to 30 seconds",
+      "type": "number"
+    },
+    "updateSnapshots": {
+      "description": "Whether to update snapshots with actual results instead of comparing them",
+      "type": "boolean",
+      "aliases": ["u"]
+    },
+    "workers": {
+      "description": "The maximum number of concurrent worker processes that run in parallel",
+      "type": "number",
+      "aliases": ["j"]
+    }
+  },
+  "additionalProperties": false
+}

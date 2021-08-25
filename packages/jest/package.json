@@ -61,7 +61,7 @@
     "jest-environment-node": "^26.6.2",
     "jest-runner": "^26.6.3",
     "lodash.merge": "4.6.2",
-    "playwright-core": "^1.10.0",
+    "playwright-core": "^1.12.0",
     "rxjs": "^6.6.6"
   },
   "devDependencies": {

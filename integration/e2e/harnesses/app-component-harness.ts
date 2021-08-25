@@ -56,12 +56,10 @@ export class MainComponentHarness extends ComponentHarness {
   readonly errorItem = this.locatorFor('wrong locator');
 
   readonly globalEl = this.documentRootLocatorFactory().locatorFor('.sibling');
-  readonly errorGlobalEl = this.documentRootLocatorFactory().locatorFor(
-    'wrong locator',
-  );
-  readonly nullGlobalEl = this.documentRootLocatorFactory().locatorForOptional(
-    'wrong locator',
-  );
+  readonly errorGlobalEl =
+    this.documentRootLocatorFactory().locatorFor('wrong locator');
+  readonly nullGlobalEl =
+    this.documentRootLocatorFactory().locatorForOptional('wrong locator');
 
   readonly optionalUsername = this.locatorForOptional('#username');
   readonly optionalSubComponent = this.locatorForOptional(SubComponentHarness);
@@ -102,9 +100,8 @@ export class MainComponentHarness extends ComponentHarness {
   readonly requiredAncestorRestrictedMissingSubcomponent = this.locatorFor(
     SubComponentHarness.with({ancestor: '.not-found'}),
   );
-  readonly optionalAncestorRestrictedMissingSubcomponent = this.locatorForOptional(
-    SubComponentHarness.with({ancestor: '.not-found'}),
-  );
+  readonly optionalAncestorRestrictedMissingSubcomponent =
+    this.locatorForOptional(SubComponentHarness.with({ancestor: '.not-found'}));
   readonly allAncestorRestrictedMissingSubcomponent = this.locatorForAll(
     SubComponentHarness.with({ancestor: '.not-found'}),
   );

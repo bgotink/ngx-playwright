@@ -1,9 +1,8 @@
 declare global {
   type BrowserName = 'chromium' | 'firefox' | 'webkit';
 
-  type DeviceDescriptor = typeof import('playwright-core').devices extends (infer T)[]
-    ? T
-    : never;
+  type DeviceDescriptor =
+    typeof import('playwright-core').devices extends (infer T)[] ? T : never;
 
   type DeviceType = string | {name: string} | DeviceDescriptor;
 

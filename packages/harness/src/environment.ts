@@ -28,7 +28,7 @@ export abstract class PlaywrightHarnessEnvironment extends HarnessEnvironment<
    *
    * By default, shadow boundaries are pierced by all queries.
    */
-  abstract readonly respectShadowBoundaries: boolean;
+  abstract get respectShadowBoundaries(): boolean;
 
   /**
    * Wait until the angular app is bootstrapped and stable
