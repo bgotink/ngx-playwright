@@ -7,6 +7,7 @@
     "destructure",
     "destructured",
     "devkit",
+    "esbuild",
     "eslintignore",
     "gotink",
     "nrwl",
@@ -15,6 +16,7 @@
     "pwdebug",
     "shadowroots",
     "structs",
+    "wasm",
     "yarnpkg"
   ]
 }

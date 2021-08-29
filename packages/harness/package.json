@@ -28,9 +28,9 @@
     "playwright-core": "^1.10.0"
   },
   "devDependencies": {
-    "@angular/cdk": "^12.0.0",
-    "@angular/common": "^12.0.0",
-    "@angular/core": "^12.0.0",
+    "@angular/cdk": "^12.2.3",
+    "@angular/common": "^12.2.3",
+    "@angular/core": "^12.2.3",
     "playwright-core": "^1.12.0",
     "rxjs": "^6.6.6",
     "typescript": "~4.2.3",

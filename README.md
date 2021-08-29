@@ -6,7 +6,7 @@ This repository contains multiple packages in the `packages/` folder. Every pack
 
 ## Development
 
-This repository is set up using [yarn 2](https://yarnpkg.com) and [snuggery](https://github.com/snuggery/snuggery).
+This repository is set up using [yarn 3](https://yarnpkg.com) and [snuggery](https://github.com/snuggery/snuggery).
 
 To install dependencies, run the following command:
 
@@ -22,6 +22,14 @@ yarn build
 yarn sn build
 # or, if you have @snuggery/global installed globally
 sn build
+```
+
+Alternatively, you could use the `@angular/cli` by passing the project to build:
+
+```bash
+yarn ng build @ngx-playwright/test
+# or to build all projects
+yarn ng build all
 ```
 
 The package will be built in `<package folder>/dist`, e.g. `packages/jest/dist`. You can test your build by referring to that folder in a package.json, e.g.
@@ -41,6 +49,8 @@ yarn test
 yarn sn test
 # or, if you have @snuggery/global installed globally
 sn test
+# or, using the @angular/cli
+yarn ng test
 ```
 
 Before opening a pull request, mark the packages that need to be released afterwards using
@@ -55,6 +65,8 @@ To publish, run
 yarn sn deploy
 # or, if @snuggery/global is installed globally
 sn deploy
+# or, using the @angular/cli
+yarn ng deploy
 ```
 
 ## License

@@ -56,7 +56,7 @@ jobs:
           yarn sn build
 
   integration:
-    name: 'Run ${{matrix.runner}} on node.js ${{matrix.node}}.x on ${{matrix.os}}'
+    name: 'Run ${{matrix.cli}} ${{matrix.runner}} on node.js ${{matrix.node}}.x on ${{matrix.os}}'
     runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
@@ -68,10 +68,22 @@ jobs:
         node:
           - 12
           - 14
-          - 15
         runner:
           - test
           - jest
+        cli:
+          - sn
+        include:
+          # Verify that everything works if using the @angular/cli
+          - os: ubuntu-latest
+            node: 14
+            runner: test
+            cli: ng
+          # Test future node version(s)
+          - os: ubuntu-latest
+            node: 16
+            runner: test
+            cli: sn
 
     steps:
       - uses: actions/checkout@v2
@@ -91,4 +103,4 @@ jobs:
       - name: 'Run tests'
         shell: bash
         run: |
-          yarn sn ${{matrix.runner}} integration
+          yarn ${{matrix.cli}} ${{matrix.runner}} integration
