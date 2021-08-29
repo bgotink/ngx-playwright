@@ -150,7 +150,9 @@ export class PlaywrightRunner extends Runner {
     } finally {
       await Promise.all(
         Array.from(launchersByKey.values(), launcher =>
-          launcher.teardown?.().catch(() => {}),
+          launcher.teardown?.().catch(() => {
+            // ignore errors in the teardown
+          }),
         ),
       );
     }

@@ -89,14 +89,14 @@ export function getStyleProperty(
 /**
  * Returns whether the angular app is bootstrapped
  */
-export function isAngularBootstrapped() {
+export function isAngularBootstrapped(): boolean {
   return typeof frameworkStabilizers !== 'undefined';
 }
 
 /**
  * Waits until the angular app is stable
  */
-export async function waitUntilAngularStable() {
+export async function waitUntilAngularStable(): Promise<void> {
   if (typeof frameworkStabilizers !== 'undefined') {
     await Promise.all(frameworkStabilizers.map(fn => new Promise(fn)));
   }

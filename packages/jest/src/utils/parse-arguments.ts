@@ -8,9 +8,8 @@
  * @param fn The function to inspect
  * @returns The destructured properties of the first parameter of the given function, null if not destructured
  */
-export function getDestructuredArguments(
-  fn: (arg: any, ...rest: any[]) => any,
-): string[] | null {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function getDestructuredArguments(fn: Function): string[] | null {
   const str = fn.toString();
 
   let i = 0;
@@ -110,6 +109,7 @@ export function getDestructuredArguments(
   const names: string[] = [];
 
   maybeConsume(WHITESPACE);
+  // eslint-disable-next-line no-constant-condition
   while (true) {
     if (peek() === '.') {
       throw new Error(

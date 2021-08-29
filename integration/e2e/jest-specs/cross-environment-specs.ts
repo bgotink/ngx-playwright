@@ -1,4 +1,5 @@
 /* spell-checker: disable */
+/* eslint-disable */
 
 /**
  * @license

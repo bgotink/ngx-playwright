@@ -43,6 +43,9 @@ function toSortedObject(value: unknown): unknown {
   return Object.fromEntries(
     Object.keys(value)
       .sort()
-      .map(key => [key, toSortedObject((value as any)[key])]),
+      .map(key => [
+        key,
+        toSortedObject((value as {[key in typeof key]: unknown})[key]),
+      ]),
   );
 }

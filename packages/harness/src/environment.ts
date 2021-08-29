@@ -1,8 +1,8 @@
 import {HarnessEnvironment, TestElement} from '@angular/cdk/testing';
 import type {ElementHandle, Page} from 'playwright-core';
+
 import {isAngularBootstrapped, waitUntilAngularStable} from './browser';
 import {shouldStabilizeAutomatically} from './change-detection';
-
 import {PlaywrightElement} from './element';
 import {LazyRootHandle} from './lazy-handle';
 
@@ -87,7 +87,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
     return this.#opts.respectShadowBoundaries;
   }
 
-  async waitForAngularReady() {
+  async waitForAngularReady(): Promise<void> {
     try {
       await this.#page.waitForFunction(isAngularBootstrapped);
     } catch {
@@ -99,15 +99,17 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
     await this.forceStabilize();
   }
 
-  async forceStabilize() {
+  async forceStabilize(): Promise<void> {
     await this.#page.evaluate(waitUntilAngularStable);
   }
 
-  async waitForTasksOutsideAngular() {
+  async waitForTasksOutsideAngular(): Promise<void> {
     // TODO: how?, see also: https://github.com/angular/components/issues/17412
   }
 
-  getPlaywrightHandle(element: TestElement) {
+  getPlaywrightHandle(
+    element: TestElement,
+  ): ElementHandle<HTMLElement | SVGElement> {
     const handle = elementHandles.get(element);
 
     if (handle == null) {

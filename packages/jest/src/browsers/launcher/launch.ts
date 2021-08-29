@@ -1,4 +1,5 @@
 import type {Browser, BrowserServer, BrowserType} from 'playwright-core';
+
 import {
   BrowserLauncher,
   BrowserSpec,
@@ -42,13 +43,13 @@ export class LaunchLauncher implements BrowserLauncher {
     };
   }
 
-  async setup() {
+  async setup(): Promise<void> {
     if (this.#browser == null) {
       this.#browser = await this.#browserType.launchServer(this.#options);
     }
   }
 
-  async teardown() {
+  async teardown(): Promise<void> {
     await this.#browser?.close();
   }
 }

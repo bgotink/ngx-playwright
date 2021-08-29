@@ -1,7 +1,9 @@
 /* spell-checker: disable */
 import {parallel} from '@angular/cdk/testing';
-import {crossEnvironmentSpecs} from './cross-environment-specs';
+
 import {MainComponentHarness} from '../harnesses/app-component-harness';
+
+import {crossEnvironmentSpecs} from './cross-environment-specs';
 
 describe('PlaywrightHarnessEnvironment', () => {
   async function getUrl(path: string) {

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../global.d.ts" />
 
 import {
@@ -12,6 +13,7 @@ import {
   isAutoStabilizing,
 } from '@ngx-playwright/harness';
 import type {Page} from 'playwright-core';
+
 import type {
   PlaywrightScreen,
   ExtractablePropertiesOfScreen,
@@ -32,8 +34,8 @@ function getOrCreateEnvironment(page: Page): HarnessEnvironment<unknown> {
   return environment;
 }
 
-function isPromiseLike(value: any): value is PromiseLike<any> {
-  return !!value && typeof value.then === 'function';
+function isPromiseLike(value: unknown): value is PromiseLike<unknown> {
+  return !!value && typeof (value as Promise<unknown>).then === 'function';
 }
 
 Object.defineProperty(globalThis, 'harnessEnvironment', {
@@ -41,7 +43,8 @@ Object.defineProperty(globalThis, 'harnessEnvironment', {
   get: () => getOrCreateEnvironment(page),
 });
 
-global.autoStabilize = (fn?: () => any): any => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+global.autoStabilize = (fn?: () => unknown): any => {
   if (!fn) {
     _autoStabilize(() => page);
     return;
@@ -72,7 +75,8 @@ global.autoStabilize = (fn?: () => any): any => {
   };
 };
 
-global.manuallyStabilize = (fn?: () => any): any => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+global.manuallyStabilize = (fn?: () => unknown): any => {
   if (!fn) {
     _manuallyStabilize();
     return;
@@ -139,7 +143,7 @@ function inScreen<T extends ComponentHarness>(
   ) => void | Promise<void>;
 
   if (typeof pageOrScreen === 'function') {
-    // @ts-expect-error
+    // @ts-expect-error Somehow global.page can't be found
     page = global.page;
     Screen = pageOrScreen;
     testFunction = screenOrFn as (
@@ -161,11 +165,11 @@ function inScreen<T extends ComponentHarness>(
     const screen = await getOrCreateEnvironment(page).getHarness(Screen);
 
     if (args == null) {
-      await testFunction({} as any, screen);
+      await testFunction({} as ExtractablePropertiesOfScreen<T>, screen);
     } else {
       const properties = await parallel(() =>
         args.map(async name => {
-          // @ts-expect-error
+          // @ts-expect-error keyof T _can_ in fact index ExtractablePropertiesOfScreen<T>
           const value: ExtractablePropertiesOfScreen<T>[keyof T] = await screen[
             name
           ]?.();

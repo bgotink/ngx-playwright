@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 import {
   BrowserType,
   chromium,
@@ -7,6 +9,7 @@ import {
   webkit,
   WebKitBrowser,
 } from 'playwright-core';
+
 import type {BrowserSpec, RunnerBrowserSpec} from './types';
 
 const getBrowserTypeByType = {

@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import type {ElementHandle, Frame, JSHandle, Page} from 'playwright-core';
 import type {
   PageFunctionOn,

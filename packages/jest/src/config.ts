@@ -16,6 +16,7 @@ export interface NgxPlaywrightJestTest extends Test {
   };
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface PartialNgxPlaywrightJestConfig extends BrowserSpec {}
 
 export type DeepPartial<T> = {

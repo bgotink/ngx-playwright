@@ -52,11 +52,11 @@ declare global {
   /**
    * Returns a function that executes the given function with auto stabilization turned on
    */
-  function autoStabilize(fn: () => Promise<any>): () => Promise<any>;
+  function autoStabilize<T>(fn: () => Promise<T>): () => Promise<T>;
   /**
    * Returns a function that executes the given function with auto stabilization turned on
    */
-  function autoStabilize(fn: () => any): () => any;
+  function autoStabilize<T>(fn: () => T): () => T;
 
   /**
    * Stop automatically waiting for the angular application to become stable
@@ -67,11 +67,11 @@ declare global {
   /**
    * Returns a function that executes the given function with auto stabilization turned off
    */
-  function manuallyStabilize(fn: () => Promise<any>): () => Promise<any>;
+  function manuallyStabilize<T>(fn: () => Promise<T>): () => Promise<T>;
   /**
    * Returns a function that executes the given function with auto stabilization turned off
    */
-  function manuallyStabilize(fn: () => any): () => any;
+  function manuallyStabilize<T>(fn: () => T): () => T;
 
   /**
    * [experimental] Open the given screen and execute the given function

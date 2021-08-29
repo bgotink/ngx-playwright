@@ -10,6 +10,7 @@ import {
   test as base,
   PlaywrightTestConfig as BaseTestConfig,
 } from '@playwright/test';
+
 import {getDestructuredArguments} from './parse-arguments';
 import {
   PlaywrightScreen,
@@ -78,6 +79,7 @@ export interface NgxPlaywrightFixtures {
   ): Promise<void>;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 type PlaywrightTestConfig<TestArgs = {}, WorkerArgs = {}> = BaseTestConfig<
   NgxPlaywrightFixtures & TestArgs,
   WorkerArgs
@@ -171,11 +173,11 @@ const test = base.extend<NgxPlaywrightFixtures>({
       );
 
       if (args == null) {
-        await testFunction({} as any, screen);
+        await testFunction({} as ExtractablePropertiesOfScreen<T>, screen);
       } else {
         const properties = await parallel(() =>
           args.map(async name => {
-            // @ts-expect-error
+            // @ts-expect-error typescript doesn't realise ExtractablePropertiesOfScreen<T> is indexable by keyof T
             const value: ExtractablePropertiesOfScreen<T>[keyof T] =
               await screen[name]?.();
 

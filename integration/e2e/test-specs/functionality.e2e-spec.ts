@@ -96,7 +96,7 @@ test.describe('PlaywrightHarnessEnvironment', () => {
       expect(await asyncCounter.text()).toBe('8');
     });
 
-    const manualTest = test.extend<{}>({
+    const manualTest = test.extend<unknown>({
       enableAutomaticStabilization: false,
     });
 

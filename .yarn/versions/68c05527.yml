@@ -1,0 +1,4 @@
+declined:
+  - "@ngx-playwright/harness"
+  - "@ngx-playwright/jest"
+  - "@ngx-playwright/test"

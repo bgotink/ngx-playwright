@@ -1,4 +1,4 @@
 .yarn
 .pnp.js
 
-/packages/*/lib
+/packages/*/dist

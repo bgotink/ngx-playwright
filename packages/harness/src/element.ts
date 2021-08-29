@@ -185,7 +185,7 @@ export class PlaywrightElement implements TestElement {
     relativeY: number,
     modifierKeys?: ModifierKeys,
   ): Promise<void>;
-  click(...args: ClickParameters) {
+  click(...args: ClickParameters): Promise<void> {
     return this.#perform(async handle =>
       handle.click(await this.#toClickOptions(...args)),
     );
@@ -214,6 +214,8 @@ export class PlaywrightElement implements TestElement {
     // placed on the event directly rather than on the `details` property
 
     return this.#perform(handle =>
+      // Cast to `any` needed because of infinite type instantiation
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       handle.evaluate(dispatchEvent, [name, data] as [string, any]),
     );
   }
@@ -268,10 +270,11 @@ export class PlaywrightElement implements TestElement {
   ): Promise<void>;
   sendKeys(
     ...keys: (string | TestKey)[] | [ModifierKeys, ...(string | TestKey)[]]
-  ) {
+  ): Promise<void> {
     let modifiers: string | undefined;
     if (hasModifiers(keys)) {
       let modifiersObject: ModifierKeys;
+      // eslint-disable-next-line prefer-const
       [modifiersObject, ...keys] = keys;
 
       modifiers = getModifiers(modifiersObject).join('+');
@@ -335,6 +338,8 @@ export class PlaywrightElement implements TestElement {
     return this.#query(handle => handle.evaluate(getBoundingClientRect));
   }
 
+  // Any required by interface
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getProperty(name: string): Promise<any> {
     const property = await this.#query(handle => handle.getProperty(name));
 

@@ -21,6 +21,14 @@
               "tag": "next"
             }
           }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "eslintConfig": ".eslintrc.yml",
+            "ignorePath": ".eslintignore",
+            "lintFilePatterns": ["packages/*/src/**/*.[tj]s", "integration"]
+          }
         }
       }
     },

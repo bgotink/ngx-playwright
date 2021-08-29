@@ -37,7 +37,7 @@ export class ConnectRunnerLauncher implements RunnerBrowserLauncher {
   }
 
   // Replace with private method once typescript supports it
-  #assertSetup = () => {
+  #assertSetup = (): void => {
     if (this.#browser == null) {
       throw new Error(`setup() must be called and awaited`);
     }

@@ -3,6 +3,7 @@ import {
   stopHandlingAutoChangeDetectionStatus,
 } from '@angular/cdk/testing';
 import type {Page} from 'playwright-core';
+
 import {waitUntilAngularStable} from './browser';
 
 let isRegistered = false;
@@ -14,7 +15,7 @@ let disabledCount = 0;
  * This takes into account whether automatic stabilization is turned on (see
  * {@link isAutoStabilizing}) and whether batch-mode is currently enabled.
  */
-export function shouldStabilizeAutomatically() {
+export function shouldStabilizeAutomatically(): boolean {
   return isRegistered && disabledCount === 0;
 }
 

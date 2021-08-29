@@ -1,0 +1,80 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+name: 'CI'
+jobs:
+  code-style:
+    name: 'Code Style'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+
+      - name: Install
+        shell: bash
+        env:
+          YARN_ENABLE_NETWORK: 0
+        run: |
+          yarn install --immutable --immutable-cache
+
+      - name: 'Check for formatting errors (fix w/ "yarn prettier --write path/to/file")'
+        run: |
+          yarn prettier --check .
+        shell: bash
+
+      - name: 'Check for linting errors (fix w/ "yarn lint -c fix")'
+        run: |
+          yarn sn lint
+        shell: bash
+
+  build-unit:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+
+      - name: Build
+        shell: bash
+        run: |
+          yarn sn build
+
+  integration:
+    name: 'Run ${{matrix.runner}} on node.js ${{matrix.node}}.x on ${{matrix.os}}'
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+        node:
+          - 12
+          - 14
+          - 15
+        runner:
+          - test
+          - jest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 'Use Node.js ${{matrix.node}}.x'
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{matrix.node}}.x
+
+      - name: 'Run tests'
+        shell: bash
+        run: |
+          yarn sn ${{matrix.runner}} integration
