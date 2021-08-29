@@ -43,6 +43,13 @@ jobs:
         with:
           node-version: 14.x
 
+      - name: Install
+        shell: bash
+        env:
+          YARN_ENABLE_NETWORK: 0
+        run: |
+          yarn install --immutable --immutable-cache
+
       - name: Build
         shell: bash
         run: |
@@ -73,6 +80,13 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{matrix.node}}.x
+
+      - name: Install
+        shell: bash
+        env:
+          YARN_ENABLE_NETWORK: 0
+        run: |
+          yarn install --immutable --immutable-cache
 
       - name: 'Run tests'
         shell: bash
