@@ -1,6 +1,0 @@
-releases:
-  "@ngx-playwright/test": minor
-
-declined:
-  - "@ngx-playwright/harness"
-  - "@ngx-playwright/jest"
