@@ -2325,7 +2325,7 @@ __metadata:
     "@angular/core": ^12.2.3
     playwright-core: ^1.12.0
     rxjs: ^6.6.6
-    typescript: ~4.2.3
+    typescript: ~4.3.5
     zone.js: ~0.11.4
   peerDependencies:
     "@angular/cdk": ^12.0.0
@@ -2358,7 +2358,7 @@ __metadata:
     lodash.merge: 4.6.2
     playwright-core: ^1.12.0
     rxjs: ^6.6.6
-    typescript: ~4.2.3
+    typescript: ~4.3.5
     zone.js: ~0.11.4
   peerDependencies:
     "@angular/cdk": ^12.0.0
@@ -2401,7 +2401,7 @@ __metadata:
     "@snuggery/snuggery": ^0.4.0
     playwright-core: ^1.14.0
     rxjs: ^6.6.6
-    typescript: ~4.2.3
+    typescript: ~4.3.5
     zone.js: ~0.11.4
   peerDependencies:
     "@angular/cdk": ^12.0.0
@@ -2415,7 +2415,7 @@ __metadata:
   resolution: "@ngx-playwright/workspace-scripts@workspace:scripts"
   dependencies:
     ts-node: 9.1.1
-    typescript: ~4.2.3
+    typescript: ~4.3.5
   languageName: unknown
   linkType: soft
 
@@ -7526,7 +7526,7 @@ fsevents@^1.2.7:
     playwright-core: ^1.14.0
     rxjs: ^6.6.7
     ts-jest: ^26.5.4
-    typescript: ~4.2.3
+    typescript: ~4.3.5
     zone.js: ~0.11.4
   languageName: unknown
   linkType: soft
@@ -12226,7 +12226,7 @@ fsevents@^1.2.7:
     husky: ^5.2.0
     is-ci: ^3.0.0
     prettier: ^2.3.1
-    typescript: ~4.2.3
+    typescript: ~4.3.5
   dependenciesMeta:
     "@angular/cli":
       built: false
@@ -13728,7 +13728,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-typescript@4.3.5:
+"typescript@4.3.5, typescript@~4.3.5":
   version: 4.3.5
   resolution: "typescript@npm:4.3.5"
   bin:
@@ -13738,33 +13738,13 @@ typescript@4.3.5:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@4.3.5#~builtin<compat/typescript>":
+"typescript@patch:typescript@4.3.5#~builtin<compat/typescript>, typescript@patch:typescript@~4.3.5#~builtin<compat/typescript>":
   version: 4.3.5
   resolution: "typescript@patch:typescript@npm%3A4.3.5#~builtin<compat/typescript>::version=4.3.5&hash=d8b4e7"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: bc2c4fdf0f1557fdafe4ef74848c72ebd9c8c60829568248f869121aea2bb20e16649a252431d0acb185ec118143be22bed73d08f64379557810d82756afedde
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@~4.2.3#~builtin<compat/typescript>":
-  version: 4.2.4
-  resolution: "typescript@patch:typescript@npm%3A4.2.4#~builtin<compat/typescript>::version=4.2.4&hash=d8b4e7"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 3d8ac56cd91f6f60e69aff212cb3601c8affd8dd7b3fac115b836b7d59ab8c7b21778635f07971cbcb6035019df1abefe3047c1d46f3d42d087ceb0552af0206
-  languageName: node
-  linkType: hard
-
-typescript@~4.2.3:
-  version: 4.2.4
-  resolution: "typescript@npm:4.2.4"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 89c397df192f239359ad798b96d8e8d552e12c0c189ac5676cec4c20c410d6eec636b8e59a88f2aef0a56d961a9678d99c400099be9b7cae2f7b062eb4b7b171
   languageName: node
   linkType: hard
 

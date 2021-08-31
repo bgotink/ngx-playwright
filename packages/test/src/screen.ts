@@ -60,7 +60,7 @@ export async function openScreen<T extends ComponentHarness>(
   return harnessEnvironment.getHarness(screen);
 }
 
-type ExtractablePropertyNamesOfScreen<T extends ComponentHarness> = {
+export type ExtractablePropertyNamesOfScreen<T extends ComponentHarness> = {
   [K in keyof T]: T[K] extends AsyncFactoryFn<unknown> ? K : never;
 }[keyof T];
 

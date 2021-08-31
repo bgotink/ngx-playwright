@@ -48,7 +48,7 @@
     "@angular/compiler-cli": "^12.2.3",
     "@angular/core": "^12.2.3",
     "@ngx-playwright/workspace-scripts": "workspace:scripts",
-    "typescript": "~4.2.3",
+    "typescript": "~4.3.5",
     "zone.js": "~0.11.4"
   }
 }
