@@ -114,7 +114,7 @@ export function execute(
             ...(input.browser != null ? ['--browser', input.browser] : []),
             ...(input.forbidOnly ? ['--forbid-only'] : []),
             ...(input.globalTimeout != null
-              ? ['--global-timeout', input.globalTimeout]
+              ? ['--global-timeout', `${input.globalTimeout}`]
               : []),
             ...(input.grep != null ? ['--grep', input.grep] : []),
             ...(input.grepInvert != null
@@ -123,7 +123,7 @@ export function execute(
             ...(input.headed != null ? ['--headed'] : []),
             ...(input.list != null ? ['--list'] : []),
             ...(input.maxFailures != null
-              ? ['--max-failures', input.maxFailures]
+              ? ['--max-failures', `${input.maxFailures}`]
               : []),
             ...(input.output != null
               ? ['--output', resolveWorkspacePath(context, input.output)]
@@ -131,14 +131,14 @@ export function execute(
             ...(input.project != null ? ['--project', input.project] : []),
             ...(input.quiet != null ? ['--quiet'] : []),
             ...(input.repeatEach != null
-              ? ['--repeat-each', input.repeatEach]
+              ? ['--repeat-each', `${input.repeatEach}`]
               : []),
             ...(input.reporter != null ? ['--reporter', input.reporter] : []),
-            ...(input.retries != null ? ['--retries', input.retries] : []),
+            ...(input.retries != null ? ['--retries', `${input.retries}`] : []),
             ...(input.shard != null ? ['--shard', input.shard] : []),
-            ...(input.timeout != null ? ['--timeout', input.timeout] : []),
+            ...(input.timeout != null ? ['--timeout', `${input.timeout}`] : []),
             ...(input.updateSnapshots != null ? ['--update-snapshots'] : []),
-            ...(input.workers != null ? ['--workers', input.workers] : []),
+            ...(input.workers != null ? ['--workers', `${input.workers}`] : []),
           ],
           env: {
             PLAYWRIGHT_TEST_BASE_URL: baseUrl,
