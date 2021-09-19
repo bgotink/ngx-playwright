@@ -1,4 +1,3 @@
-import {ComponentHarness, parallel} from '@angular/cdk/testing';
 import {
   PlaywrightHarnessEnvironment,
   createEnvironment,
@@ -6,37 +5,25 @@ import {
   manuallyStabilize,
 } from '@ngx-playwright/harness';
 import {
-  Page,
   test as base,
   PlaywrightTestConfig as BaseTestConfig,
+  Fixtures,
+  PlaywrightTestOptions,
+  PlaywrightWorkerOptions,
+  PlaywrightTestArgs,
+  PlaywrightWorkerArgs,
+  TestType,
+  TestFixture,
 } from '@playwright/test';
 
-import {getDestructuredArguments} from './parse-arguments';
 import {
-  PlaywrightScreen,
   PlaywrightScreenOpener,
-  ExtractablePropertiesOfScreen,
   openScreen,
+  InScreenFn,
+  createInScreenFn,
 } from './screen';
 
-export interface NgxPlaywrightFixtures {
-  /**
-   * Whether automatic waiting for the angular app to become stable is enabled by default
-   *
-   * Setting this to true (which is the default) makes all elements created in all environments automatically wait.
-   * Waiting is done before anything is read from the page, and after anything is done to the page.
-   *
-   * Setting this to false disables this behavior, requiring manual stabilization when needed.
-   *
-   * This only influences the main page. Manual stabilization is always required on secondary pages.
-   */
-  enableAutomaticStabilization: boolean;
-
-  /**
-   * @internal
-   */
-  _setupAutomaticStabilization: void;
-
+export interface NgxPlaywrightTestArgs {
   /**
    * Open the given screen
    */
@@ -49,32 +36,22 @@ export interface NgxPlaywrightFixtures {
 
   /**
    * [experimental] Open the given screen and execute the given function
-   *
-   * @param page Page to open the screen in
-   * @param screen The screen to open
-   * @param fn Function to execute once the given screen is opened
    */
-  inScreen<T extends ComponentHarness>(
-    page: Page,
-    screen: PlaywrightScreen<T>,
-    fn: (
-      props: ExtractablePropertiesOfScreen<T>,
-      screen: T,
-    ) => void | Promise<void>,
-  ): Promise<void>;
+  inScreen: InScreenFn;
+}
+
+export interface NgxPlaywrightTestOptions {
   /**
-   * [experimental] Open the given screen and execute the given function
+   * Whether automatic waiting for the angular app to become stable is enabled by default
    *
-   * @param screen The screen to open
-   * @param fn Function to execute once the given screen is opened
+   * Setting this to true (which is the default) makes all elements created in all environments automatically wait.
+   * Waiting is done before anything is read from the page, and after anything is done to the page.
+   *
+   * Setting this to false disables this behavior, requiring manual stabilization when needed.
+   *
+   * This only influences the main page. Manual stabilization is always required on secondary pages.
    */
-  inScreen<T extends ComponentHarness>(
-    screen: PlaywrightScreen<T>,
-    fn: (
-      props: ExtractablePropertiesOfScreen<T>,
-      screen: T,
-    ) => void | Promise<void>,
-  ): Promise<void>;
+  enableAutomaticStabilization: boolean;
 }
 
 export type PlaywrightTestConfig<
@@ -82,115 +59,58 @@ export type PlaywrightTestConfig<
   TestArgs = {},
   // eslint-disable-next-line @typescript-eslint/ban-types
   WorkerArgs = {},
-> = BaseTestConfig<NgxPlaywrightFixtures & TestArgs, WorkerArgs>;
+> = BaseTestConfig<NgxPlaywrightTestOptions & TestArgs, WorkerArgs>;
 
-export const test = base.extend<NgxPlaywrightFixtures>({
+const ngxPlaywrightFixtures: Fixtures<
+  NgxPlaywrightTestArgs & NgxPlaywrightTestOptions,
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  {},
+  PlaywrightTestArgs & PlaywrightTestOptions,
+  PlaywrightWorkerArgs & PlaywrightWorkerOptions
+> = {
   enableAutomaticStabilization: true,
 
-  _setupAutomaticStabilization: [
-    async ({enableAutomaticStabilization, page}, use) => {
-      if (enableAutomaticStabilization) {
-        autoStabilize(() => page);
-        try {
-          await use();
-        } finally {
-          manuallyStabilize();
-        }
-      } else {
+  page: async ({enableAutomaticStabilization, page}, use) => {
+    if (enableAutomaticStabilization) {
+      autoStabilize(() => page);
+      try {
+        await use(page);
+      } finally {
         manuallyStabilize();
-        await use();
       }
-    },
-    {auto: true},
-  ],
+    } else {
+      manuallyStabilize();
+      await use(page);
+    }
+  },
 
-  open: async ({page, baseURL, harnessEnvironment}, use) =>
+  // Not sure why cast is necessary, but without it typescript fails to recognize any types in the
+  // value of the inScreen property
+  inScreen: (({page, baseURL, harnessEnvironment}, use) => {
+    return use(createInScreenFn(page, harnessEnvironment, baseURL));
+  }) as TestFixture<
+    InScreenFn,
+    NgxPlaywrightTestArgs &
+      NgxPlaywrightTestOptions &
+      PlaywrightTestArgs &
+      PlaywrightTestOptions &
+      PlaywrightWorkerArgs &
+      PlaywrightWorkerOptions
+  >,
+
+  open: ({page, baseURL, harnessEnvironment}, use) =>
     use(screen => openScreen(baseURL, page, harnessEnvironment, screen)),
 
   harnessEnvironment: ({page}, use) => use(createEnvironment(page)),
+};
 
-  inScreen: ({baseURL, page, harnessEnvironment}, use) => {
-    function inScreen<T extends ComponentHarness>(
-      page: Page,
-      screen: PlaywrightScreen<T>,
-      fn: (
-        props: ExtractablePropertiesOfScreen<T>,
-        screen: T,
-      ) => void | Promise<void>,
-    ): Promise<void>;
-    function inScreen<T extends ComponentHarness>(
-      screen: PlaywrightScreen<T>,
-      fn: (
-        props: ExtractablePropertiesOfScreen<T>,
-        screen: T,
-      ) => void | Promise<void>,
-    ): Promise<void>;
-    async function inScreen<T extends ComponentHarness>(
-      pageOrScreen: Page | PlaywrightScreen<T>,
-      screenOrFn:
-        | PlaywrightScreen<T>
-        | ((
-            props: ExtractablePropertiesOfScreen<T>,
-            screen: T,
-          ) => void | Promise<void>),
-      fn?: (
-        props: ExtractablePropertiesOfScreen<T>,
-        screen: T,
-      ) => void | Promise<void>,
-    ): Promise<void> {
-      let _page: Page;
-      let Screen: PlaywrightScreen<T>;
-      let testFunction: (
-        props: ExtractablePropertiesOfScreen<T>,
-        screen: T,
-      ) => void | Promise<void>;
+export function mixinFixtures<
+  T extends PlaywrightTestArgs & PlaywrightTestOptions,
+  W extends PlaywrightWorkerArgs & PlaywrightWorkerOptions,
+>(
+  test: TestType<T, W>,
+): TestType<NgxPlaywrightTestArgs & NgxPlaywrightTestOptions & T, W> {
+  return test.extend(ngxPlaywrightFixtures);
+}
 
-      if (typeof pageOrScreen === 'function') {
-        _page = page;
-        Screen = pageOrScreen;
-        testFunction = screenOrFn as (
-          props: ExtractablePropertiesOfScreen<T>,
-          screen: T,
-        ) => void | Promise<void>;
-      } else {
-        _page = pageOrScreen;
-        Screen = screenOrFn as PlaywrightScreen<T>;
-        testFunction = fn!;
-      }
-
-      const args = getDestructuredArguments(
-        testFunction,
-      ) as (keyof ExtractablePropertiesOfScreen<T>)[];
-
-      const _harnessEnvironment =
-        _page === page ? harnessEnvironment : createEnvironment(_page);
-      const screen = await openScreen(
-        baseURL,
-        _page,
-        _harnessEnvironment,
-        Screen,
-      );
-
-      if (args == null) {
-        await testFunction({} as ExtractablePropertiesOfScreen<T>, screen);
-      } else {
-        const properties = await parallel(() =>
-          args.map(async name => {
-            // @ts-expect-error typescript doesn't realise ExtractablePropertiesOfScreen<T> is indexable by keyof T
-            const value: ExtractablePropertiesOfScreen<T>[keyof T] =
-              await screen[name]?.();
-
-            return [name, value] as const;
-          }),
-        );
-
-        await testFunction(
-          Object.fromEntries(properties) as ExtractablePropertiesOfScreen<T>,
-          screen,
-        );
-      }
-    }
-
-    return use(inScreen);
-  },
-});
+export const test = mixinFixtures(base);

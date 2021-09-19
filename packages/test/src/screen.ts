@@ -1,10 +1,16 @@
-import type {
+import {
   AsyncFactoryFn,
   ComponentHarness,
   ComponentHarnessConstructor,
+  parallel,
 } from '@angular/cdk/testing';
-import type {PlaywrightHarnessEnvironment} from '@ngx-playwright/harness';
+import {
+  createEnvironment,
+  PlaywrightHarnessEnvironment,
+} from '@ngx-playwright/harness';
 import type {Page} from '@playwright/test';
+
+import {getDestructuredArguments} from './parse-arguments';
 
 export interface PlaywrightScreenWithPath<T extends ComponentHarness>
   extends ComponentHarnessConstructor<T> {
@@ -58,6 +64,128 @@ export async function openScreen<T extends ComponentHarness>(
   }
 
   return harnessEnvironment.getHarness(screen);
+}
+
+export interface InScreenFn {
+  /**
+   * [experimental] Open the given screen and execute the given function
+   *
+   * @param page Page to open the screen in
+   * @param screen The screen to open
+   * @param fn Function to execute once the given screen is opened
+   */
+  <T extends ComponentHarness>(
+    page: Page,
+    screen: PlaywrightScreen<T>,
+    fn: (
+      props: ExtractablePropertiesOfScreen<T>,
+      screen: T,
+    ) => void | Promise<void>,
+  ): Promise<void>;
+
+  /**
+   * [experimental] Open the given screen and execute the given function
+   *
+   * @param screen The screen to open
+   * @param fn Function to execute once the given screen is opened
+   */
+  <T extends ComponentHarness>(
+    screen: PlaywrightScreen<T>,
+    fn: (
+      props: ExtractablePropertiesOfScreen<T>,
+      screen: T,
+    ) => void | Promise<void>,
+  ): Promise<void>;
+}
+
+export function createInScreenFn(
+  page: Page,
+  harnessEnvironment: PlaywrightHarnessEnvironment,
+  baseURL: string | undefined,
+): InScreenFn {
+  function inScreen<T extends ComponentHarness>(
+    page: Page,
+    screen: PlaywrightScreen<T>,
+    fn: (
+      props: ExtractablePropertiesOfScreen<T>,
+      screen: T,
+    ) => void | Promise<void>,
+  ): Promise<void>;
+  function inScreen<T extends ComponentHarness>(
+    screen: PlaywrightScreen<T>,
+    fn: (
+      props: ExtractablePropertiesOfScreen<T>,
+      screen: T,
+    ) => void | Promise<void>,
+  ): Promise<void>;
+  async function inScreen<T extends ComponentHarness>(
+    pageOrScreen: Page | PlaywrightScreen<T>,
+    screenOrFn:
+      | PlaywrightScreen<T>
+      | ((
+          props: ExtractablePropertiesOfScreen<T>,
+          screen: T,
+        ) => void | Promise<void>),
+    fn?: (
+      props: ExtractablePropertiesOfScreen<T>,
+      screen: T,
+    ) => void | Promise<void>,
+  ): Promise<void> {
+    let _page: Page;
+    let Screen: PlaywrightScreen<T>;
+    let testFunction: (
+      props: ExtractablePropertiesOfScreen<T>,
+      screen: T,
+    ) => void | Promise<void>;
+
+    if (typeof pageOrScreen === 'function') {
+      _page = page;
+      Screen = pageOrScreen;
+      testFunction = screenOrFn as (
+        props: ExtractablePropertiesOfScreen<T>,
+        screen: T,
+      ) => void | Promise<void>;
+    } else {
+      _page = pageOrScreen;
+      Screen = screenOrFn as PlaywrightScreen<T>;
+      testFunction = fn!;
+    }
+
+    const args = getDestructuredArguments(
+      testFunction,
+    ) as (keyof ExtractablePropertiesOfScreen<T>)[];
+
+    const _harnessEnvironment =
+      _page === page ? harnessEnvironment : createEnvironment(_page);
+    const screen = await openScreen(
+      baseURL,
+      _page,
+      _harnessEnvironment,
+      Screen,
+    );
+
+    if (args == null) {
+      await testFunction({} as ExtractablePropertiesOfScreen<T>, screen);
+    } else {
+      const properties = await parallel(() =>
+        args.map(async name => {
+          // @ts-expect-error typescript doesn't realise ExtractablePropertiesOfScreen<T> is indexable by keyof T
+          const value: ExtractablePropertiesOfScreen<T>[keyof T] = await screen[
+            name
+          ]?.();
+
+          return [name, value] as const;
+        }),
+      );
+
+      await testFunction(
+        Object.fromEntries(properties) as ExtractablePropertiesOfScreen<T>,
+        screen,
+      );
+    }
+  }
+
+  return inScreen;
 }
 
 export type ExtractablePropertyNamesOfScreen<T extends ComponentHarness> = {
