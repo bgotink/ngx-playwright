@@ -1,5 +1,6 @@
 import type {Page} from 'playwright-core';
 
+import {registerPage} from './change-detection';
 import {
   PlaywrightHarnessEnvironment,
   PlaywrightHarnessEnvironmentImplementation,
@@ -17,6 +18,7 @@ export type {PlaywrightHarnessEnvironment};
  * @public
  */
 export function createEnvironment(page: Page): PlaywrightHarnessEnvironment {
+  registerPage(page);
   return new PlaywrightHarnessEnvironmentImplementation(page);
 }
 

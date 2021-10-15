@@ -1,0 +1,4 @@
+releases:
+  "@ngx-playwright/harness": minor
+  "@ngx-playwright/jest": minor
+  "@ngx-playwright/test": minor

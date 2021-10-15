@@ -29,6 +29,26 @@ export function isAutoStabilizing(): boolean {
   return isRegistered;
 }
 
+const pages = new Set<Page>();
+
+/**
+ * Register the given page for automatic stabilization
+ *
+ * Automatic stabilization will wait for all registered pages to become stable before continuing.
+ *
+ * @param page The page to register
+ * @returns Function to call to unregister the page function
+ */
+export function registerPage(page: Page): void {
+  if (pages.has(page)) {
+    // already registered
+    return;
+  }
+
+  pages.add(page);
+  page.on('close', () => pages.delete(page));
+}
+
 /**
  * Automatically wait for the angular application to be come stable
  *
@@ -39,7 +59,7 @@ export function isAutoStabilizing(): boolean {
  * The environment automatically waits for stabilization by default, unless
  * {@link #manuallyStabilize} is called.
  */
-export function autoStabilize(page: () => Page): void {
+export function autoStabilize(): void {
   if (isRegistered) {
     return;
   }
@@ -59,12 +79,12 @@ export function autoStabilize(page: () => Page): void {
     }
 
     if (status.onDetectChangesNow) {
-      page()
-        .evaluate(waitUntilAngularStable)
-        .then(
-          () => status.onDetectChangesNow?.(),
-          () => status.onDetectChangesNow?.(),
-        );
+      Promise.all(
+        Array.from(pages, page => page.evaluate(waitUntilAngularStable)),
+      ).then(
+        () => status.onDetectChangesNow?.(),
+        () => status.onDetectChangesNow?.(),
+      );
     }
   });
 }

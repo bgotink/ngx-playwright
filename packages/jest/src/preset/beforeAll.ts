@@ -46,7 +46,7 @@ Object.defineProperty(globalThis, 'harnessEnvironment', {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 global.autoStabilize = (fn?: () => unknown): any => {
   if (!fn) {
-    _autoStabilize(() => page);
+    _autoStabilize();
     return;
   }
 
@@ -56,7 +56,7 @@ global.autoStabilize = (fn?: () => unknown): any => {
       return fn();
     }
 
-    _autoStabilize(() => page);
+    _autoStabilize();
     let isPromise = false;
     try {
       const result = fn();

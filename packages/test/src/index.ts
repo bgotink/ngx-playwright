@@ -1,6 +1,9 @@
 export * from '@playwright/test';
 
-export {PlaywrightHarnessEnvironment} from '@ngx-playwright/harness';
+export {
+  PlaywrightHarnessEnvironment,
+  createEnvironment,
+} from '@ngx-playwright/harness';
 
 export {
   NgxPlaywrightTestArgs,
@@ -11,7 +14,7 @@ export {
 } from './fixtures';
 export {
   NgxPlaywrightScreenTestArgs,
-  mixinScreenFixtures,
   createTest,
+  mixinScreenFixtures,
 } from './factory';
 export {PlaywrightScreen} from './screen';

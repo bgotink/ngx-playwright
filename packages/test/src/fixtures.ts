@@ -38,6 +38,13 @@ export interface NgxPlaywrightTestArgs {
    * [experimental] Open the given screen and execute the given function
    */
   inScreen: InScreenFn;
+
+  /**
+   * Fixture to set up automatic stabilization on all pages
+   *
+   * @internal
+   */
+  _setupAutomaticStabilization: void;
 }
 
 export interface NgxPlaywrightTestOptions {
@@ -70,19 +77,18 @@ const ngxPlaywrightFixtures: Fixtures<
 > = {
   enableAutomaticStabilization: true,
 
-  page: async ({enableAutomaticStabilization, page}, use) => {
-    if (enableAutomaticStabilization) {
-      autoStabilize(() => page);
-      try {
-        await use(page);
-      } finally {
+  _setupAutomaticStabilization: [
+    ({enableAutomaticStabilization}, use) => {
+      if (enableAutomaticStabilization) {
+        autoStabilize();
+      } else {
         manuallyStabilize();
       }
-    } else {
-      manuallyStabilize();
-      await use(page);
-    }
-  },
+
+      return use();
+    },
+    {auto: true},
+  ],
 
   // Not sure why cast is necessary, but without it typescript fails to recognize any types in the
   // value of the inScreen property
