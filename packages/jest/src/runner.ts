@@ -126,7 +126,7 @@ export class PlaywrightRunner extends Runner {
     );
   }
 
-  async runTests(
+  override async runTests(
     tests: Test[],
     watcher: TestWatcher,
     onStart: OnTestStart,

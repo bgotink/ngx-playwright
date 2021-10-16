@@ -80,11 +80,11 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
     };
   }
 
-  get respectShadowBoundaries(): boolean {
+  override get respectShadowBoundaries(): boolean {
     return this.#opts.respectShadowBoundaries;
   }
 
-  async waitForAngularReady(): Promise<void> {
+  override async waitForAngularReady(): Promise<void> {
     try {
       await this.#page.waitForFunction(isAngularBootstrapped);
     } catch {
@@ -96,15 +96,15 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
     await this.forceStabilize();
   }
 
-  async forceStabilize(): Promise<void> {
+  override async forceStabilize(): Promise<void> {
     await this.#page.evaluate(waitUntilAngularStable);
   }
 
-  async waitForTasksOutsideAngular(): Promise<void> {
+  override async waitForTasksOutsideAngular(): Promise<void> {
     // TODO: how?, see also: https://github.com/angular/components/issues/17412
   }
 
-  async getPlaywrightHandle(
+  override async getPlaywrightHandle(
     element: TestElement,
   ): Promise<ElementHandle<HTMLElement | SVGElement>> {
     const handleOrLocator = elementHandles.get(element);
@@ -124,7 +124,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
     }
   }
 
-  public withOptions(
+  public override withOptions(
     options: PlaywrightHarnessEnvironmentOptions,
   ): PlaywrightHarnessEnvironment {
     return new PlaywrightHarnessEnvironmentImplementation(
@@ -138,11 +138,11 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
     );
   }
 
-  protected getDocumentRoot(): Locator {
+  protected override getDocumentRoot(): Locator {
     return this.#documentRoot;
   }
 
-  protected createTestElement(
+  protected override createTestElement(
     handle: ElementHandle<HTMLElement | SVGElement> | Locator,
   ): TestElement {
     // This function is called in the HarnessEnvironment constructor, so we
@@ -162,7 +162,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
     return element;
   }
 
-  protected createEnvironment(
+  protected override createEnvironment(
     element: ElementHandle<HTMLElement | SVGElement> | Locator,
   ): PlaywrightHarnessEnvironment {
     return new PlaywrightHarnessEnvironmentImplementation(
@@ -173,7 +173,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
     );
   }
 
-  protected getAllRawElements(
+  protected override getAllRawElements(
     selector: string,
   ): Promise<ElementHandle<HTMLElement | SVGElement>[]> {
     if ('$$' in this.rawRootElement) {

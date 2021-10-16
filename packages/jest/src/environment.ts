@@ -33,7 +33,7 @@ export class PlaywrightEnvironment extends NodeEnvironment {
   #runner: RunnerBrowserLauncher;
   #baseUrl: string;
 
-  global!: Global.Global & PlaywrightJestGlobal;
+  override global!: Global.Global & PlaywrightJestGlobal;
 
   constructor(
     config: Config.ProjectConfig & NgxPlaywrightJestTest['context']['config'],
@@ -44,7 +44,7 @@ export class PlaywrightEnvironment extends NodeEnvironment {
     this.#runner = getRunnerLauncher(config.runnerSpec);
   }
 
-  async setup(): Promise<void> {
+  override async setup(): Promise<void> {
     await super.setup();
     const runner = this.#runner;
 
@@ -83,7 +83,7 @@ export class PlaywrightEnvironment extends NodeEnvironment {
     });
   }
 
-  async teardown(): Promise<void> {
+  override async teardown(): Promise<void> {
     await this.#runner.teardown();
 
     await super.teardown();

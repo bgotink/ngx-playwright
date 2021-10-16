@@ -23,6 +23,7 @@
 
     "resolveJsonModule": true,
 
+    "noImplicitOverride": true,
     "importsNotUsedAsValues": "error"
   }
 }
