@@ -25,13 +25,13 @@
   },
   "peerDependencies": {
     "@angular/cdk": "^12.0.0",
-    "playwright-core": "^1.10.0"
+    "playwright-core": "^1.15.2"
   },
   "devDependencies": {
     "@angular/cdk": "^12.2.3",
     "@angular/common": "^12.2.3",
     "@angular/core": "^12.2.3",
-    "playwright-core": "^1.12.0",
+    "playwright-core": "^1.15.2",
     "rxjs": "^6.6.6",
     "typescript": "~4.3.5",
     "zone.js": "~0.11.4"

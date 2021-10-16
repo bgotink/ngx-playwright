@@ -1,14 +1,13 @@
 import {HarnessEnvironment, TestElement} from '@angular/cdk/testing';
-import type {ElementHandle, Page} from 'playwright-core';
+import type {ElementHandle, Page, Locator} from 'playwright-core';
 
 import {isAngularBootstrapped, waitUntilAngularStable} from './browser';
 import {shouldStabilizeAutomatically} from './change-detection';
-import {PlaywrightElement} from './element';
-import {LazyRootHandle} from './lazy-handle';
+import {isLocator, PlaywrightElement} from './element';
 
 const elementHandles = new WeakMap<
   TestElement,
-  ElementHandle<HTMLElement | SVGElement>
+  ElementHandle<HTMLElement | SVGElement> | Locator
 >();
 
 export interface PlaywrightHarnessEnvironmentOptions {
@@ -21,7 +20,7 @@ export interface PlaywrightHarnessEnvironmentOptions {
 }
 
 export abstract class PlaywrightHarnessEnvironment extends HarnessEnvironment<
-  ElementHandle<HTMLElement | SVGElement>
+  ElementHandle<HTMLElement | SVGElement> | Locator
 > {
   /**
    * If true, all query selectors respect shadowroots
@@ -46,7 +45,7 @@ export abstract class PlaywrightHarnessEnvironment extends HarnessEnvironment<
    */
   abstract getPlaywrightHandle(
     element: TestElement,
-  ): ElementHandle<HTMLElement | SVGElement>;
+  ): Promise<ElementHandle<HTMLElement | SVGElement>>;
 
   /**
    * Create a copy of the current environment with the given options
@@ -61,16 +60,14 @@ export abstract class PlaywrightHarnessEnvironment extends HarnessEnvironment<
  */
 export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnessEnvironment {
   readonly #page: Page;
-  readonly #documentRoot: ElementHandle<HTMLElement | SVGElement>;
+  readonly #documentRoot: Locator;
 
   readonly #opts: Required<PlaywrightHarnessEnvironmentOptions>;
 
   constructor(
     page: Page,
-    documentRoot: ElementHandle<HTMLElement | SVGElement> = new LazyRootHandle(
-      page,
-    ),
-    element: ElementHandle<HTMLElement | SVGElement> = documentRoot,
+    documentRoot: Locator = page.locator(':root'),
+    element: ElementHandle<HTMLElement | SVGElement> | Locator = documentRoot,
     options: PlaywrightHarnessEnvironmentOptions = {},
   ) {
     super(element);
@@ -107,18 +104,24 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
     // TODO: how?, see also: https://github.com/angular/components/issues/17412
   }
 
-  getPlaywrightHandle(
+  async getPlaywrightHandle(
     element: TestElement,
-  ): ElementHandle<HTMLElement | SVGElement> {
-    const handle = elementHandles.get(element);
+  ): Promise<ElementHandle<HTMLElement | SVGElement>> {
+    const handleOrLocator = elementHandles.get(element);
 
-    if (handle == null) {
+    if (handleOrLocator == null) {
       throw new Error(
         'The given TestElement was not created by PlaywrightHarnessEnvironment',
       );
     }
 
-    return handle;
+    if (isLocator(handleOrLocator)) {
+      // Only one case where we are passed a Locator: the root element of the page, which is always
+      // present -> we can safely ignore the null return type
+      return (await handleOrLocator.elementHandle())!;
+    } else {
+      return handleOrLocator;
+    }
   }
 
   public withOptions(
@@ -135,12 +138,12 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
     );
   }
 
-  protected getDocumentRoot(): ElementHandle<HTMLElement | SVGElement> {
+  protected getDocumentRoot(): Locator {
     return this.#documentRoot;
   }
 
   protected createTestElement(
-    handle: ElementHandle<HTMLElement | SVGElement>,
+    handle: ElementHandle<HTMLElement | SVGElement> | Locator,
   ): TestElement {
     // This function is called in the HarnessEnvironment constructor, so we
     // can't directly use private properties here due to the polyfill in tslib
@@ -160,7 +163,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
   }
 
   protected createEnvironment(
-    element: ElementHandle<HTMLElement | SVGElement>,
+    element: ElementHandle<HTMLElement | SVGElement> | Locator,
   ): PlaywrightHarnessEnvironment {
     return new PlaywrightHarnessEnvironmentImplementation(
       this.#page,
@@ -173,10 +176,20 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
   protected getAllRawElements(
     selector: string,
   ): Promise<ElementHandle<HTMLElement | SVGElement>[]> {
-    return this.rawRootElement.$$(
-      this.respectShadowBoundaries
-        ? `css:light=${selector}`
-        : `css=${selector}`,
-    );
+    if ('$$' in this.rawRootElement) {
+      return this.rawRootElement.$$(
+        this.respectShadowBoundaries
+          ? `css:light=${selector}`
+          : `css=${selector}`,
+      );
+    } else {
+      return this.rawRootElement
+        .locator(
+          this.respectShadowBoundaries
+            ? `css:light=${selector}`
+            : `css=${selector}`,
+        )
+        .elementHandles() as Promise<ElementHandle<HTMLElement | SVGElement>[]>;
+    }
   }
 }

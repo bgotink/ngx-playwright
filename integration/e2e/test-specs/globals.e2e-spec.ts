@@ -25,7 +25,7 @@ test.describe('fixtures', () => {
 
     expect(harnessEnvironment.rootElement).toBeDefined();
 
-    const rootHandle = harnessEnvironment.getPlaywrightHandle(
+    const rootHandle = await harnessEnvironment.getPlaywrightHandle(
       harnessEnvironment.rootElement,
     );
 

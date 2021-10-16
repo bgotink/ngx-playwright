@@ -6,7 +6,7 @@ import {
   TestKey,
   TextOptions,
 } from '@angular/cdk/testing';
-import type {ElementHandle, Page} from 'playwright-core';
+import type {ElementHandle, Locator, Page} from 'playwright-core';
 
 import {
   blur,
@@ -89,6 +89,12 @@ type ClickParameters =
   | ['center', ModifierKeys?]
   | [number, number, ModifierKeys?];
 
+export function isLocator(
+  handleOrLocator: ElementHandle<unknown> | Locator,
+): handleOrLocator is Locator {
+  return !('$$' in handleOrLocator);
+}
+
 /**
  * `TestElement` implementation backed by playwright's `ElementHandle`
  *
@@ -120,19 +126,28 @@ export class PlaywrightElement implements TestElement {
 
   public constructor(
     page: () => Page,
-    handle: ElementHandle<HTMLElement | SVGElement>,
+    handleOrLocator: ElementHandle<HTMLElement | SVGElement> | Locator,
     whenStable: () => Promise<void>,
   ) {
     this.#page = page;
 
+    let getHandle: () => Promise<ElementHandle<HTMLElement | SVGElement>>;
+    if (isLocator(handleOrLocator)) {
+      // Only one case where we are passed a Locator: the root element of the page, which is always
+      // present -> we can safely ignore the null return type
+      getHandle = async () => (await handleOrLocator.elementHandle())!;
+    } else {
+      getHandle = async () => handleOrLocator;
+    }
+
     this.#query = async fn => {
       await whenStable();
-      return fn(handle);
+      return fn(await getHandle());
     };
 
     this.#perform = async fn => {
       try {
-        return fn(handle);
+        return fn(await getHandle());
       } finally {
         await whenStable();
       }

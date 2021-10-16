@@ -40,7 +40,7 @@ describe('PlaywrightHarnessEnvironment', () => {
       });
 
       it('should be able to retrieve the WebElement from a WebDriverElement', async () => {
-        const element = harnessEnvironment.getPlaywrightHandle(
+        const element = await harnessEnvironment.getPlaywrightHandle(
           await harness.host(),
         );
         expect(

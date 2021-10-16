@@ -2323,13 +2323,13 @@ __metadata:
     "@angular/cdk": ^12.2.3
     "@angular/common": ^12.2.3
     "@angular/core": ^12.2.3
-    playwright-core: ^1.12.0
+    playwright-core: ^1.15.2
     rxjs: ^6.6.6
     typescript: ~4.3.5
     zone.js: ~0.11.4
   peerDependencies:
     "@angular/cdk": ^12.0.0
-    playwright-core: ^1.10.0
+    playwright-core: ^1.15.2
   languageName: unknown
   linkType: soft
 
@@ -2356,7 +2356,7 @@ __metadata:
     jest-environment-node: ^26.6.2
     jest-runner: ^26.6.3
     lodash.merge: 4.6.2
-    playwright-core: ^1.12.0
+    playwright-core: ^1.15.2
     rxjs: ^6.6.6
     typescript: ~4.3.5
     zone.js: ~0.11.4
@@ -2364,10 +2364,10 @@ __metadata:
     "@angular/cdk": ^12.0.0
     "@types/jest": ^26.0.21
     jest: ^26.6.3
-    playwright: ^1.10.0
-    playwright-chromium: ^1.10.0
-    playwright-firefox: ^1.10.0
-    playwright-webkit: ^1.10.0
+    playwright: ^1.15.2
+    playwright-chromium: ^1.15.2
+    playwright-firefox: ^1.15.2
+    playwright-webkit: ^1.15.2
   peerDependenciesMeta:
     "@types/jest":
       optional: true
@@ -2396,10 +2396,10 @@ __metadata:
     "@angular/core": ^12.2.3
     "@ngx-playwright/harness": 0.6.0
     "@ngx-playwright/workspace-scripts": "workspace:scripts"
-    "@playwright/test": ^1.14.0
+    "@playwright/test": ^1.15.2
     "@snuggery/architect": ^0.3.0
     "@snuggery/snuggery": ^0.4.0
-    playwright-core: ^1.14.0
+    playwright-core: ^1.15.2
     rxjs: ^6.6.6
     typescript: ~4.3.5
     zone.js: ~0.11.4
@@ -2569,9 +2569,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.14.0":
-  version: 1.14.1
-  resolution: "@playwright/test@npm:1.14.1"
+"@playwright/test@npm:^1.15.2":
+  version: 1.15.2
+  resolution: "@playwright/test@npm:1.15.2"
   dependencies:
     "@babel/code-frame": ^7.14.5
     "@babel/core": ^7.14.8
@@ -2600,6 +2600,7 @@ __metadata:
     mime: ^2.4.6
     minimatch: ^3.0.3
     ms: ^2.1.2
+    open: ^8.2.1
     pirates: ^4.0.1
     pixelmatch: ^5.2.1
     pngjs: ^5.0.0
@@ -2613,7 +2614,7 @@ __metadata:
     yazl: ^2.5.1
   bin:
     playwright: lib/cli/cli.js
-  checksum: 8b88e8f1fe509c2e48f5b67a619e766c59c5164938485f5fb6e2b55df3fd394fc2de0b999f296be92a8657be5975102ae3ef06a616fd78440728069ec7fd57fb
+  checksum: 3785c8ae7a7f4e69817d621956add21ae8541d0ec2b5b6d64d823b0e324553a1a38bbb72331a28471c79798fa2dc0cbbabb19b5dd28a53cf901afd47b3e4663f
   languageName: node
   linkType: hard
 
@@ -7523,7 +7524,7 @@ fsevents@^1.2.7:
     "@ngx-playwright/test": "workspace:packages/test"
     "@types/jest": 26.0.22
     jest: ^26.6.3
-    playwright-core: ^1.14.0
+    playwright-core: ^1.15.2
     rxjs: ^6.6.7
     ts-jest: ^26.5.4
     typescript: ~4.3.5
@@ -10137,6 +10138,17 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
+"open@npm:^8.2.1":
+  version: 8.3.0
+  resolution: "open@npm:8.3.0"
+  dependencies:
+    define-lazy-prop: ^2.0.0
+    is-docker: ^2.1.1
+    is-wsl: ^2.2.0
+  checksum: 10fcb7ad453534cc1103ff90e0ebc36e542d67a4ccacf3b3d78c8e6401cec686e2849479cbc4a3386c7a3210064cbcc52e6ac38b788fc5fff1cf1dcbfef3c83b
+  languageName: node
+  linkType: hard
+
 "opn@npm:^5.5.0":
   version: 5.5.0
   resolution: "opn@npm:5.5.0"
@@ -10694,9 +10706,9 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:^1.12.0, playwright-core@npm:^1.14.0":
-  version: 1.14.1
-  resolution: "playwright-core@npm:1.14.1"
+"playwright-core@npm:^1.15.2":
+  version: 1.15.2
+  resolution: "playwright-core@npm:1.15.2"
   dependencies:
     commander: ^6.1.0
     debug: ^4.1.1
@@ -10714,7 +10726,7 @@ fsevents@^1.2.7:
     yazl: ^2.5.1
   bin:
     playwright: lib/cli/cli.js
-  checksum: 48cc4957fccb5dfb119547a09a2708bdaff7e3e23874955f5eaa981b649f232e7ec9aedf0be1546a0885d329623f09df7203ff562abda907ef6566e1dd3223a7
+  checksum: ebb4d5e26fc9e1fc74cb9677a3d50528d7cbfd25af267b5db9a94da93da67285eebf78f9f85dfbbbca902ae8514374e527ad3a33e7dd24c62c6b276b3ef2f9a3
   languageName: node
   linkType: hard
 
