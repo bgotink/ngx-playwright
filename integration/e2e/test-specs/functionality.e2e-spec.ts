@@ -4,7 +4,7 @@ import {test, expect} from '@ngx-playwright/test';
 
 import {MainComponentHarness} from '../harnesses/app-component-harness';
 
-test.describe('PlaywrightHarnessEnvironment', () => {
+test.describe.parallel('PlaywrightHarnessEnvironment', () => {
   test.beforeEach(async ({page}) => {
     await page.goto('/');
   });

@@ -37,7 +37,7 @@ import {
  * @docs-private
  */
 
-test.describe('HarnessLoader', () => {
+test.describe.parallel('HarnessLoader', () => {
   let loader: HarnessLoader;
 
   test.beforeEach(async ({harnessEnvironment, page}) => {
@@ -96,7 +96,7 @@ test.describe('HarnessLoader', () => {
   });
 });
 
-test.describe('ComponentHarness', () => {
+test.describe.parallel('ComponentHarness', () => {
   let harness: MainComponentHarness;
 
   test.beforeEach(async ({harnessEnvironment, page}) => {
@@ -256,7 +256,7 @@ test.describe('ComponentHarness', () => {
   });
 });
 
-test.describe('HarnessPredicate', () => {
+test.describe.parallel('HarnessPredicate', () => {
   let harness: MainComponentHarness;
 
   test.beforeEach(async ({harnessEnvironment, page}) => {
@@ -315,7 +315,7 @@ test.describe('HarnessPredicate', () => {
   });
 });
 
-test.describe('TestElement', () => {
+test.describe.parallel('TestElement', () => {
   let harness: MainComponentHarness;
 
   test.beforeEach(async ({harnessEnvironment, page}) => {

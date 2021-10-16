@@ -3,7 +3,7 @@ import {test, expect, createTest} from '@ngx-playwright/test';
 
 import {MainComponentHarness} from '../harnesses/app-component-harness';
 
-test.describe('the inScreen fixture', () => {
+test.describe.parallel('the inScreen fixture', () => {
   test.describe('without passing a page', () => {
     test('it should pass in a screen', ({inScreen}) =>
       inScreen(MainComponentHarness, (_, screen) => {

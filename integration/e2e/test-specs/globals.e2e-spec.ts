@@ -1,6 +1,6 @@
 import {test, expect} from '@ngx-playwright/test';
 
-test.describe('fixtures', () => {
+test.describe.parallel('fixtures', () => {
   test('it should have browser', ({browser}) => {
     expect(typeof browser).not.toBe('undefined');
     expect(browser.contexts).toBeDefined();
