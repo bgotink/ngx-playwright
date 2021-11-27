@@ -43,15 +43,29 @@ The package will be built in `<package folder>/dist`, e.g. `packages/jest/dist`.
 
 To run the integration tests, run
 
-```bash
-yarn test
-# or
-yarn sn test
-# or, if you have @snuggery/global installed globally
-sn test
-# or, using the @angular/cli
-yarn ng test
-```
+- For `@ngx-playwright/test`:
+
+  ```bash
+  yarn test
+  # or
+  yarn sn test
+  # or, if you have @snuggery/global installed globally
+  sn test
+  # or, using the @angular/cli
+  yarn ng test
+  ```
+
+- For `@ngx-playwright/jest`:
+
+  ```bash
+  yarn jest
+  # or
+  yarn sn jest
+  # or, if you have @snuggery/global installed globally
+  sn jest
+  # or, using the @angular/cli
+  yarn ng run integration:jest
+  ```
 
 Before opening a pull request, mark the packages that need to be released afterwards using
 
