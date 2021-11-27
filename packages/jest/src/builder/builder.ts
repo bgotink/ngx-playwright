@@ -67,7 +67,7 @@ async function runJest(
   } catch (e) {
     return {
       success: false,
-      error: `Failed to run jest: ${e.message ?? e}`,
+      error: `Failed to run jest: ${(e as Error).message ?? e}`,
     };
   }
 }

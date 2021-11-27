@@ -37,16 +37,16 @@
     "build": "sn build"
   },
   "peerDependencies": {
-    "@angular/cdk": "^12.0.0",
+    "@angular/cdk": "^12.0.0 || ^13.0.0",
     "playwright-core": "^1.15.2"
   },
   "devDependencies": {
-    "@angular/cdk": "^12.2.3",
-    "@angular/common": "^12.2.3",
-    "@angular/core": "^12.2.3",
+    "@angular/cdk": "^13.0.0",
+    "@angular/common": "^13.0.0",
+    "@angular/core": "^13.0.0",
     "playwright-core": "^1.15.2",
     "rxjs": "^6.6.6",
-    "typescript": "~4.3.5",
+    "typescript": "~4.4.4",
     "zone.js": "^0.11.4"
   }
 }
