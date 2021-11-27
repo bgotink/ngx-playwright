@@ -4,6 +4,7 @@ import type {ElementHandle, Page, Locator} from 'playwright-core';
 import {isAngularBootstrapped, waitUntilAngularStable} from './browser';
 import {shouldStabilizeAutomatically} from './change-detection';
 import {isLocator, PlaywrightElement} from './element';
+import {waitUntilRootZoneStable} from './zone/browser';
 
 const elementHandles = new WeakMap<
   TestElement,
@@ -101,7 +102,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
   }
 
   override async waitForTasksOutsideAngular(): Promise<void> {
-    // TODO: how?, see also: https://github.com/angular/components/issues/17412
+    await this.#page.evaluate(waitUntilRootZoneStable);
   }
 
   override async getPlaywrightHandle(

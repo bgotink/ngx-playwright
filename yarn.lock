@@ -2326,7 +2326,7 @@ __metadata:
     playwright-core: ^1.15.2
     rxjs: ^6.6.6
     typescript: ~4.3.5
-    zone.js: ~0.11.4
+    zone.js: ^0.11.4
   peerDependencies:
     "@angular/cdk": ^12.0.0
     playwright-core: ^1.15.2
@@ -14638,7 +14638,7 @@ fsevents@^1.2.7:
   languageName: node
   linkType: hard
 
-"zone.js@npm:~0.11.4":
+"zone.js@npm:^0.11.4, zone.js@npm:~0.11.4":
   version: 0.11.4
   resolution: "zone.js@npm:0.11.4"
   dependencies:

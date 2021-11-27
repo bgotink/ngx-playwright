@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* spell-checker: disable */
 
 /**
@@ -58,7 +59,7 @@ test.describe.parallel('HarnessLoader', () => {
     try {
       await loader.getChildLoader('error');
       throw new Error('Expected to throw');
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).toBe(
         'Failed to find element matching one of the following queries:' +
           '\n(HarnessLoader for element matching selector: "error")',
@@ -82,7 +83,7 @@ test.describe.parallel('HarnessLoader', () => {
     try {
       await countersLoader.getHarness(SubComponentHarness);
       throw new Error('Expected to throw');
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).toBe(
         'Failed to find element matching one of the following queries:' +
           '\n(SubComponentHarness with host element matching selector: "test-sub")',
@@ -113,7 +114,7 @@ test.describe.parallel('ComponentHarness', () => {
     try {
       await harness.errorItem();
       throw new Error('Expected to throw');
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).toBe(
         'Failed to find element matching one of the following queries:' +
           '\n(TestElement for element matching selector: "wrong locator")',
@@ -148,7 +149,7 @@ test.describe.parallel('ComponentHarness', () => {
     try {
       await harness.errorSubComponent();
       throw new Error('Expected to throw');
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).toBe(
         'Failed to find element matching one of the following queries:' +
           '\n(WrongComponentHarness with host element matching selector: "wrong-selector")',
@@ -212,7 +213,7 @@ test.describe.parallel('ComponentHarness', () => {
     try {
       await harness.requiredAncestorRestrictedMissingSubcomponent();
       throw new Error('Expected to throw');
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).toBe(
         'Failed to find element matching one of the following queries:' +
           '\n(SubComponentHarness with host element matching selector: "test-sub"' +
@@ -253,6 +254,10 @@ test.describe.parallel('ComponentHarness', () => {
   test('it should load all harnesses with direct ancestor selector restriction', async () => {
     const subcomps = await harness.directAncestorSelectorSubcomponent();
     expect(subcomps.length).toBe(2);
+  });
+
+  test('should be able to wait for tasks outside of Angular within native async/await', async () => {
+    expect(await harness.getTaskStateResult()).toBe('result');
   });
 });
 
@@ -305,7 +310,7 @@ test.describe.parallel('HarnessPredicate', () => {
     try {
       await harness.requiredFourIteamToolsLists();
       throw new Error('Expected to throw');
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).toBe(
         'Failed to find element matching one of the following queries:' +
           '\n(SubComponentHarness with host element matching selector: "test-sub" satisfying' +
@@ -633,7 +638,7 @@ test.describe.parallel('TestElement', () => {
     try {
       await harness.missingElementsAndHarnesses();
       throw new Error('Expected to throw.');
-    } catch (e) {
+    } catch (e: any) {
       expect(e.message).toBe(
         'Failed to find element matching one of the following queries:' +
           '\n(TestElement for element matching selector: ".not-found"),' +

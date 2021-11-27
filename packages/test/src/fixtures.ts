@@ -108,6 +108,14 @@ const ngxPlaywrightFixtures: Fixtures<
     use(screen => openScreen(baseURL, page, harnessEnvironment, screen)),
 
   harnessEnvironment: ({page}, use) => use(createEnvironment(page)),
+
+  context: async ({context}, use) => {
+    await context.addInitScript({
+      path: require.resolve('@ngx-playwright/harness/zone-patch'),
+    });
+
+    return use(context);
+  },
 };
 
 export function mixinFixtures<

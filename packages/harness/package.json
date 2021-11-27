@@ -19,7 +19,20 @@
     "cdk",
     "test-harness"
   ],
-  "main": "index.js",
+  "main": "index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./zone-patch": "./src/zone/patch.js",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "main": "index.js",
+    "exports": {
+      ".": "./index.js",
+      "./zone-patch": "./zone/patch.js",
+      "./package.json": "./package.json"
+    }
+  },
   "scripts": {
     "build": "sn build"
   },
@@ -34,6 +47,6 @@
     "playwright-core": "^1.15.2",
     "rxjs": "^6.6.6",
     "typescript": "~4.3.5",
-    "zone.js": "~0.11.4"
+    "zone.js": "^0.11.4"
   }
 }

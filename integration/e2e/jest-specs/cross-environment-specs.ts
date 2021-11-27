@@ -260,6 +260,12 @@ export function crossEnvironmentSpecs(
       const subcomps = await harness.directAncestorSelectorSubcomponent();
       expect(subcomps.length).toBe(2);
     });
+
+    it('should be able to wait for tasks outside of Angular within native async/await', async () => {
+      await expect(harness.getTaskStateResult()).rejects.toThrowError(
+        'waitForTasksOutsideAngular is only supported when using @ngx-playwright/test',
+      );
+    });
   });
 
   describe('HarnessPredicate', () => {
