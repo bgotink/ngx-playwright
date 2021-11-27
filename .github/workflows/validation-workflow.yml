@@ -81,10 +81,11 @@ jobs:
             runner: test
             cli: ng
           # Test future node version(s)
-          - os: ubuntu-latest
-            node: 17.x
-            runner: test
-            cli: sn
+          # Disabled for now due to issue with webpack + @angular/build-angular + node 17
+          # - os: ubuntu-latest
+          #   node: 17.x
+          #   runner: test
+          #   cli: sn
 
     steps:
       - uses: actions/checkout@v2
