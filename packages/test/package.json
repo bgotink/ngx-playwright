@@ -28,27 +28,27 @@
     "build": "sn build"
   },
   "peerDependencies": {
-    "@angular/cdk": "^12.0.0 || ^13.0.0"
+    "@angular/cdk": "^12.0.0"
   },
   "dependencies": {
-    "@angular-devkit/architect": ">= 0.1300.0 < 0.1400.0",
-    "@angular-devkit/core": "^13.0.0",
+    "@angular-devkit/architect": ">= 0.1200.0 < 0.1300.0",
+    "@angular-devkit/core": "^12.0.0",
     "@ngx-playwright/harness": "0.6.0",
     "@playwright/test": "^1.15.2",
-    "@snuggery/architect": "^0.3.1",
-    "@snuggery/snuggery": "^0.5.0",
+    "@snuggery/architect": "^0.3.0",
+    "@snuggery/snuggery": "^0.4.0",
     "playwright-core": "^1.15.2",
     "rxjs": "^6.6.6"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^13.0.0",
-    "@angular/cdk": "^13.0.0",
-    "@angular/common": "^13.0.0",
-    "@angular/compiler": "^13.0.0",
-    "@angular/compiler-cli": "^13.0.0",
-    "@angular/core": "^13.0.0",
+    "@angular-devkit/build-angular": "^12.2.3",
+    "@angular/cdk": "^12.2.3",
+    "@angular/common": "^12.2.3",
+    "@angular/compiler": "^12.2.3",
+    "@angular/compiler-cli": "^12.2.3",
+    "@angular/core": "^12.2.3",
     "@ngx-playwright/workspace-scripts": "workspace:scripts",
-    "typescript": "~4.4.4",
+    "typescript": "~4.3.5",
     "zone.js": "~0.11.4"
   }
 }

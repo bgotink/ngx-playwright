@@ -1,24 +1,24 @@
 {
   "dependencies": {
-    "@angular/common": "^13.0.0",
-    "@angular/compiler": "^13.0.0",
-    "@angular/core": "^13.0.0",
-    "@angular/forms": "^13.0.0",
-    "@angular/platform-browser": "^13.0.0",
-    "@angular/platform-browser-dynamic": "^13.0.0",
+    "@angular/common": "^12.2.3",
+    "@angular/compiler": "^12.2.3",
+    "@angular/core": "^12.2.3",
+    "@angular/forms": "^12.2.3",
+    "@angular/platform-browser": "^12.2.3",
+    "@angular/platform-browser-dynamic": "^12.2.3",
     "rxjs": "^6.6.7",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^13.0.0",
-    "@angular/cdk": "^13.0.0",
-    "@angular/compiler-cli": "^13.0.0",
+    "@angular-devkit/build-angular": "^12.2.3",
+    "@angular/cdk": "^12.2.3",
+    "@angular/compiler-cli": "^12.2.3",
     "@ngx-playwright/jest": "workspace:packages/jest",
     "@ngx-playwright/test": "workspace:packages/test",
     "@types/jest": "26.0.22",
     "jest": "^26.6.3",
     "playwright-core": "^1.15.2",
     "ts-jest": "^26.5.4",
-    "typescript": "~4.4.4"
+    "typescript": "~4.3.5"
   }
 }

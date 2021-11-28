@@ -1,4 +1,0 @@
-releases:
-  "@ngx-playwright/harness": patch
-  "@ngx-playwright/jest": patch
-  "@ngx-playwright/test": patch
