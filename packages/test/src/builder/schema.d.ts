@@ -34,6 +34,11 @@ export interface Schema {
   readonly config?: string;
 
   /**
+   * Run tests with Playwright Inspector. Shortcut for `PWDEBUG=1` environment variable and `--timeout=0 --maxFailures=1 --headed --workers=1` options
+   */
+  readonly debug?: boolean;
+
+  /**
    * Whether to disallow `test.only`, useful on CI
    */
   readonly forbidOnly?: boolean;

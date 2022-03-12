@@ -112,6 +112,7 @@ export function execute(
               : []),
 
             ...(input.browser != null ? ['--browser', input.browser] : []),
+            ...(input.debug ? ['--debug'] : []),
             ...(input.forbidOnly ? ['--forbid-only'] : []),
             ...(input.globalTimeout != null
               ? ['--global-timeout', `${input.globalTimeout}`]
