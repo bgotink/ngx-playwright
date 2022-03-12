@@ -13,6 +13,7 @@
     "@angular-devkit/build-angular": "^12.2.3",
     "@angular/cdk": "^12.2.3",
     "@angular/compiler-cli": "^12.2.3",
+    "@bgotink/playwright-coverage": "0.1.2",
     "@ngx-playwright/jest": "workspace:packages/jest",
     "@ngx-playwright/test": "workspace:packages/test",
     "@types/jest": "26.0.22",

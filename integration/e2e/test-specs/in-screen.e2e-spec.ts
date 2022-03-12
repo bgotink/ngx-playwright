@@ -1,7 +1,10 @@
 import type {TestElement} from '@angular/cdk/testing';
-import {test, expect, createTest} from '@ngx-playwright/test';
+import {mixinFixtures} from '@bgotink/playwright-coverage';
+import {test as base, createTest, expect} from '@ngx-playwright/test';
 
 import {MainComponentHarness} from '../harnesses/app-component-harness';
+
+const test = mixinFixtures(base);
 
 test.describe.parallel('the inScreen fixture', () => {
   test.describe('without passing a page', () => {
@@ -109,7 +112,7 @@ test.describe.parallel('the inScreen fixture', () => {
 });
 
 test.describe('the createTest function', () => {
-  const test = createTest(MainComponentHarness);
+  const test = mixinFixtures(createTest(MainComponentHarness));
 
   test('it should pass in a screen', ({screen, $}) => {
     expect($).toEqual({});

@@ -3,6 +3,7 @@
   "ignorePaths": ["yarn.lock", "node_modules", "dist", ".yarn"],
   "words": [
     "bram",
+    "bgotink",
     "cdk's",
     "destructure",
     "destructured",

@@ -1,4 +1,7 @@
-import {test, expect} from '@ngx-playwright/test';
+import {mixinFixtures} from '@bgotink/playwright-coverage';
+import {test as base, expect} from '@ngx-playwright/test';
+
+const test = mixinFixtures(base);
 
 test.describe.parallel('fixtures', () => {
   test('it should have browser', ({browser}) => {

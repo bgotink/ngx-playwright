@@ -16,13 +16,16 @@ import {
   parallel,
   TestElement,
 } from '@angular/cdk/testing';
-import {test, expect} from '@ngx-playwright/test';
+import {mixinFixtures} from '@bgotink/playwright-coverage';
+import {test as base, expect} from '@ngx-playwright/test';
 
 import {MainComponentHarness} from '../harnesses/app-component-harness';
 import {
   SubComponentHarness,
   SubComponentSpecialHarness,
 } from '../harnesses/sub-component-harness';
+
+const test = mixinFixtures(base);
 
 /**
  * Tests that should behave equal in testbed and protractor environment.
