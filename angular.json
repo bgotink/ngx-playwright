@@ -54,7 +54,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "integration:build"
+            "browserTarget": "integration:build",
+            "port": 0
           }
         },
         "jest": {
