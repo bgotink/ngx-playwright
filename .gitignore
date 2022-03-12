@@ -1,3 +1,5 @@
 /packages/*/dist
 /dist
 node_modules
+
+.angular
