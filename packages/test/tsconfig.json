@@ -2,7 +2,10 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "mapRoot": ".",
+    "emitDeclarationOnly": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.js", "src/**/*.d.ts"],
+  "references": [{"path": "../harness"}]
 }

@@ -2,7 +2,10 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "mapRoot": ".",
+    "emitDeclarationOnly": true
   },
-  "include": ["src/**/*.ts", "src/zone/patch.js"]
+  "include": ["src/**/*.d.ts", "src/**/*.js"],
+  "exclude": ["src/abstract-environment.js"]
 }

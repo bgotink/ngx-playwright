@@ -1,7 +1,10 @@
 // @ts-check
 // cspell:ignore lcovonly lcov
 
-const {join} = require('path');
+import {join, dirname} from 'path';
+import {fileURLToPath} from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /**
  * @type {import('@ngx-playwright/test').PlaywrightTestConfig}
@@ -13,7 +16,7 @@ const config = {
   },
 
   testDir: join(__dirname, 'e2e/test-specs'),
-  testMatch: '**/*.e2e-spec.ts',
+  testMatch: '**/*.e2e-spec.js',
 
   reporter: [
     [process.env.CI ? 'github' : 'list'],
@@ -47,4 +50,4 @@ const config = {
   ],
 };
 
-module.exports = config;
+export default config;

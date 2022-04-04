@@ -58,13 +58,6 @@
             "port": 0
           }
         },
-        "jest": {
-          "builder": "@ngx-playwright/jest:run",
-          "options": {
-            "config": "integration/jest.e2e-config.js",
-            "devServerTarget": "serve"
-          }
-        },
         "test": {
           "builder": "@ngx-playwright/test:run",
           "options": {
@@ -85,32 +78,8 @@
                 "include": "README.md"
               },
               {
-                "include": "zone/patch.js",
+                "include": ["**/*.js", "**/*.d.ts"],
                 "from": "packages/harness/src"
-              },
-              {
-                "include": "LICENSE.md",
-                "from": "."
-              }
-            ],
-            "packager": "@snuggery/yarn"
-          }
-        }
-      }
-    },
-    "@ngx-playwright/jest": {
-      "root": "packages/jest",
-      "architect": {
-        "build": {
-          "builder": "@snuggery/node:build",
-          "options": {
-            "assets": [
-              {
-                "include": "README.md"
-              },
-              {
-                "include": ["**/*.d.ts", "**/*.json"],
-                "from": "packages/jest/src"
               },
               {
                 "include": "LICENSE.md",
@@ -130,10 +99,10 @@
           "options": {
             "assets": [
               {
-                "include": "README.md"
+                "include": ["README.md", "bin.cjs"]
               },
               {
-                "include": ["**/*.d.ts", "**/*.json"],
+                "include": ["**/*.d.ts", "**/*.json", "**/*.js"],
                 "from": "packages/test/src"
               },
               {

@@ -1,7 +1,7 @@
 {
   "builders": {
     "run": {
-      "implementation": "./src/builder/dev-builder.js",
+      "implementation": "./src/builder/index.js",
       "schema": "./src/builder/schema.json",
       "description": "Run e2e tests via playwright"
     }

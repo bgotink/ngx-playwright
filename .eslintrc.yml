@@ -7,7 +7,8 @@ plugins:
   - 'import'
 reportUnusedDisableDirectives: true
 parserOptions:
-  ecmaVersion: 12
+  ecmaVersion: 2022
+  sourceType: module
 
 rules:
   # Require packages to be listed in package.json
@@ -35,12 +36,16 @@ rules:
         order: asc
 
 overrides:
+  - files:
+      - packages/harness/src/**/browser.js
+    env:
+      browser: true
   - files: ['**/*.ts']
     plugins:
       - '@typescript-eslint'
     parser: '@typescript-eslint/parser'
     parserOptions:
-      ecmaVersion: 12
+      ecmaVersion: 2022
       sourceType: module
     extends:
       - 'plugin:@typescript-eslint/recommended'

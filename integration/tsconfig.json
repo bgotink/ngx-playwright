@@ -1,9 +1,10 @@
 {
-  "extends": "../tsconfig.base.json",
   "compilerOptions": {
+    "target": "es2020",
     "module": "esnext",
-    "experimentalDecorators": true,
-    "types": ["jest"]
+    "moduleResolution": "node",
+    "lib": ["es2020", "dom"],
+    "experimentalDecorators": true
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
   "angularCompilerOptions": {

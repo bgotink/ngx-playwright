@@ -66,12 +66,10 @@ jobs:
           - macos-latest
           - windows-latest
         node:
-          - 12.x
           - 14.x
           - 16.x
         runner:
           - test
-          - jest
         cli:
           - sn
         include:

@@ -8,21 +8,20 @@
   "scripts": {
     "postinstall": "is-ci || husky install",
     "build": "sn build",
-    "jest": "sn jest",
     "test": "sn test"
   },
   "devDependencies": {
     "@angular/cli": "^12.2.3",
     "@nrwl/linter": "^12.8.0",
-    "@snuggery/node": "0.2.1",
-    "@snuggery/snuggery": "0.4.0",
-    "@snuggery/yarn": "0.2.0",
+    "@snuggery/node": "0.2.4",
+    "@snuggery/snuggery": "0.6.2",
+    "@snuggery/yarn": "0.2.2",
     "cspell-lib": "^5.6.0",
     "express-check-in": "^0.1.0",
     "husky": "^5.2.0",
     "is-ci": "^3.0.0",
     "prettier": "^2.3.1",
-    "typescript": "~4.3.5"
+    "typescript": "~4.5.2"
   },
   "dependenciesMeta": {
     "@angular/cli": {
@@ -41,15 +40,14 @@
     }
   },
   "resolutions": {
-    "@angular-devkit/architect": "0.1202.3",
-    "esbuild@0.12.17": "npm:esbuild-wasm@npm:0.12.17"
+    "esbuild@0.14.22": "npm:esbuild-wasm@npm:0.14.22"
   },
   "dependencies": {
-    "@typescript-eslint/eslint-plugin": "^4.29.3",
-    "@typescript-eslint/parser": "^4.29.3",
-    "eslint": "^7.32.0",
+    "@typescript-eslint/eslint-plugin": "^5.18.0",
+    "@typescript-eslint/parser": "^5.18.0",
+    "eslint": "^8.12.0",
     "eslint-import-resolver-node": "^0.3.6",
-    "eslint-plugin-import": "^2.24.2"
+    "eslint-plugin-import": "^2.25.4"
   },
   "packageManager": "yarn@3.1.1"
 }

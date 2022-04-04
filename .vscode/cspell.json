@@ -1,5 +1,5 @@
 {
-  "version": "0.1",
+  "version": "0.2",
   "ignorePaths": ["yarn.lock", "node_modules", "dist", ".yarn"],
   "words": [
     "bram",
@@ -13,10 +13,12 @@
     "gotink",
     "nrwl",
     "parens",
+    "pkg",
     "prefs",
     "pwdebug",
     "shadowroots",
     "structs",
+    "tsbuildinfo",
     "wasm",
     "yarnpkg"
   ]

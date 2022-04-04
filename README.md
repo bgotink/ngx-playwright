@@ -32,40 +32,26 @@ yarn ng build @ngx-playwright/test
 yarn ng build all
 ```
 
-The package will be built in `<package folder>/dist`, e.g. `packages/jest/dist`. You can test your build by referring to that folder in a package.json, e.g.
+The package will be built in `<package folder>/dist`, e.g. `packages/test/dist`. You can test your build by referring to that folder in a package.json, e.g.
 
 ```json
 // in dependencies, or via resolutions
 {
-  "@ngx-playwright/jest": "file:///path/to/ngx-playwright/packages/jest/dist"
+  "@ngx-playwright/test": "file:///path/to/ngx-playwright/packages/test/dist"
 }
 ```
 
 To run the integration tests, run
 
-- For `@ngx-playwright/test`:
-
-  ```bash
-  yarn test
-  # or
-  yarn sn test
-  # or, if you have @snuggery/global installed globally
-  sn test
-  # or, using the @angular/cli
-  yarn ng test
-  ```
-
-- For `@ngx-playwright/jest`:
-
-  ```bash
-  yarn jest
-  # or
-  yarn sn jest
-  # or, if you have @snuggery/global installed globally
-  sn jest
-  # or, using the @angular/cli
-  yarn ng run integration:jest
-  ```
+```bash
+yarn test
+# or
+yarn sn test
+# or, if you have @snuggery/global installed globally
+sn test
+# or, using the @angular/cli
+yarn ng test
+```
 
 Before opening a pull request, mark the packages that need to be released afterwards using
 
