@@ -2203,7 +2203,7 @@ __metadata:
     "@ngx-playwright/workspace-scripts": "workspace:scripts"
     "@playwright/test": ^1.20.2
     "@snuggery/architect": ^0.3.2
-    "@snuggery/snuggery": ^0.6.2
+    "@snuggery/snuggery": ^0.6.4
     playwright-core: ^1.20.2
     rxjs: ^6.6.6
     typescript: ~4.5.2
@@ -2510,9 +2510,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snuggery/snuggery@npm:0.6.2, @snuggery/snuggery@npm:^0.6.2":
-  version: 0.6.2
-  resolution: "@snuggery/snuggery@npm:0.6.2"
+"@snuggery/snuggery@npm:0.6.4, @snuggery/snuggery@npm:^0.6.4":
+  version: 0.6.4
+  resolution: "@snuggery/snuggery@npm:0.6.4"
   dependencies:
     "@angular-devkit/architect": 0.1300.2
     "@angular-devkit/core": 13.0.2
@@ -2531,7 +2531,7 @@ __metadata:
     which-pm-runs: 1.0.0
   bin:
     sn: bin.js
-  checksum: 336d1ac5b5f8e283af1f766f34fa9182fb4fcbc9abd99ed109d2e6fe6c903adf06f9009a08eeab7f1785434318c23da1849d5140bff00c4947fd92f122dadfed
+  checksum: 63d9890b825a63fa5efd4a73373a22abd0b103ce29351a47ee7110346bb4c2fbc325e8cc520d60a3327c61cdaf4fdfd16bc55b8026e11054099de4ec29b59ecc
   languageName: node
   linkType: hard
 
@@ -9471,7 +9471,7 @@ resolve@1.20.0:
     "@angular/cli": ^12.2.3
     "@nrwl/linter": ^12.8.0
     "@snuggery/node": 0.2.4
-    "@snuggery/snuggery": 0.6.2
+    "@snuggery/snuggery": 0.6.4
     "@snuggery/yarn": 0.2.2
     "@typescript-eslint/eslint-plugin": ^5.18.0
     "@typescript-eslint/parser": ^5.18.0

@@ -14,7 +14,7 @@
     "@angular/cli": "^12.2.3",
     "@nrwl/linter": "^12.8.0",
     "@snuggery/node": "0.2.4",
-    "@snuggery/snuggery": "0.6.2",
+    "@snuggery/snuggery": "0.6.4",
     "@snuggery/yarn": "0.2.2",
     "cspell-lib": "^5.6.0",
     "express-check-in": "^0.1.0",
