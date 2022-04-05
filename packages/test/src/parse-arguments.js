@@ -197,7 +197,7 @@ function _getDestructuredArguments(fn) {
     }
   }
 
-  const WHITESPACE = /^(?:\s|\/\/.*?\n|\/\*.*?\*\/)+/;
+  const WHITESPACE = /^(?:\s|\/\/.*?\r?\n|\/\*.*?\*\/)+/;
   const KEYWORD_ASYNC = 'async';
   const KEYWORD_FUNCTION = 'function';
   const IDENTIFIER =
