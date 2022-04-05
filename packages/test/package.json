@@ -1,6 +1,6 @@
 {
   "name": "@ngx-playwright/test",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
   "license": "MIT",
   "author": {
@@ -34,7 +34,7 @@
   "dependencies": {
     "@angular-devkit/architect": ">= 0.1303.1 < 0.1400.0",
     "@angular-devkit/core": "^13.3.1",
-    "@ngx-playwright/harness": "0.6.0",
+    "@ngx-playwright/harness": "0.7.0",
     "@playwright/test": "^1.20.2",
     "@snuggery/architect": "^0.3.2",
     "@snuggery/snuggery": "^0.6.4",
