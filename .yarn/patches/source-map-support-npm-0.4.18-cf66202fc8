@@ -1,0 +1,13 @@
+diff --git a/source-map-support.js b/source-map-support.js
+index abd88860470932ab955bba6b002410cf055c6c83..4f0be4037b073549fda7312a3ca015ce6bc91c90 100644
+--- a/source-map-support.js
++++ b/source-map-support.js
+@@ -146,7 +146,7 @@ retrieveMapHandlers.push(function(source) {
+   if (reSourceMap.test(sourceMappingURL)) {
+     // Support source map URL as a data url
+     var rawData = sourceMappingURL.slice(sourceMappingURL.indexOf(',') + 1);
+-    sourceMapData = new Buffer(rawData, "base64").toString();
++    sourceMapData = Buffer.from(rawData, "base64").toString();
+     sourceMappingURL = source;
+   } else {
+     // Support source map URLs relative to the source URL

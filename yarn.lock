@@ -10007,6 +10007,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"source-map-support@patch:source-map-support@npm:0.4.18#.yarn/patches/source-map-support-npm-0.4.18-cf66202fc8::locator=root-workspace-0b6124%40workspace%3A.":
+  version: 0.4.18
+  resolution: "source-map-support@patch:source-map-support@npm%3A0.4.18#.yarn/patches/source-map-support-npm-0.4.18-cf66202fc8::version=0.4.18&hash=322f9a&locator=root-workspace-0b6124%40workspace%3A."
+  dependencies:
+    source-map: ^0.5.6
+  checksum: 11f33628439d5bae392d0aec5d14df89ab1ac3c05842d65ceafdc3afadb58153b4e6e191e556c59e590dcfb94958da1d057edae6636850a6fd1a428d14d4bf95
+  languageName: node
+  linkType: hard
+
 "source-map@npm:0.6.1, source-map@npm:^0.6.0, source-map@npm:^0.6.1, source-map@npm:~0.6.0":
   version: 0.6.1
   resolution: "source-map@npm:0.6.1"

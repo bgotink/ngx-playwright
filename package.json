@@ -40,7 +40,8 @@
     }
   },
   "resolutions": {
-    "esbuild@0.14.22": "npm:esbuild-wasm@npm:0.14.22"
+    "esbuild@0.14.22": "npm:esbuild-wasm@npm:0.14.22",
+    "source-map-support@0.4.18": "patch:source-map-support@npm:0.4.18#.yarn/patches/source-map-support-npm-0.4.18-cf66202fc8"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^5.18.0",
