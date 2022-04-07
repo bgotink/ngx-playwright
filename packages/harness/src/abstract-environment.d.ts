@@ -1,5 +1,5 @@
 import {HarnessEnvironment, TestElement} from '@angular/cdk/testing';
-import {ElementHandle, Locator} from 'playwright-core';
+import {ElementHandle, Locator} from '@playwright/core';
 
 export interface PlaywrightHarnessEnvironmentOptions {
   /**

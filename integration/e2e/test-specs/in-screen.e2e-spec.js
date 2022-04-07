@@ -86,7 +86,7 @@ test.describe.parallel('the inScreen fixture', () => {
   });
 
   test.describe('passing a separate page', () => {
-    /** @type {import('playwright-core').Page} */
+    /** @type {import('@ngx-playwright/test').Page} */
     let otherPage;
 
     test.beforeEach(async ({context}) => {

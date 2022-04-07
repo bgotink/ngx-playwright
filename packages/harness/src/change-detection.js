@@ -32,7 +32,7 @@ export function isAutoStabilizing() {
   return isRegistered;
 }
 
-/** @type {Set<import('playwright-core').Page>} */
+/** @type {Set<import('@playwright/test').Page>} */
 const pages = new Set();
 
 /**
@@ -40,7 +40,7 @@ const pages = new Set();
  *
  * Automatic stabilization will wait for all registered pages to become stable before continuing.
  *
- * @param {import('playwright-core').Page} page The page to register
+ * @param {import('@playwright/test').Page} page The page to register
  * @returns {void}
  */
 export function registerPage(page) {

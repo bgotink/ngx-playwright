@@ -5,7 +5,7 @@ import {isLocator, PlaywrightElement} from './element.js';
 import {waitUntilRootZoneStable} from './zone/browser.js';
 
 /**
- * @type {WeakMap<import('@angular/cdk/testing').TestElement, import('playwright-core').ElementHandle<HTMLElement | SVGElement> | import('playwright-core').Locator>}
+ * @type {WeakMap<import('@angular/cdk/testing').TestElement, import('@playwright/test').ElementHandle<HTMLElement | SVGElement> | import('@playwright/test').Locator>}
  */
 const elementHandles = new WeakMap();
 
@@ -15,12 +15,12 @@ const elementHandles = new WeakMap();
 export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnessEnvironment {
   /**
    * @readonly
-   * @type {import('playwright-core').Page}
+   * @type {import('@playwright/test').Page}
    */
   #page;
   /**
    * @readonly
-   * @type {import('playwright-core').Locator}
+   * @type {import('@playwright/test').Locator}
    */
   #documentRoot;
 
@@ -32,9 +32,9 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
 
   /**
    *
-   * @param {import('playwright-core').Page} page
-   * @param {import('playwright-core').Locator=} documentRoot
-   * @param {import('playwright-core').ElementHandle<HTMLElement | SVGElement> | import('playwright-core').Locator=} element
+   * @param {import('@playwright/test').Page} page
+   * @param {import('@playwright/test').Locator=} documentRoot
+   * @param {import('@playwright/test').ElementHandle<HTMLElement | SVGElement> | import('@playwright/test').Locator=} element
    * @param {import('./abstract-environment.js').PlaywrightHarnessEnvironmentOptions=} options
    */
   constructor(
@@ -95,7 +95,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
 
   /**
    * @param {import('@angular/cdk/testing').TestElement} element
-   * @returns {Promise<import('playwright-core').ElementHandle<HTMLElement | SVGElement>>}
+   * @returns {Promise<import('@playwright/test').ElementHandle<HTMLElement | SVGElement>>}
    * @override
    */
   async getPlaywrightHandle(element) {
@@ -110,7 +110,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
     if (isLocator(handleOrLocator)) {
       // Only one case where we are passed a Locator: the root element of the page, which is always
       // present -> we can safely ignore the null return type
-      return /** @type {import('playwright-core').ElementHandle<HTMLElement | SVGElement>} */ (
+      return /** @type {import('@playwright/test').ElementHandle<HTMLElement | SVGElement>} */ (
         await handleOrLocator.elementHandle()
       );
     } else {
@@ -137,7 +137,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
 
   /**
    *
-   * @returns {import('playwright-core').Locator}
+   * @returns {import('@playwright/test').Locator}
    * @override
    * @protected
    */
@@ -146,7 +146,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
   }
 
   /**
-   * @param {import('playwright-core').ElementHandle<HTMLElement | SVGElement> | import('playwright-core').Locator} handle
+   * @param {import('@playwright/test').ElementHandle<HTMLElement | SVGElement> | import('@playwright/test').Locator} handle
    * @returns {import('@angular/cdk/testing').TestElement}
    * @override
    * @protected
@@ -170,7 +170,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
   }
 
   /**
-   * @param {import('playwright-core').ElementHandle<HTMLElement | SVGElement> | import('playwright-core').Locator} element
+   * @param {import('@playwright/test').ElementHandle<HTMLElement | SVGElement> | import('@playwright/test').Locator} element
    * @returns {PlaywrightHarnessEnvironment}
    * @override
    * @protected
@@ -186,7 +186,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
 
   /**
    * @param {string} selector
-   * @returns {Promise<import('playwright-core').ElementHandle<HTMLElement | SVGElement>[]>}
+   * @returns {Promise<import('@playwright/test').ElementHandle<HTMLElement | SVGElement>[]>}
    * @override
    * @protected
    */
@@ -198,7 +198,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
           : `css=${selector}`,
       );
     } else {
-      return /** @type {Promise<import('playwright-core').ElementHandle<HTMLElement | SVGElement>[]>} */ (
+      return /** @type {Promise<import('@playwright/test').ElementHandle<HTMLElement | SVGElement>[]>} */ (
         this.rawRootElement
           .locator(
             this.respectShadowBoundaries

@@ -5,9 +5,9 @@ import {TestKey} from '@angular/cdk/testing';
 /** @typedef {import('@angular/cdk/testing').ModifierKeys} ModifierKeys */
 /** @typedef {import('@angular/cdk/testing').TestElement} TestElement */
 /** @typedef {import('@angular/cdk/testing').TextOptions} TextOptions */
-/** @template [T=Node] @typedef {import('playwright-core').ElementHandle<T>} ElementHandle */
-/** @typedef {import('playwright-core').Locator} Locator */
-/** @typedef {import('playwright-core').Page} Page */
+/** @template [T=Node] @typedef {import('@playwright/test').ElementHandle<T>} ElementHandle */
+/** @typedef {import('@playwright/test').Locator} Locator */
+/** @typedef {import('@playwright/test').Page} Page */
 
 import {
   blur,

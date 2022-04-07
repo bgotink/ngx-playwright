@@ -2155,13 +2155,13 @@ __metadata:
     "@angular/cdk": ^13.3.2
     "@angular/common": ^13.3.1
     "@angular/core": ^13.3.1
-    playwright-core: ^1.20.2
+    "@playwright/test": ^1.20.2
     rxjs: ^6.6.6
     typescript: ~4.5.2
     zone.js: ^0.11.4
   peerDependencies:
     "@angular/cdk": ^13.3.2
-    playwright-core: ^1.20.2
+    "@playwright/test": ^1.20.2
   languageName: unknown
   linkType: soft
 
@@ -2184,7 +2184,6 @@ __metadata:
     "@snuggery/architect": ^0.3.2
     "@snuggery/schematics": ^0.3.2
     "@snuggery/snuggery": ^0.6.4
-    playwright-core: ^1.20.2
     rxjs: ^6.6.6
     typescript: ~4.5.2
     zone.js: ~0.11.4
@@ -6455,7 +6454,6 @@ __metadata:
     "@angular/platform-browser-dynamic": ^13.3.1
     "@bgotink/playwright-coverage": 0.1.2
     "@ngx-playwright/test": "workspace:packages/test"
-    playwright-core: ^1.20.2
     rxjs: ^6.6.7
     typescript: ~4.5.2
     zone.js: ~0.11.4
@@ -8561,7 +8559,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.20.2, playwright-core@npm:^1.20.2":
+"playwright-core@npm:1.20.2":
   version: 1.20.2
   resolution: "playwright-core@npm:1.20.2"
   dependencies:
