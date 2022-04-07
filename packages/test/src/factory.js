@@ -10,7 +10,7 @@ import {getDestructured$Argument} from './parse-arguments.js';
  */
 function createScreenFixtures(Screen) {
   return {
-    screen: async ({open}, use) => use(await open(Screen)),
+    screen: [async ({open}, use) => use(await open(Screen)), {auto: true}],
 
     $: async ({screen}, use, testInfo) => {
       const propertyNames =

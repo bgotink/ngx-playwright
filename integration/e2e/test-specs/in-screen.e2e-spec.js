@@ -137,12 +137,9 @@ test.describe('the createTest function', () => {
 
   test('it should destructure renamed properties', ({
     $: {button: one, allLabels: two},
-    screen,
   }) => {
     expect(isATestElement(one)).toBe(true);
     expect(isATestElement(two[0])).toBe(true);
-
-    expect(screen).toEqual(expect.any(MainComponentHarness));
   });
 
   test('it should destructure destructured properties', ({
