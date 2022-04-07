@@ -1717,9 +1717,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bgotink/playwright-coverage@npm:0.1.2":
-  version: 0.1.2
-  resolution: "@bgotink/playwright-coverage@npm:0.1.2"
+"@bgotink/playwright-coverage@npm:0.1.3":
+  version: 0.1.3
+  resolution: "@bgotink/playwright-coverage@npm:0.1.3"
   dependencies:
     "@bcoe/v8-coverage": ^0.2.3
     comlink: ^4.3.1
@@ -1729,7 +1729,9 @@ __metadata:
     micromatch: ^4.0.4
     node-fetch: ^3.2.0
     v8-to-istanbul: ^8.0.0
-  checksum: 54c437b6d7c4757a8cf7bf4c5b5679dba863b8b3f3745590a481a4d4cca707cbc3fe9abce168669d181e40c47f11e506dfb17f4caf45738e104a08a77a172e64
+  peerDependencies:
+    "@playwright/test": ^1.14.1
+  checksum: 9799a8e87dbf2ef617eb80414a5dcbcb42a81c4900b5b84b11a3e800235b0f54afa7ea932d7ade3339ed58a7e3995a2baf652c2fb8a9fd6599b46335dc636981
   languageName: node
   linkType: hard
 
@@ -2189,6 +2191,7 @@ __metadata:
     zone.js: ~0.11.4
   peerDependencies:
     "@angular/cdk": ^13.3.2
+    "@playwright/test": ^1.20.2
   bin:
     playwright: ./bin.cjs
   languageName: unknown
@@ -6452,8 +6455,9 @@ __metadata:
     "@angular/forms": ^13.3.1
     "@angular/platform-browser": ^13.3.1
     "@angular/platform-browser-dynamic": ^13.3.1
-    "@bgotink/playwright-coverage": 0.1.2
+    "@bgotink/playwright-coverage": 0.1.3
     "@ngx-playwright/test": "workspace:packages/test"
+    "@playwright/test": ^1.20.2
     rxjs: ^6.6.7
     typescript: ~4.5.2
     zone.js: ~0.11.4

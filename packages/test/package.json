@@ -30,7 +30,8 @@
     "build": "sn build"
   },
   "peerDependencies": {
-    "@angular/cdk": "^13.3.2"
+    "@angular/cdk": "^13.3.2",
+    "@playwright/test": "^1.20.2"
   },
   "dependencies": {
     "@angular-devkit/architect": ">= 0.1303.1 < 0.1400.0",
