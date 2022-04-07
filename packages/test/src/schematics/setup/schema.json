@@ -1,0 +1,14 @@
+{
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "Name of an application project to add @ngx-playwright/test to"
+    },
+    "replaceE2eTarget": {
+      "type": "boolean",
+      "description": "Replace the existing e2e target, if this option is not passed and there is already an e2e target the command will fail"
+    }
+  },
+  "additionalProperties": false
+}

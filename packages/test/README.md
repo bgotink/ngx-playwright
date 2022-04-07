@@ -4,6 +4,19 @@ Builder for running e2e tests in an angular application using `@playwright/test`
 
 ## Set up
 
+```bash
+ng add @ngx-playwright/test
+```
+
+Or use the `setup` schematic:
+
+```bash
+yarn add @ngx-playwright/test
+ng generate @ngx-playwright/test:setup --project my-application
+```
+
+Or install and configure it manually:
+
 1. Install this package
 1. Create a [test configuration](https://playwright.dev/docs/test-configuration), e.g.
 
@@ -25,8 +38,8 @@ Builder for running e2e tests in an angular application using `@playwright/test`
    "e2e": {
      "builder": "@ngx-playwright/test:run",
      "options": {
-       "devServerTarget": "serve",
-       "config": "application/playwright.config.js"
+       "config": "application/e2e/playwright.config.js",
+       "devServerTarget": "serve"
      }
    },
    ```

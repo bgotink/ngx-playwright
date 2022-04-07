@@ -21,5 +21,6 @@
     "tsbuildinfo",
     "wasm",
     "yarnpkg"
-  ]
+  ],
+  "enabled": true
 }

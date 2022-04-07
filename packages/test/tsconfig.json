@@ -6,6 +6,6 @@
     "mapRoot": ".",
     "emitDeclarationOnly": true
   },
-  "include": ["src/**/*.js", "src/**/*.d.ts"],
+  "include": ["src/**/*.js", "src/**/*.d.ts", "src/**/*.cjs"],
   "references": [{"path": "../harness"}]
 }

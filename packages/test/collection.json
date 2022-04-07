@@ -1,0 +1,10 @@
+{
+  "schematics": {
+    "setup": {
+      "aliases": ["ng-add"],
+      "factory": "./src/schematics/setup/index.cjs#factory",
+      "schema": "./src/schematics/setup/schema.json",
+      "description": "Configure `@ngx-playwright/test` in a project"
+    }
+  }
+}

@@ -206,7 +206,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular-devkit/schematics@npm:13.3.1":
+"@angular-devkit/schematics@npm:13.3.1, @angular-devkit/schematics@npm:^13.3.1":
   version: 13.3.1
   resolution: "@angular-devkit/schematics@npm:13.3.1"
   dependencies:
@@ -2172,6 +2172,7 @@ __metadata:
     "@angular-devkit/architect": ">= 0.1303.1 < 0.1400.0"
     "@angular-devkit/build-angular": ^13.3.1
     "@angular-devkit/core": ^13.3.1
+    "@angular-devkit/schematics": ^13.3.1
     "@angular/cdk": ^13.3.2
     "@angular/common": ^13.3.1
     "@angular/compiler": ^13.3.1
@@ -2181,6 +2182,7 @@ __metadata:
     "@ngx-playwright/workspace-scripts": "workspace:scripts"
     "@playwright/test": ^1.20.2
     "@snuggery/architect": ^0.3.2
+    "@snuggery/schematics": ^0.3.2
     "@snuggery/snuggery": ^0.6.4
     playwright-core: ^1.20.2
     rxjs: ^6.6.6
@@ -2495,6 +2497,22 @@ __metadata:
     typescript:
       optional: true
   checksum: c45cd25d85c2d54166451b98afa1486b48fb80bfb96ecc9a8670691c18dceeaf2e99f3416cf76d776cc2e8b42042c9fe9e331e5bdb5ba0d4b3d157f2b817b288
+  languageName: node
+  linkType: hard
+
+"@snuggery/schematics@npm:^0.3.2":
+  version: 0.3.2
+  resolution: "@snuggery/schematics@npm:0.3.2"
+  dependencies:
+    "@snuggery/core": 0.3.2
+  peerDependencies:
+    "@angular-devkit/core": ^12.0.0-rc.2 || ^13.0.0
+    "@angular-devkit/schematics": ^12.0.0-rc.2 || ^13.0.0
+    typescript: ">= 4.0.0 < 4.7.0"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 17c10631b11c84d39f729de81508589937d294992d83ac08df670e4d18f44d5f9c7fd03aa7d2e20da93df8f90e1e3efde0cb1390c451c4dbc1cd0f5726dafdfb
   languageName: node
   linkType: hard
 
