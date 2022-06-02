@@ -4,7 +4,7 @@ import {
   resolveWorkspacePath,
   scheduleTarget,
 } from '@snuggery/architect';
-import {switchMapSuccessfulResult} from '@snuggery/architect/operators.js';
+import {switchMapSuccessfulResult} from '@snuggery/architect/operators';
 import {defer} from 'rxjs';
 import {fileURLToPath} from 'url';
 
