@@ -2293,7 +2293,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngx-playwright/harness@0.8.3, @ngx-playwright/harness@workspace:packages/harness":
+"@ngx-playwright/harness@0.8.4, @ngx-playwright/harness@workspace:packages/harness":
   version: 0.0.0-use.local
   resolution: "@ngx-playwright/harness@workspace:packages/harness"
   dependencies:
@@ -2323,7 +2323,7 @@ __metadata:
     "@angular/compiler": 14.0.2
     "@angular/compiler-cli": 14.0.2
     "@angular/core": 14.0.2
-    "@ngx-playwright/harness": 0.8.3
+    "@ngx-playwright/harness": 0.8.4
     "@ngx-playwright/workspace-scripts": "workspace:scripts"
     "@playwright/test": ^1.20.2
     "@snuggery/architect": ^0.5.1
