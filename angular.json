@@ -34,7 +34,7 @@
     },
     "integration": {
       "root": "integration",
-      "type": "application",
+      "projectType": "application",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",

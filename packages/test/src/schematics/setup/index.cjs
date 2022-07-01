@@ -18,10 +18,11 @@ const {posix: path} = require('path');
  * @returns {import("@angular-devkit/schematics").Rule}
  */
 exports.factory = function (options) {
-  return async tree => {
+  return async (tree, context) => {
     const [projectName, project] = getProject(
       options,
       await getWorkspace(tree),
+      context,
     );
 
     return chain([
@@ -60,11 +61,12 @@ exports.factory = function (options) {
 /**
  * @param {import('./schema.js').Schema} options
  * @param {import('@snuggery/core').WorkspaceDefinition} workspace
+ * @param {import('@angular-devkit/schematics').SchematicContext} context
  * @returns {[string, import('@snuggery/core').ProjectDefinition]}
  */
-function getProject(options, workspace) {
+function getProject(options, workspace, context) {
   const applicationProjectNames = Array.from(workspace.projects)
-    .filter(([, project]) => project.extensions.type === 'application')
+    .filter(([, project]) => project.extensions.projectType === 'application')
     .map(([name]) => name);
 
   let projectName = options.project;
@@ -91,7 +93,7 @@ function getProject(options, workspace) {
   }
 
   if (!applicationProjectNames.includes(projectName)) {
-    throw new SchematicsException(
+    context.logger.warn(
       `Project ${JSON.stringify(projectName)} is not an application project`,
     );
   }
