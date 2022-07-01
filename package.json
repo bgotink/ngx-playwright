@@ -13,9 +13,9 @@
   "devDependencies": {
     "@angular/cli": "^14.0.2",
     "@nrwl/linter": "^12.8.0",
-    "@snuggery/node": "0.3.0",
-    "@snuggery/snuggery": "0.7.0",
-    "@snuggery/yarn": "0.3.0",
+    "@snuggery/node": "0.3.1",
+    "@snuggery/snuggery": "0.7.1",
+    "@snuggery/yarn": "0.3.1",
     "cspell-lib": "^5.6.0",
     "express-check-in": "^0.1.0",
     "husky": "^5.2.0",
