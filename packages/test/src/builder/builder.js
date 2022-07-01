@@ -6,15 +6,19 @@ import {
 } from '@snuggery/architect';
 import {switchMapSuccessfulResult} from '@snuggery/architect/operators';
 import {defer} from 'rxjs';
+import {finalize} from 'rxjs/operators/index.js';
 import {fileURLToPath} from 'url';
 
 /**
  *
  * @param {import('./schema.js').Schema} input
  * @param {import('@angular-devkit/architect').BuilderContext} context
- * @returns {Promise<(import('@angular-devkit/architect').BuilderOutput & {success: false}) | {success: true; baseUrl: string}>}
+ * @returns {Promise<(import('@angular-devkit/architect').BuilderOutput & {success: false}) | {success: true; baseUrl: string; stop(): Promise<void>}>}
  */
 async function getBaseUrl({baseUrl, devServerTarget, host, port}, context) {
+  /** @type {import('@angular-devkit/architect').BuilderRun=} */
+  let server;
+
   if (baseUrl == null) {
     if (devServerTarget == null) {
       return {
@@ -46,13 +50,19 @@ async function getBaseUrl({baseUrl, devServerTarget, host, port}, context) {
       overrides.port = port;
     }
 
-    const server = await context.scheduleTarget(target, overrides);
+    server = await context.scheduleTarget(target, overrides);
     const result = await server.result;
     if (!result.success) {
+      await server.stop();
       return {success: false};
     }
 
-    context.addTeardown(() => server.stop());
+    context.addTeardown(() => {
+      console.log('tearing down the building');
+      /** @type {import('@angular-devkit/architect').BuilderRun} */ (
+        server
+      ).stop();
+    });
 
     if (typeof serverOptions.publicHost === 'string') {
       let publicHost = serverOptions.publicHost;
@@ -83,6 +93,9 @@ async function getBaseUrl({baseUrl, devServerTarget, host, port}, context) {
   return {
     success: true,
     baseUrl,
+    async stop() {
+      await server?.stop();
+    },
   };
 }
 
@@ -94,7 +107,7 @@ async function getBaseUrl({baseUrl, devServerTarget, host, port}, context) {
  */
 export function execute(input, context) {
   return defer(() => getBaseUrl(input, context)).pipe(
-    switchMapSuccessfulResult(({baseUrl}) =>
+    switchMapSuccessfulResult(({baseUrl, stop}) =>
       scheduleTarget(
         {
           builder: '@snuggery/snuggery:execute',
@@ -145,6 +158,10 @@ export function execute(input, context) {
           stdio: 'inherit',
         },
         context,
+      ).pipe(
+        finalize(() => {
+          stop();
+        }),
       ),
     ),
   );
