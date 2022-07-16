@@ -1,5 +1,5 @@
-import {join, dirname} from 'path';
-import {fileURLToPath} from 'url';
+import {join, dirname} from 'node:path';
+import {fileURLToPath} from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -13,7 +13,7 @@ const config = {
   },
 
   testDir: join(__dirname, 'specs'),
-  testMatch: '**/*.e2e-spec.js',
+  testMatch: '**/*.e2e-spec.mjs',
 
   reporter: [
     [process.env.GITHUB_ACTION ? 'github' : 'list'],

@@ -8,6 +8,11 @@
     "replaceE2eTarget": {
       "type": "boolean",
       "description": "Replace the existing e2e target, if this option is not passed and there is already an e2e target the command will fail"
+    },
+    "typescript": {
+      "type": "boolean",
+      "description": "Set up typescript files for playwright tests",
+      "x-prompt": "Use typescript for the playwright tests?"
     }
   },
   "additionalProperties": false

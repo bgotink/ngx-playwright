@@ -108,7 +108,7 @@
                   "**/*.json",
                   "**/*.js",
                   "**/*.cjs",
-                  "schematics/*/files"
+                  "schematics/*/files*"
                 ],
                 "from": "packages/test/src"
               },

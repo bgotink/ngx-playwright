@@ -25,9 +25,11 @@ exports.factory = function (options) {
       context,
     );
 
+    const ext = options.typescript ? 'ts' : 'mjs';
+
     return chain([
       mergeWith(
-        apply(url('./files'), [
+        apply(url(`./files-${ext}`), [
           applyTemplates({
             dot: '.',
             prefix: project.prefix ?? 'app',
@@ -44,7 +46,10 @@ exports.factory = function (options) {
         project.targets.set('e2e', {
           builder: '@ngx-playwright/test:run',
           options: {
-            config: path.join(project.root, 'playwright/playwright.config.js'),
+            config: path.join(
+              project.root,
+              `playwright/playwright.config.${ext}`,
+            ),
             devServerTarget: 'serve',
           },
           configurations: {
