@@ -1,0 +1,43 @@
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+name: 'Test ng-add schematic'
+jobs:
+  ng-add:
+    name: 'Validate ng-add'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - uses: actions/checkout@v3
+
+      - name: Build ngx-playwright
+        shell: bash
+        env:
+          YARN_ENABLE_NETWORK: 0
+        run: |
+          yarn install --immutable --immutable-cache
+          yarn sn build
+
+      - name: Prepare environment
+        shell: bash
+        run: ./scripts/ng-add/prepare.sh
+
+      - name: ng-add with typescript
+        shell: bash
+        run: ./scripts/ng-add/run.sh --typescript
+
+      - name: ng-add without typescript
+        shell: bash
+        run: ./scripts/ng-add/run.sh --no-typescript
