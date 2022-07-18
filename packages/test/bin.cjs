@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const {readFileSync} = require('fs');
 const {dirname, resolve} = require('path');
 
