@@ -56,7 +56,7 @@ jobs:
           yarn sn build
 
   integration:
-    name: 'Run ${{matrix.cli}} ${{matrix.runner}} on node.js ${{matrix.node}} on ${{matrix.os}}'
+    name: 'Run via ${{matrix.cli}} in node.js ${{matrix.node}} on ${{matrix.os}}'
     runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
@@ -68,20 +68,16 @@ jobs:
         node:
           - 14.x
           - 16.x
-        runner:
-          - test
         cli:
           - sn
         include:
           # Verify that everything works if using the @angular/cli
           - os: ubuntu-latest
             node: 16.x
-            runner: test
             cli: ng
           # Test future node version(s)
           - os: ubuntu-latest
-            node: 17.x
-            runner: test
+            node: 18.x
             cli: sn
 
     steps:
@@ -102,4 +98,4 @@ jobs:
       - name: 'Run tests'
         shell: bash
         run: |
-          yarn ${{matrix.cli}} ${{matrix.runner}} integration
+          yarn ${{matrix.cli}} test integration
