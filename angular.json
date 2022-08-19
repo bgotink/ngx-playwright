@@ -50,6 +50,21 @@
             "namedChunks": true,
             "optimization": false,
             "sourceMap": true
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "integration/src/env/env.ts",
+                  "with": "integration/src/env/env.prod.ts"
+                }
+              ],
+              "buildOptimizer": true,
+              "extractLicenses": true,
+              "namedChunks": false,
+              "optimization": true,
+              "sourceMap": {"hidden": true}
+            }
           }
         },
         "serve": {
@@ -57,6 +72,11 @@
           "options": {
             "browserTarget": "integration:build",
             "port": 0
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "integration:build:production"
+            }
           }
         },
         "test": {
@@ -64,6 +84,11 @@
           "options": {
             "config": "integration/playwright-test.e2e-config.js",
             "devServerTarget": "serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": ":serve:production"
+            }
           }
         }
       }

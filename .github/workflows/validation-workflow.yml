@@ -99,3 +99,8 @@ jobs:
         shell: bash
         run: |
           yarn ${{matrix.cli}} test integration
+
+      - name: 'Run tests in production'
+        shell: bash
+        run: |
+          yarn ${{matrix.cli}} test integration --configuration production
