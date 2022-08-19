@@ -10,7 +10,7 @@ import {openScreen, createInScreenFn} from './screen.js';
 
 /** @type {import('./args.js').NgxPlaywrightFixtures} */
 const ngxPlaywrightFixtures = {
-  enableAutomaticStabilization: true,
+  enableAutomaticStabilization: [true, {option: true}],
 
   _setupAutomaticStabilization: [
     ({enableAutomaticStabilization}, use) => {
