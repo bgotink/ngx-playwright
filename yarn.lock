@@ -5413,16 +5413,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-check-in@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "express-check-in@npm:0.1.0"
+"express-check-in@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "express-check-in@npm:0.1.1"
   dependencies:
     chalk: ^4.1.1
     execa: ^5.0.0
     mri: ^1.1.6
     multimatch: ^5.0.0
   peerDependencies:
-    cspell-lib: ^5.4.1
+    cspell-lib: ^5.4.1 || ^6.0.0
     prettier: ^2.3.0
   peerDependenciesMeta:
     cspell-lib:
@@ -5430,8 +5430,8 @@ __metadata:
     prettier:
       optional: true
   bin:
-    express-check-in: bin/express-check-in.js
-  checksum: 065119609c7f52e557fae3becebc24ead2e6007e500ed82aee5ed232a6336d37a774e47a89a0fc1e25c609159139a54c213c4f28dc349f7a6164e8ecc672bbd9
+    express-check-in: ./bin.js
+  checksum: b924b5b26b1e99d37debb857c003f0a7e1a23954c184f6b0068a5efc7a5eba4ff3408cd71990a259cf7f452927a9013a2b181c6fd0869ced894d9fe711fd27d7
   languageName: node
   linkType: hard
 
@@ -9630,7 +9630,7 @@ __metadata:
     eslint: ^8.12.0
     eslint-import-resolver-node: ^0.3.6
     eslint-plugin-import: ^2.25.4
-    express-check-in: ^0.1.0
+    express-check-in: ^0.1.1
     husky: ^5.2.0
     is-ci: ^3.0.0
     prettier: ^2.3.1
