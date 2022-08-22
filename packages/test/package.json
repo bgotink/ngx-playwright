@@ -39,9 +39,9 @@
     "@angular-devkit/schematics": "^14.0.2",
     "@ngx-playwright/harness": "0.8.4",
     "@playwright/test": "^1.20.2",
-    "@snuggery/architect": "^0.5.1",
-    "@snuggery/schematics": "^0.5.0",
-    "@snuggery/snuggery": "^0.7.1",
+    "@snuggery/architect": "^0.6.2",
+    "@snuggery/schematics": "^0.5.3",
+    "@snuggery/snuggery": "^0.8.2",
     "rxjs": "^6.6.6"
   },
   "devDependencies": {
