@@ -53,6 +53,10 @@
       "description": "Run tests in headed browsers, useful for debugging",
       "type": "boolean"
     },
+    "ignoreSnapshots": {
+      "description": "Skip snapshot expectations",
+      "type": "boolean"
+    },
     "list": {
       "description": "List all the tests, but do not run them",
       "type": "boolean"
@@ -64,6 +68,10 @@
     "output": {
       "description": "Directory for artifacts produced by tests, defaults to `test-results`",
       "type": "string"
+    },
+    "passWithNoTests": {
+      "description": "Allows the test suite to pass when no files are found",
+      "type": "boolean"
     },
     "project": {
       "description": "Only run tests from one of the specified projects, defaults to running all projects defined in the configuration file",

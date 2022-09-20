@@ -70,6 +70,11 @@ export interface Schema {
   readonly headed?: boolean;
 
   /**
+   * Skip snapshot expectations
+   */
+  readonly ignoreSnapshots?: boolean;
+
+  /**
    * List all the tests, but do not run them.
    */
   readonly list?: boolean;
@@ -83,6 +88,11 @@ export interface Schema {
    * Directory for artifacts produced by tests, defaults to `test-results`
    */
   readonly output?: string;
+
+  /**
+   * Allows the test suite to pass when no files are found
+   */
+  readonly passWithNoTests?: boolean;
 
   /**
    * Only run tests from one of the specified projects
