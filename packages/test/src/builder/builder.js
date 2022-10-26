@@ -132,16 +132,18 @@ export function execute(input, context) {
             ...(input.grepInvert != null
               ? ['--grep-invert', input.grepInvert]
               : []),
-            ...(input.headed != null ? ['--headed'] : []),
-            ...(input.list != null ? ['--list'] : []),
+            ...(input.headed ? ['--headed'] : []),
+            ...(input.ignoreSnapshots ? ['--ignore-snapshots'] : []),
+            ...(input.list ? ['--list'] : []),
             ...(input.maxFailures != null
               ? ['--max-failures', `${input.maxFailures}`]
               : []),
             ...(input.output != null
               ? ['--output', resolveWorkspacePath(context, input.output)]
               : []),
+            ...(input.passWithNoTests ? ['--pass-with-no-tests'] : []),
             ...(input.project != null ? ['--project', input.project] : []),
-            ...(input.quiet != null ? ['--quiet'] : []),
+            ...(input.quiet ? ['--quiet'] : []),
             ...(input.repeatEach != null
               ? ['--repeat-each', `${input.repeatEach}`]
               : []),
@@ -149,7 +151,7 @@ export function execute(input, context) {
             ...(input.retries != null ? ['--retries', `${input.retries}`] : []),
             ...(input.shard != null ? ['--shard', input.shard] : []),
             ...(input.timeout != null ? ['--timeout', `${input.timeout}`] : []),
-            ...(input.updateSnapshots != null ? ['--update-snapshots'] : []),
+            ...(input.updateSnapshots ? ['--update-snapshots'] : []),
             ...(input.workers != null ? ['--workers', `${input.workers}`] : []),
           ],
           env: {
