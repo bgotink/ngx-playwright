@@ -88,9 +88,8 @@ function isCenterClick(args) {
 }
 
 /**
- * @template {unknown[]} T
- * @param {T} args
- * @returns {args is T & [number, ...unknown[]]}
+ * @param {ClickParameters} args
+ * @returns {args is [number, number, ModifierKeys?]}
  */
 function isPositionedClick(args) {
   return typeof args[0] === 'number';
