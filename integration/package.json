@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.0.0-rc.0",
-    "@angular/cdk": "^14.0.1",
+    "@angular/cdk": "^15.0.0-rc.0",
     "@angular/compiler-cli": "^15.0.0-rc.0",
     "@bgotink/playwright-coverage": "0.1.5",
     "@ngx-playwright/test": "workspace:packages/test",
