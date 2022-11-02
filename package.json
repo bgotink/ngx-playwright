@@ -34,5 +34,5 @@
     "eslint-import-resolver-node": "^0.3.6",
     "eslint-plugin-import": "^2.25.4"
   },
-  "packageManager": "yarn@3.2.1"
+  "packageManager": "yarn@3.2.4"
 }

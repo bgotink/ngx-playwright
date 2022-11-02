@@ -166,20 +166,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/cdk@npm:^14.0.1":
-  version: 14.0.1
-  resolution: "@angular/cdk@npm:14.0.1"
+"@angular/cdk@npm:^15.0.0-rc.0":
+  version: 15.0.0-rc.0
+  resolution: "@angular/cdk@npm:15.0.0-rc.0"
   dependencies:
     parse5: ^5.0.0
     tslib: ^2.3.0
   peerDependencies:
-    "@angular/common": ^14.0.0 || ^15.0.0
-    "@angular/core": ^14.0.0 || ^15.0.0
+    "@angular/common": ^15.0.0-0 || ^16.0.0
+    "@angular/core": ^15.0.0-0 || ^16.0.0
     rxjs: ^6.5.3 || ^7.4.0
   dependenciesMeta:
     parse5:
       optional: true
-  checksum: aa6ddfbd84342e94c7e70f6c6ddff13be8955c708d3b419520a867df02a5a75e71ecb94391947207d8a96b0fe740d020e60a3cd7ca77faa191bfef550cc471ff
+  checksum: 5eedc55a7060e0ad374b32452ca5d1370862c64b3a3f8391209ad321f22e54cbbf81dd98e30638d23762a02db1091b6fecb43b8bca59a2ef05776a14b1a86c42
   languageName: node
   linkType: hard
 
@@ -2283,7 +2283,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ngx-playwright/harness@workspace:packages/harness"
   dependencies:
-    "@angular/cdk": ^14.0.1
+    "@angular/cdk": ^15.0.0-rc.0
     "@angular/common": ^15.0.0-rc.0
     "@angular/core": ^15.0.0-rc.0
     "@playwright/test": ^1.20.2
@@ -2291,7 +2291,7 @@ __metadata:
     typescript: ~4.8.2
     zone.js: ^0.11.4
   peerDependencies:
-    "@angular/cdk": ^13.3.2 || ^14.0.0-rc.0
+    "@angular/cdk": ^13.3.2 || ^15.0.0-rc.0
     "@playwright/test": ^1.20.2
   languageName: unknown
   linkType: soft
@@ -2304,7 +2304,7 @@ __metadata:
     "@angular-devkit/build-angular": 15.0.0-rc.0
     "@angular-devkit/core": ^15.0.0-rc.0
     "@angular-devkit/schematics": ^15.0.0-rc.0
-    "@angular/cdk": ^14.0.1
+    "@angular/cdk": ^15.0.0-rc.0
     "@angular/common": 15.0.0-rc.0
     "@angular/compiler": 15.0.0-rc.0
     "@angular/compiler-cli": 15.0.0-rc.0
@@ -2319,7 +2319,7 @@ __metadata:
     typescript: ~4.8.2
     zone.js: ~0.11.4
   peerDependencies:
-    "@angular/cdk": ^13.3.2 || ^14.0.0-rc.0
+    "@angular/cdk": ^13.3.2 || ^15.0.0-rc.0
     "@playwright/test": ^1.20.2
   bin:
     playwright: ./bin.cjs
@@ -6410,7 +6410,7 @@ __metadata:
   resolution: "integration-aa38c3@workspace:integration"
   dependencies:
     "@angular-devkit/build-angular": ^15.0.0-rc.0
-    "@angular/cdk": ^14.0.1
+    "@angular/cdk": ^15.0.0-rc.0
     "@angular/common": ^15.0.0-rc.0
     "@angular/compiler": ^15.0.0-rc.0
     "@angular/compiler-cli": ^15.0.0-rc.0
@@ -10141,11 +10141,11 @@ __metadata:
 
 "typescript@patch:typescript@~4.8.2#~builtin<compat/typescript>":
   version: 4.8.4
-  resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=7ad353"
+  resolution: "typescript@patch:typescript@npm%3A4.8.4#~builtin<compat/typescript>::version=4.8.4&hash=701156"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 563a0ef47abae6df27a9a3ab38f75fc681f633ccf1a3502b1108e252e187787893de689220f4544aaf95a371a4eb3141e4a337deb9895de5ac3c1ca76430e5f0
+  checksum: 301459fc3eb3b1a38fe91bf96d98eb55da88a9cb17b4ef80b4d105d620f4d547ba776cc27b44cc2ef58b66eda23fe0a74142feb5e79a6fb99f54fc018a696afa
   languageName: node
   linkType: hard
 

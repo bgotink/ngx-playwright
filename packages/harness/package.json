@@ -38,11 +38,11 @@
     "build": "sn build"
   },
   "peerDependencies": {
-    "@angular/cdk": "^13.3.2 || ^14.0.0-rc.0",
+    "@angular/cdk": "^13.3.2 || ^15.0.0-rc.0",
     "@playwright/test": "^1.20.2"
   },
   "devDependencies": {
-    "@angular/cdk": "^14.0.1",
+    "@angular/cdk": "^15.0.0-rc.0",
     "@angular/common": "^15.0.0-rc.0",
     "@angular/core": "^15.0.0-rc.0",
     "@playwright/test": "^1.20.2",
