@@ -1812,9 +1812,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@bgotink/playwright-coverage@npm:0.1.5":
-  version: 0.1.5
-  resolution: "@bgotink/playwright-coverage@npm:0.1.5"
+"@bgotink/playwright-coverage@npm:0.2.0":
+  version: 0.2.0
+  resolution: "@bgotink/playwright-coverage@npm:0.2.0"
   dependencies:
     "@bcoe/v8-coverage": ^0.2.3
     comlink: ^4.3.1
@@ -1823,10 +1823,10 @@ __metadata:
     istanbul-reports: ^3.0.2
     micromatch: ^4.0.4
     node-fetch: ^3.2.0
-    v8-to-istanbul: ^8.0.0
+    v8-to-istanbul: ^9.1.0
   peerDependencies:
     "@playwright/test": ^1.14.1
-  checksum: 864dcf6dc02f348d0f4206b239009514e29bc850744a30481538025ef0d9a7cf6f4a97717b546132b33ec14a8a911327aa98dba85ca9afbcf588c1af524082b9
+  checksum: f58fb3012810b39da7e6f3792bb7d639762749d0a3c47d6a549204974d32d66ec8ba86be430fb734433951e0255fb161713af2c86db89f138e9ed0a70e3772f4
   languageName: node
   linkType: hard
 
@@ -2220,6 +2220,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jridgewell/resolve-uri@npm:3.1.0":
+  version: 3.1.0
+  resolution: "@jridgewell/resolve-uri@npm:3.1.0"
+  checksum: b5ceaaf9a110fcb2780d1d8f8d4a0bfd216702f31c988d8042e5f8fbe353c55d9b0f55a1733afdc64806f8e79c485d2464680ac48a0d9fcadb9548ee6b81d267
+  languageName: node
+  linkType: hard
+
 "@jridgewell/resolve-uri@npm:^3.0.3":
   version: 3.0.5
   resolution: "@jridgewell/resolve-uri@npm:3.0.5"
@@ -2244,10 +2251,27 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@jridgewell/sourcemap-codec@npm:1.4.14":
+  version: 1.4.14
+  resolution: "@jridgewell/sourcemap-codec@npm:1.4.14"
+  checksum: 61100637b6d173d3ba786a5dff019e1a74b1f394f323c1fee337ff390239f053b87266c7a948777f4b1ee68c01a8ad0ab61e5ff4abb5a012a0b091bec391ab97
+  languageName: node
+  linkType: hard
+
 "@jridgewell/sourcemap-codec@npm:^1.4.10":
   version: 1.4.11
   resolution: "@jridgewell/sourcemap-codec@npm:1.4.11"
   checksum: 3b2afaf8400fb07a36db60e901fcce6a746cdec587310ee9035939d89878e57b2dec8173b0b8f63176f647efa352294049a53c49739098eb907ff81fec2547c8
+  languageName: node
+  linkType: hard
+
+"@jridgewell/trace-mapping@npm:^0.3.12":
+  version: 0.3.17
+  resolution: "@jridgewell/trace-mapping@npm:0.3.17"
+  dependencies:
+    "@jridgewell/resolve-uri": 3.1.0
+    "@jridgewell/sourcemap-codec": 1.4.14
+  checksum: 9d703b859cff5cd83b7308fd457a431387db5db96bd781a63bf48e183418dd9d3d44e76b9e4ae13237f6abeeb25d739ec9215c1d5bfdd08f66f750a50074a339
   languageName: node
   linkType: hard
 
@@ -6418,7 +6442,7 @@ __metadata:
     "@angular/forms": ^15.0.0-rc.0
     "@angular/platform-browser": ^15.0.0-rc.0
     "@angular/platform-browser-dynamic": ^15.0.0-rc.0
-    "@bgotink/playwright-coverage": 0.1.5
+    "@bgotink/playwright-coverage": 0.2.0
     "@ngx-playwright/test": "workspace:packages/test"
     "@playwright/test": ^1.20.2
     rxjs: ^6.6.7
@@ -9565,7 +9589,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"source-map@npm:0.7.4, source-map@npm:^0.7.3":
+"source-map@npm:0.7.4":
   version: 0.7.4
   resolution: "source-map@npm:0.7.4"
   checksum: 01cc5a74b1f0e1d626a58d36ad6898ea820567e87f18dfc9d24a9843a351aaa2ec09b87422589906d6ff1deed29693e176194dc88bcae7c9a852dc74b311dbf5
@@ -10331,14 +10355,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"v8-to-istanbul@npm:^8.0.0":
-  version: 8.1.1
-  resolution: "v8-to-istanbul@npm:8.1.1"
+"v8-to-istanbul@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "v8-to-istanbul@npm:9.1.0"
   dependencies:
+    "@jridgewell/trace-mapping": ^0.3.12
     "@types/istanbul-lib-coverage": ^2.0.1
     convert-source-map: ^1.6.0
-    source-map: ^0.7.3
-  checksum: 54ce92bec2727879626f623d02c8d193f0c7e919941fa373ec135189a8382265117f5316ea317a1e12a5f9c13d84d8449052a731fe3306fa4beaafbfa4cab229
+  checksum: 2069d59ee46cf8d83b4adfd8a5c1a90834caffa9f675e4360f1157ffc8578ef0f763c8f32d128334424159bb6b01f3876acd39cd13297b2769405a9da241f8d1
   languageName: node
   linkType: hard
 
