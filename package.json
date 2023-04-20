@@ -36,5 +36,5 @@
   "resolutions": {
     "source-map-support@0.4.18": "patch:source-map-support@npm:0.4.18#.yarn/patches/source-map-support-npm-0.4.18-cf66202fc8"
   },
-  "packageManager": "yarn@3.2.4"
+  "packageManager": "yarn@3.5.0"
 }
