@@ -1,4 +1,4 @@
-import {TestKey} from '@angular/cdk/testing';
+import {TestKey, getNoKeysSpecifiedError} from '@angular/cdk/testing';
 
 /** @typedef {import('@angular/cdk/testing').ElementDimensions} ElementDimensions */
 /** @typedef {import('@angular/cdk/testing').EventData} EventData */
@@ -9,14 +9,7 @@ import {TestKey} from '@angular/cdk/testing';
 /** @typedef {import('@playwright/test').Locator} Locator */
 /** @typedef {import('@playwright/test').Page} Page */
 
-import {
-  blur,
-  dispatchEvent,
-  getBoundingClientRect,
-  getStyleProperty,
-  getTextWithExcludedElements,
-  matches,
-} from './browser.js';
+import * as contentScripts from './browser.js';
 
 /**
  * @type {Map<TestKey, string>}
@@ -171,7 +164,7 @@ export class PlaywrightElement {
 
     this.#perform = async fn => {
       try {
-        return fn(await getHandle());
+        return await fn(await getHandle());
       } finally {
         await whenStable();
       }
@@ -218,7 +211,7 @@ export class PlaywrightElement {
   blur() {
     // Playwright exposes a `focus` function but no `blur` function, so we have
     // to resort to executing a function ourselves.
-    return this.#perform(handle => handle.evaluate(blur));
+    return this.#perform(handle => handle.evaluate(contentScripts.blur));
   }
 
   /**
@@ -265,7 +258,7 @@ export class PlaywrightElement {
     return this.#perform(handle =>
       // Cast to `any` needed because of infinite type instantiation
       handle.evaluate(
-        dispatchEvent,
+        contentScripts.dispatchEvent,
         /** @type {[string, any]} */ ([name, data]),
       ),
     );
@@ -283,7 +276,9 @@ export class PlaywrightElement {
    * @returns {Promise<string>}
    */
   async getCssValue(property) {
-    return this.#query(handle => handle.evaluate(getStyleProperty, property));
+    return this.#query(handle =>
+      handle.evaluate(contentScripts.getStyleProperty, property),
+    );
   }
 
   /**
@@ -298,11 +293,15 @@ export class PlaywrightElement {
    */
   async mouseAway() {
     const {left, top} = await this.#query(async handle => {
-      let {left, top} = await handle.evaluate(getBoundingClientRect);
+      let {left, top} = await handle.evaluate(
+        contentScripts.getBoundingClientRect,
+      );
 
       if (left < 0 && top < 0) {
         await handle.scrollIntoViewIfNeeded();
-        ({left, top} = await handle.evaluate(getBoundingClientRect));
+        ({left, top} = await handle.evaluate(
+          contentScripts.getBoundingClientRect,
+        ));
       }
 
       return {left, top};
@@ -335,21 +334,28 @@ export class PlaywrightElement {
 
   /**
    *
-   * @param  {(string | TestKey)[] | [ModifierKeys, ...(string | TestKey)[]]} keys
+   * @param  {(string | TestKey)[] | [ModifierKeys, ...(string | TestKey)[]]} input
    * @returns {Promise<void>}
    */
-  sendKeys(...keys) {
-    /** @type {string | undefined} */
-    let modifiers;
-    if (hasModifiers(keys)) {
-      /** @type {ModifierKeys} */
-      let modifiersObject;
-      [modifiersObject, ...keys] = keys;
-
-      modifiers = getModifiers(modifiersObject).join('+');
-    }
-
+  sendKeys(...input) {
     return this.#perform(async handle => {
+      /** @type {string | undefined} */
+      let modifiers;
+      let keys;
+      if (hasModifiers(input)) {
+        /** @type {ModifierKeys} */
+        let modifiersObject;
+        [modifiersObject, ...keys] = input;
+
+        modifiers = getModifiers(modifiersObject).join('+');
+      } else {
+        keys = input;
+      }
+
+      if (!keys.some(key => key !== '')) {
+        throw getNoKeysSpecifiedError();
+      }
+
       await handle.focus();
 
       const {keyboard} = this.#page();
@@ -391,11 +397,24 @@ export class PlaywrightElement {
   text(options) {
     return this.#query(handle => {
       if (options?.exclude) {
-        return handle.evaluate(getTextWithExcludedElements, options.exclude);
+        return handle.evaluate(
+          contentScripts.getTextWithExcludedElements,
+          options.exclude,
+        );
       }
 
       return handle.innerText();
     });
+  }
+
+  /**
+   * @param {string} value
+   * @returns {Promise<void>}
+   */
+  setContenteditableValue(value) {
+    return this.#perform(handle =>
+      handle.evaluate(contentScripts.setContenteditableValue, value),
+    );
   }
 
   /**
@@ -423,7 +442,9 @@ export class PlaywrightElement {
    * @returns {Promise<ElementDimensions>}
    */
   async getDimensions() {
-    return this.#query(handle => handle.evaluate(getBoundingClientRect));
+    return this.#query(handle =>
+      handle.evaluate(contentScripts.getBoundingClientRect),
+    );
   }
 
   /**
@@ -445,7 +466,9 @@ export class PlaywrightElement {
    * @returns {Promise<boolean>}
    */
   async matchesSelector(selector) {
-    return this.#query(handle => handle.evaluate(matches, selector));
+    return this.#query(handle =>
+      handle.evaluate(contentScripts.matches, selector),
+    );
   }
 
   /**

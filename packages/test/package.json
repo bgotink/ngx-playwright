@@ -30,30 +30,28 @@
     "build": "sn build"
   },
   "peerDependencies": {
-    "@angular/cdk": "^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0",
+    "@angular/cdk": "^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0",
     "@playwright/test": "^1.20.2"
   },
   "dependencies": {
-    "@angular-devkit/architect": ">= 0.1500.0-rc.0 < 0.1600.0",
-    "@angular-devkit/core": "^15.0.0-rc.0",
-    "@angular-devkit/schematics": "^15.0.0-rc.0",
+    "@angular-devkit/schematics": "^16.0.0-rc.1",
     "@ngx-playwright/harness": "0.9.1",
     "@playwright/test": "^1.20.2",
-    "@snuggery/architect": "^0.7.0",
-    "@snuggery/schematics": "^0.6.0",
-    "@snuggery/snuggery": "^0.9.0",
-    "rxjs": "^6.6.6"
+    "@snuggery/architect": "^0.8.0",
+    "@snuggery/schematics": "^0.7.1",
+    "@snuggery/snuggery": "^0.10.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "15.0.0-rc.0",
-    "@angular/cdk": "^15.0.0-rc.0",
-    "@angular/common": "15.0.0-rc.0",
-    "@angular/compiler": "15.0.0-rc.0",
-    "@angular/compiler-cli": "15.0.0-rc.0",
-    "@angular/core": "15.0.0-rc.0",
+    "@angular-devkit/build-angular": "^16.0.0-rc.1",
+    "@angular/cdk": "^16.0.0-rc.0",
+    "@angular/common": "^16.0.0-rc.2",
+    "@angular/compiler": "^16.0.0-rc.2",
+    "@angular/compiler-cli": "^16.0.0-rc.2",
+    "@angular/core": "^16.0.0-rc.2",
     "@ngx-playwright/workspace-scripts": "workspace:scripts",
-    "typescript": "~4.8.2",
-    "zone.js": "~0.11.4"
+    "rxjs": "7.8.0",
+    "typescript": "~5.0.4",
+    "zone.js": "~0.13.0"
   },
   "publishConfig": {
     "main": "./index.js"

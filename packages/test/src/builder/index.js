@@ -1,4 +1,4 @@
-import {createBuilder} from '@angular-devkit/architect';
+import {createBuilder} from '@snuggery/architect';
 
 import {execute} from './builder.js';
 

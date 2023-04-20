@@ -1,30 +1,24 @@
-import {targetFromTargetString} from '@angular-devkit/architect';
 import {
   resolveTargetString,
   resolveWorkspacePath,
   scheduleTarget,
+  BuildFailureError,
+  firstValueFrom,
+  targetFromTargetString,
 } from '@snuggery/architect';
-import {switchMapSuccessfulResult} from '@snuggery/architect/operators';
-import {defer} from 'rxjs';
-import {finalize} from 'rxjs/operators/index.js';
 import {fileURLToPath} from 'url';
 
 /**
  *
  * @param {import('./schema.js').Schema} input
- * @param {import('@angular-devkit/architect').BuilderContext} context
- * @returns {Promise<(import('@angular-devkit/architect').BuilderOutput & {success: false}) | {success: true; baseUrl: string; stop(): Promise<void>}>}
+ * @param {import('@snuggery/architect').BuilderContext} context
  */
 async function getBaseUrl({baseUrl, devServerTarget, host, port}, context) {
-  /** @type {import('@angular-devkit/architect').BuilderRun=} */
-  let server;
+  let stop = async () => {};
 
   if (baseUrl == null) {
     if (devServerTarget == null) {
-      return {
-        success: false,
-        error: 'Pass one of devServerTarget or baseUrl',
-      };
+      throw new BuildFailureError('Pass one of devServerTarget or baseUrl');
     }
 
     const target = targetFromTargetString(
@@ -32,7 +26,7 @@ async function getBaseUrl({baseUrl, devServerTarget, host, port}, context) {
     );
     const serverOptions = await context.getTargetOptions(target);
 
-    /** @type {Partial<import('@angular-devkit/build-angular').DevServerBuilderOptions> & import('@angular-devkit/core').JsonObject} */
+    /** @type {Partial<import('@angular-devkit/build-angular').DevServerBuilderOptions> & import('@snuggery/core').JsonObject} */
     const overrides = {
       watch: false,
       liveReload: false,
@@ -50,19 +44,19 @@ async function getBaseUrl({baseUrl, devServerTarget, host, port}, context) {
       overrides.port = port;
     }
 
-    server = await context.scheduleTarget(target, overrides);
+    const server = await context.scheduleTarget(target, overrides);
+    stop = () => server.stop();
+
     const result = await server.result;
     if (!result.success) {
-      await server.stop();
-      return {success: false};
+      await stop();
+      throw new BuildFailureError(
+        result.error ??
+          `Building ${resolveTargetString(context, devServerTarget)} failed`,
+      );
     }
 
-    context.addTeardown(() => {
-      console.log('tearing down the building');
-      /** @type {import('@angular-devkit/architect').BuilderRun} */ (
-        server
-      ).stop();
-    });
+    context.addTeardown(stop);
 
     if (typeof serverOptions.publicHost === 'string') {
       let publicHost = serverOptions.publicHost;
@@ -78,11 +72,8 @@ async function getBaseUrl({baseUrl, devServerTarget, host, port}, context) {
         `${serverOptions.ssl ? 'https' : 'http'}://${host}:${result.port}`,
       ).href;
     } else {
-      await server.stop();
-      return {
-        success: false,
-        error: `Failed to get address to test`,
-      };
+      await stop();
+      throw new BuildFailureError(`Failed to get address to test`);
     }
   }
 
@@ -91,23 +82,21 @@ async function getBaseUrl({baseUrl, devServerTarget, host, port}, context) {
   }
 
   return {
-    success: true,
     baseUrl,
-    async stop() {
-      await server?.stop();
-    },
+    stop,
   };
 }
 
 /**
- *
  * @param {import('./schema.js').Schema} input
- * @param {import('@angular-devkit/architect').BuilderContext} context
- * @returns {import('rxjs').Observable<import('@angular-devkit/architect').BuilderOutput>}
+ * @param {import('@snuggery/architect').BuilderContext} context
  */
-export function execute(input, context) {
-  return defer(() => getBaseUrl(input, context)).pipe(
-    switchMapSuccessfulResult(({baseUrl, stop}) =>
+export async function execute(input, context) {
+  const {baseUrl, stop} = await getBaseUrl(input, context);
+
+  try {
+    await firstValueFrom(
+      context,
       scheduleTarget(
         {
           builder: '@snuggery/snuggery:execute',
@@ -160,11 +149,9 @@ export function execute(input, context) {
           stdio: 'inherit',
         },
         context,
-      ).pipe(
-        finalize(() => {
-          stop();
-        }),
       ),
-    ),
-  );
+    );
+  } finally {
+    await stop();
+  }
 }

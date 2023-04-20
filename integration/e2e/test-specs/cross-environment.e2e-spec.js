@@ -9,7 +9,12 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ComponentHarness, parallel} from '@angular/cdk/testing';
+import {
+  ComponentHarness,
+  HarnessPredicate,
+  getNoKeysSpecifiedError,
+  parallel,
+} from '@angular/cdk/testing';
 import {mixinFixtures} from '@bgotink/playwright-coverage';
 import {test as base, expect} from '@ngx-playwright/test';
 
@@ -20,6 +25,8 @@ import {
 } from '../harnesses/sub-component-harness.js';
 
 const test = mixinFixtures(base);
+
+const skipAsyncTests = false;
 
 /**
  * Tests that should behave equal in testbed and protractor environment.
@@ -89,9 +96,27 @@ test.describe.parallel('HarnessLoader', () => {
     }
   });
 
+  test('it should get first matching component for optional harness', async () => {
+    const harness = await loader.getHarnessOrNull(SubComponentHarness);
+    expect(harness).not.toBeNull();
+    expect(await (await harness?.title())?.text()).toBe('List of test tools');
+  });
+
+  test('it should get null if no matching component found for optional harness', async () => {
+    const countersLoader = await loader.getChildLoader('.counters');
+    const harness = await countersLoader.getHarnessOrNull(SubComponentHarness);
+    expect(harness).toBeNull();
+  });
+
   test('it should get all matching components for all harnesses', async () => {
     const harnesses = await loader.getAllHarnesses(SubComponentHarness);
     expect(harnesses.length).toBe(4);
+  });
+
+  test('it should check if harness is found', async () => {
+    const countersLoader = await loader.getChildLoader('.counters');
+    expect(await loader.hasHarness(SubComponentHarness)).toBe(true);
+    expect(await countersLoader.hasHarness(SubComponentHarness)).toBe(false);
   });
 });
 
@@ -184,13 +209,6 @@ test.describe.parallel('ComponentHarness', () => {
     expect(items4.length).toBe(0);
   });
 
-  test('it should wait for async operation to complete', async () => {
-    const asyncCounter = await harness.asyncCounter();
-    expect(await asyncCounter.text()).toBe('5');
-    await harness.increaseCounter(3);
-    expect(await asyncCounter.text()).toBe('8');
-  });
-
   test('it should send enter key', async () => {
     const specialKey = await harness.specaialKey();
     await harness.sendEnter();
@@ -255,9 +273,29 @@ test.describe.parallel('ComponentHarness', () => {
     expect(subcomps.length).toBe(2);
   });
 
-  test('should be able to wait for tasks outside of Angular within native async/await', async () => {
-    expect(await harness.getTaskStateResult()).toBe('result');
+  test('it should handle a compound selector with an ancestor', async () => {
+    const elements = await harness.compoundSelectorWithAncestor();
+
+    expect(
+      await parallel(() => elements.map(element => element.getText())),
+    ).toEqual(['Div inside parent', 'Span inside parent']);
   });
+
+  test('it should handle a selector with comma inside attribute with an ancestor', async () => {
+    const element = await harness.quotedContentSelectorWithAncestor();
+
+    expect(element).toBeTruthy();
+    expect(await element.getText()).toBe('Has comma inside attribute');
+  });
+
+  if (!skipAsyncTests) {
+    test('it should wait for async operation to complete', async () => {
+      const asyncCounter = await harness.asyncCounter();
+      expect(await asyncCounter.text()).toBe('5');
+      await harness.increaseCounter(3);
+      expect(await asyncCounter.text()).toBe('8');
+    });
+  }
 });
 
 test.describe.parallel('HarnessPredicate', () => {
@@ -318,16 +356,55 @@ test.describe.parallel('HarnessPredicate', () => {
       );
     }
   });
+
+  test('it should have correct description for debugging', () => {
+    const predicate = new HarnessPredicate(MainComponentHarness, {}).addOption(
+      'test',
+      {
+        regexes: [/test/gim, /"test"/],
+        strings: [`test`, `"test"`],
+        numbers: [10],
+      },
+      async () => true,
+    );
+    expect(predicate.getDescription()).toBe(
+      `test = {` +
+        `"regexes":[/test/gim,/"test"/],` +
+        `"strings":["test","\\"test\\""],` +
+        `"numbers":[10]}`,
+    );
+  });
 });
 
 test.describe.parallel('TestElement', () => {
   /** @type {MainComponentHarness} */
   let harness;
+  /** @type {() => Promise<string>} */
+  let getActiveElementId;
 
   test.beforeEach(async ({harnessEnvironment, page}) => {
     await page.goto('/');
     harness = await harnessEnvironment.getHarness(MainComponentHarness);
+    getActiveElementId = () =>
+      page.evaluate(() => /** @type {Element} */ (document.activeElement).id);
   });
+
+  /**
+   *
+   * @param {() => Promise<void>} fn
+   * @param {Error} expected
+   */
+  async function expectAsyncError(fn, expected) {
+    let error = null;
+    try {
+      await fn();
+    } catch (e) {
+      error = e;
+    }
+    expect(error).not.toBe(null);
+    expect(error instanceof Error).toBe(true);
+    expect(error.message).toBe(expected.message);
+  }
 
   test('it should be able to clear', async () => {
     const input = await harness.input();
@@ -336,6 +413,16 @@ test.describe.parallel('TestElement', () => {
 
     await input.clear();
     expect(await input.getProperty('value')).toBe('');
+  });
+
+  test('sendKeys method should throw if no keys have been specified', async () => {
+    const input = await harness.input();
+    await expectAsyncError(() => input.sendKeys(), getNoKeysSpecifiedError());
+    await expectAsyncError(() => input.sendKeys(''), getNoKeysSpecifiedError());
+    await expectAsyncError(
+      () => input.sendKeys('', ''),
+      getNoKeysSpecifiedError(),
+    );
   });
 
   test('it should be able to click', async () => {
@@ -414,53 +501,67 @@ test.describe.parallel('TestElement', () => {
     expect(await value.text()).toBe('Input: Yi');
   });
 
-  test('it focuses the element before sending key', async ({page}) => {
+  test('focuses the element before sending key', async () => {
     const input = await harness.input();
     await input.sendKeys('Yi');
-    expect(await page.evaluate(() => document.activeElement?.id ?? null)).toBe(
-      await input.getAttribute('id'),
-    );
+    expect(await getActiveElementId()).toBe(await input.getAttribute('id'));
+  });
+
+  test('it should be able to type in values with a decimal', async () => {
+    const input = await harness.numberInput();
+    const value = await harness.numberInputValue();
+    await input.sendKeys('123.456');
+
+    expect(await input.getProperty('value')).toBe('123.456');
+    expect(await value.text()).toBe('Number value: 123.456');
+  });
+
+  test('it should be able to set a negative input value on a reactive form control', async () => {
+    const input = await harness.numberInput();
+    const value = await harness.numberInputValue();
+    await input.sendKeys('-123');
+
+    expect(await input.getProperty('value')).toBe('-123');
+    expect(await value.text()).toBe('Number value: -123');
   });
 
   test('it should be able to retrieve dimensions', async () => {
     const dimensions = await (await harness.title()).getDimensions();
     expect(dimensions).toEqual(
-      // XXX - replaced jasmine.objectContaining with expect.objectContaining
       expect.objectContaining({height: 100, width: 200}),
     );
   });
 
-  test('it should be able to hover', async () => {
+  test('it should dispatch `mouseenter` and `mouseover` on hover', async () => {
     const box = await harness.hoverTest();
-    let classAttr = await box.getAttribute('class');
-    // XXX - Jest isn't happy if .not.toContain is used with null values
-    expect(classAttr ?? '').not.toContain('hovering');
+    let classAttr = (await box.getAttribute('class')) ?? '';
+    expect(classAttr).not.toContain('hovering');
+    expect(classAttr).not.toContain('pointer-over');
     await box.hover();
-    classAttr = await box.getAttribute('class');
-    // XXX - Jest isn't happy if .not.toContain is used with null values
-    expect(classAttr ?? '').toContain('hovering');
+    classAttr = (await box.getAttribute('class')) ?? '';
+    expect(classAttr).toContain('hovering');
+    expect(classAttr).toContain('pointer-over');
   });
 
-  test('it should be able to stop hovering', async () => {
+  test('it should dispatch `mouseleave` and `mouseout` on mouseAway', async () => {
     const box = await harness.hoverTest();
-    let classAttr = await box.getAttribute('class');
-    // XXX - Jest isn't happy if .not.toContain is used with null values
-    expect(classAttr ?? '').not.toContain('hovering');
+    let classAttr = (await box.getAttribute('class')) ?? '';
+    expect(classAttr).not.toContain('hovering');
     await box.hover();
-    classAttr = await box.getAttribute('class');
-    // XXX - Jest isn't happy if .not.toContain is used with null values
-    expect(classAttr ?? '').toContain('hovering');
+    classAttr = (await box.getAttribute('class')) ?? '';
+    expect(classAttr).toContain('hovering');
+    expect(classAttr).toContain('pointer-over');
     await box.mouseAway();
-    classAttr = await box.getAttribute('class');
-    // XXX - Jest isn't happy if .not.toContain is used with null values
-    expect(classAttr ?? '').not.toContain('hovering');
+    classAttr = (await box.getAttribute('class')) ?? '';
+    expect(classAttr).not.toContain('hovering');
+    expect(classAttr).not.toContain('pointer-over');
   });
 
   test('it should be able to getAttribute', async () => {
     const memoStr = `
-      This is an example that shows how to use component harness
-      You should use getAttribute('value') to retrieve the text in textarea
-    `;
+        This is an example that shows how to use component harness
+        You should use getAttribute('value') to retrieve the text in textarea
+      `;
     const memo = await harness.memo();
     await memo.sendKeys(memoStr);
     expect(await memo.getProperty('value')).toBe(memoStr);
@@ -471,10 +572,7 @@ test.describe.parallel('TestElement', () => {
     expect(await title.getCssValue('height')).toBe('100px');
   });
 
-  test('it should focus and blur element', async ({page}) => {
-    const getActiveElementId = () =>
-      page.evaluate(() => document.activeElement?.id ?? null);
-
+  test('it should focus and blur element', async () => {
     const button = await harness.button();
     const buttonId = await button.getAttribute('id');
     expect(await getActiveElementId()).not.toBe(buttonId);
@@ -655,6 +753,22 @@ test.describe.parallel('TestElement', () => {
     expect(await button.isFocused()).toBe(true);
     await button.blur();
     expect(await button.isFocused()).toBe(false);
+  });
+
+  test('it should be able to get the text of a hidden element', async () => {
+    const hiddenElement = await harness.hidden();
+    expect(await hiddenElement.text()).toBe('Hello');
+  });
+
+  test('it should be able to set the value of a contenteditable element', async () => {
+    const element = await harness.contenteditable();
+    expect(await element.text()).not.toBe('hello');
+
+    // @breaking-change 16.0.0 Remove non-null assertion once `setContenteditableValue`
+    // becomes a required method.
+    await element.setContenteditableValue?.('hello');
+
+    expect(await element.text()).toBe('hello');
   });
 });
 

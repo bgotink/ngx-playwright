@@ -121,3 +121,17 @@ export function dispatchEvent(element, [name, properties]) {
 
   element.dispatchEvent(event);
 }
+
+/**
+ * @param {Element} element
+ * @param {string} value
+ */
+export function setContenteditableValue(element, value) {
+  if (!(/** @type {HTMLElement} */ (element).isContentEditable)) {
+    throw new Error(
+      "setContenteditableValue can only be called on a 'contenteditable' element",
+    );
+  }
+
+  element.textContent = value;
+}

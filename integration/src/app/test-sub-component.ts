@@ -23,6 +23,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestSubComponent {
-  @Input() title?: string;
-  @Input() items?: string[];
+  @Input() title: string;
+  @Input() items: string[];
 }

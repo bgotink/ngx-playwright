@@ -21,6 +21,7 @@
   <label>AsyncCounter:</label>
   <div id="asyncCounter">{{ asyncCounter }}</div>
 </div>
+<span id="contenteditable" contenteditable>initial value</span>
 <div class="inputs">
   <input
     [(ngModel)]="input"
@@ -67,6 +68,14 @@
   <div (myCustomEvent)="onCustomEvent($event)" id="custom-event-object">
     Event with object: {{ customEventData }}
   </div>
+
+  <input
+    id="number-input"
+    type="number"
+    aria-label="Enter a number"
+    [formControl]="numberControl"
+  />
+  <div id="number-input-value">Number value: {{ numberControl.value }}</div>
 </div>
 <div class="subcomponents">
   <test-sub
@@ -80,6 +89,15 @@
   <test-sub title="other 1"></test-sub>
   <test-sub title="other 2"></test-sub>
 </div>
+<div class="parent">
+  <div class="some-div">Div inside parent</div>
+  <div class="some-span">Span inside parent</div>
+</div>
+<div class="some-div">Div outside parent</div>
+<div class="some-span">Span outside parent</div>
+<div class="quoted-comma-parent">
+  <div has-comma="a,b">Has comma inside attribute</div>
+</div>
 <div class="task-state-tests">
   <button (click)="runTaskOutsideZone()" id="task-state-test-trigger">
     Run task outside zone
@@ -91,7 +109,11 @@
 <div
   id="hover-box"
   [class.hovering]="isHovering"
+  [class.pointer-over]="isPointerOver"
   (mouseenter)="isHovering = true"
   (mouseleave)="isHovering = false"
+  (mouseover)="isPointerOver = true"
+  (mouseout)="isPointerOver = false"
   style="width: 50px; height: 50px; background: hotpink"
 ></div>
+<div class="hidden-element" style="display: none">Hello</div>

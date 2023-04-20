@@ -5,6 +5,8 @@
     "bram",
     "bgotink",
     "cdk's",
+    "contenteditable",
+    "cosmiconfig",
     "destructure",
     "destructured",
     "devkit",
@@ -22,5 +24,6 @@
     "wasm",
     "yarnpkg"
   ],
+  "ignoreRegExpList": ["from '[^']+'"],
   "enabled": true
 }

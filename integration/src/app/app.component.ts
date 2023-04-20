@@ -10,6 +10,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'test-main',
@@ -21,14 +22,15 @@ export class AppComponent implements OnDestroy {
   username: string;
   counter: number;
   asyncCounter: number;
-  input?: string;
+  input: string;
   memo: string;
   testTools: string[];
   testMethods: string[];
   isHovering = false;
+  isPointerOver = false;
   specialKey = '';
-  modifiers?: string;
-  singleSelect?: string;
+  modifiers: string;
+  singleSelect: string;
   singleSelectChangeEventCount = 0;
   multiSelect: string[] = [];
   multiSelectChangeEventCount = 0;
@@ -37,10 +39,10 @@ export class AppComponent implements OnDestroy {
   _shadowDomSupported = _supportsShadowDom();
   clickResult = {x: -1, y: -1};
   rightClickResult = {x: -1, y: -1, button: -1};
+  numberControl = new FormControl<number | null>(null);
 
-  @ViewChild('clickTestElement') clickTestElement!: ElementRef<HTMLElement>;
-  @ViewChild('taskStateResult')
-  taskStateResultElement!: ElementRef<HTMLElement>;
+  @ViewChild('clickTestElement') clickTestElement: ElementRef<HTMLElement>;
+  @ViewChild('taskStateResult') taskStateResultElement: ElementRef<HTMLElement>;
 
   private _fakeOverlayElement: HTMLElement;
 
@@ -68,7 +70,7 @@ export class AppComponent implements OnDestroy {
   }
 
   ngOnDestroy() {
-    document.body.removeChild(this._fakeOverlayElement);
+    this._fakeOverlayElement.remove();
   }
 
   click() {
@@ -124,9 +126,7 @@ export class AppComponent implements OnDestroy {
     event: MouseEvent,
     obj: {x: number; y: number},
   ) {
-    const {top, left} =
-      this.clickTestElement.nativeElement.getBoundingClientRect();
-    obj.x = Math.round(event.clientX - left);
-    obj.y = Math.round(event.clientY - top);
+    obj.x = Math.round(event.offsetX);
+    obj.y = Math.round(event.offsetY);
   }
 }

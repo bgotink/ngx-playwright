@@ -10,6 +10,8 @@
 
 import {ComponentHarness, TestKey} from '@angular/cdk/testing';
 
+import {CompoundSelectorHarness} from './compound-selector-harness.js';
+import {QuotedCommaSelectorHarness} from './quoted-comma-selector-harness.js';
 import {
   SubComponentHarness,
   SubComponentSpecialHarness,
@@ -45,7 +47,10 @@ export class MainComponentHarness extends ComponentHarness {
   multiSelectChangeEventCounter = this.locatorFor(
     '#multi-select-change-counter',
   );
+  numberInput = this.locatorFor('#number-input');
+  numberInputValue = this.locatorFor('#number-input-value');
   contextmenuTestResult = this.locatorFor('.contextmenu-test-result');
+  contenteditable = this.locatorFor('#contenteditable');
   // Allow null for element
   nullItem = this.locatorForOptional('wrong locator');
   // Allow null for component harness
@@ -104,6 +109,12 @@ export class MainComponentHarness extends ComponentHarness {
   directAncestorSelectorSubcomponent = this.locatorForAll(
     SubComponentHarness.with({ancestor: '.other >'}),
   );
+  compoundSelectorWithAncestor = this.locatorForAll(
+    CompoundSelectorHarness.with({ancestor: '.parent'}),
+  );
+  quotedContentSelectorWithAncestor = this.locatorFor(
+    QuotedCommaSelectorHarness.with({ancestor: '.quoted-comma-parent'}),
+  );
 
   subcomponentHarnessesAndElements = this.locatorForAll(
     '#counter',
@@ -130,6 +141,7 @@ export class MainComponentHarness extends ComponentHarness {
   hoverTest = this.locatorFor('#hover-box');
   customEventBasic = this.locatorFor('#custom-event-basic');
   customEventObject = this.locatorFor('#custom-event-object');
+  hidden = this.locatorFor('.hidden-element');
 
   #testTools = this.locatorFor(SubComponentHarness);
 
@@ -155,11 +167,11 @@ export class MainComponentHarness extends ComponentHarness {
   }
 
   async sendEnter() {
-    await (await this.input()).sendKeys(TestKey.ENTER);
+    return (await this.input()).sendKeys(TestKey.ENTER);
   }
 
   async sendAltJ() {
-    await (await this.input()).sendKeys({alt: true}, 'j');
+    return (await this.input()).sendKeys({alt: true}, 'j');
   }
 
   async getTaskStateResult() {
