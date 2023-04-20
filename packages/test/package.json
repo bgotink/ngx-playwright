@@ -1,6 +1,6 @@
 {
   "name": "@ngx-playwright/test",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "type": "module",
   "license": "MIT",
   "author": {
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@angular-devkit/schematics": "^16.0.0-rc.1",
-    "@ngx-playwright/harness": "0.9.1",
+    "@ngx-playwright/harness": "0.10.0",
     "@playwright/test": "^1.20.2",
     "@snuggery/architect": "^0.8.0",
     "@snuggery/schematics": "^0.7.1",
