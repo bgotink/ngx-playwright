@@ -84,7 +84,7 @@ function getProject(options, workspace, context) {
       }
 
       throw new SchematicsException(
-        `Multiple applications found, pass one project name with --project`,
+        `Multiple applications found, pass one existing application project name with --project`,
       );
     }
 
