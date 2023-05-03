@@ -36,6 +36,10 @@
       "description": "Whether to disallow `test.only`, useful on CI",
       "type": "boolean"
     },
+    "fullyParallel": {
+      "description": "Run all tests in parallel",
+      "type": "boolean"
+    },
     "grep": {
       "description": "Only run tests matching this regular expression",
       "type": "string",
@@ -100,6 +104,21 @@
     "timeout": {
       "description": "Maximum timeout in milliseconds for each test, defaults to 30 seconds",
       "type": "number"
+    },
+    "trace": {
+      "description": "Force tracing mode",
+      "type": "string",
+      "enum": [
+        "on",
+        "off",
+        "on-first-retry",
+        "on-all-retries",
+        "retain-on-failure"
+      ]
+    },
+    "ui": {
+      "description": "Run tests in interactive UI mode",
+      "type": "boolean"
     },
     "updateSnapshots": {
       "description": "Whether to update snapshots with actual results instead of comparing them",

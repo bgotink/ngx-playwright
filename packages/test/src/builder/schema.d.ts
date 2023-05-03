@@ -1,3 +1,5 @@
+import type {TraceMode} from '@playwright/test';
+
 export interface Schema {
   /**
    * A dev-server builder target to run tests against in the format of `target` or `[project]:target[:configuration]`. You can also pass in more than one configuration name as a comma-separated list. Example: `project:target:production,staging`.
@@ -42,6 +44,11 @@ export interface Schema {
    * Whether to disallow `test.only`, useful on CI
    */
   readonly forbidOnly?: boolean;
+
+  /**
+   * Run all tests in parallel
+   */
+  readonly fullyParallel?: boolean;
 
   /**
    * Only run tests matching this regular expression
@@ -130,6 +137,16 @@ export interface Schema {
    * Maximum timeout in milliseconds for each test, defaults to 30 seconds
    */
   readonly timeout?: number;
+
+  /**
+   * Force tracing mode
+   */
+  readonly trace?: TraceMode;
+
+  /**
+   * Run tests in interactive UI mode
+   */
+  readonly ui?: boolean;
 
   /**
    * Whether to update snapshots with actual results instead of comparing them

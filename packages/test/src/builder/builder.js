@@ -114,6 +114,7 @@ export async function execute(input, context) {
             ...(input.browser != null ? ['--browser', input.browser] : []),
             ...(input.debug ? ['--debug'] : []),
             ...(input.forbidOnly ? ['--forbid-only'] : []),
+            ...(input.fullyParallel ? ['--fully-parallel'] : []),
             ...(input.globalTimeout != null
               ? ['--global-timeout', `${input.globalTimeout}`]
               : []),
@@ -140,6 +141,8 @@ export async function execute(input, context) {
             ...(input.retries != null ? ['--retries', `${input.retries}`] : []),
             ...(input.shard != null ? ['--shard', input.shard] : []),
             ...(input.timeout != null ? ['--timeout', `${input.timeout}`] : []),
+            ...(input.trace != null ? ['--trace', input.trace] : []),
+            ...(input.ui ? ['--ui'] : []),
             ...(input.updateSnapshots ? ['--update-snapshots'] : []),
             ...(input.workers != null ? ['--workers', `${input.workers}`] : []),
           ],
