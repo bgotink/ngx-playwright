@@ -18,6 +18,7 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
    * @type {import('@playwright/test').Page}
    */
   #page;
+
   /**
    * @readonly
    * @type {import('@playwright/test').Locator}
@@ -33,23 +34,23 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
   /**
    *
    * @param {import('@playwright/test').Page} page
+   * @param {Readonly<import('./abstract-environment.js').PlaywrightHarnessEnvironmentOptions>=} options
    * @param {import('@playwright/test').Locator=} documentRoot
    * @param {import('@playwright/test').ElementHandle<HTMLElement | SVGElement> | import('@playwright/test').Locator=} element
-   * @param {import('./abstract-environment.js').PlaywrightHarnessEnvironmentOptions=} options
    */
   constructor(
     page,
+    {respectShadowBoundaries = false, useLocators = false} = {},
     documentRoot = page.locator(':root'),
     element = documentRoot,
-    options = {},
   ) {
     super(element);
 
     this.#page = page;
     this.#documentRoot = documentRoot;
     this.#opts = {
-      respectShadowBoundaries: false,
-      ...options,
+      respectShadowBoundaries,
+      useLocators,
     };
   }
 
@@ -119,6 +120,29 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
   }
 
   /**
+   * @param {import('@angular/cdk/testing').TestElement} element
+   * @returns {import('@playwright/test').Locator}
+   * @override
+   */
+  getPlaywrightLocator(element) {
+    const handleOrLocator = elementHandles.get(element);
+
+    if (handleOrLocator == null) {
+      throw new Error(
+        'The given TestElement was not created by PlaywrightHarnessEnvironment',
+      );
+    }
+
+    if (!isLocator(handleOrLocator)) {
+      throw new Error(
+        'This PlaywrightHarnessEnvironment is not configured to use locators',
+      );
+    }
+
+    return handleOrLocator;
+  }
+
+  /**
    * @param {import('./abstract-environment.js').PlaywrightHarnessEnvironmentOptions} options
    * @returns {PlaywrightHarnessEnvironment}
    * @override
@@ -126,12 +150,12 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
   withOptions(options) {
     return new PlaywrightHarnessEnvironmentImplementation(
       this.#page,
-      this.#documentRoot,
-      this.rawRootElement,
       {
         ...this.#opts,
         ...options,
       },
+      this.#documentRoot,
+      this.rawRootElement,
     );
   }
 
@@ -178,34 +202,40 @@ export class PlaywrightHarnessEnvironmentImplementation extends PlaywrightHarnes
   createEnvironment(element) {
     return new PlaywrightHarnessEnvironmentImplementation(
       this.#page,
+      this.#opts,
       this.#documentRoot,
       element,
-      this.#opts,
     );
   }
 
   /**
    * @param {string} selector
-   * @returns {Promise<import('@playwright/test').ElementHandle<HTMLElement | SVGElement>[]>}
+   * @returns {Promise<(import('@playwright/test').ElementHandle<HTMLElement | SVGElement> | import('@playwright/test').Locator)[]>}
    * @override
    * @protected
    */
-  getAllRawElements(selector) {
-    if ('$$' in this.rawRootElement) {
-      return this.rawRootElement.$$(
+  async getAllRawElements(selector) {
+    if (!isLocator(this.rawRootElement)) {
+      return await this.rawRootElement.$$(
         this.respectShadowBoundaries
           ? `css:light=${selector}`
           : `css=${selector}`,
       );
     } else {
-      return /** @type {Promise<import('@playwright/test').ElementHandle<HTMLElement | SVGElement>[]>} */ (
-        this.rawRootElement
-          .locator(
-            this.respectShadowBoundaries
-              ? `css:light=${selector}`
-              : `css=${selector}`,
-          )
-          .elementHandles()
+      const locator = this.rawRootElement.locator(
+        this.respectShadowBoundaries
+          ? `css:light=${selector}`
+          : `css=${selector}`,
+      );
+
+      if (this.#opts.useLocators) {
+        return Array.from({length: await locator.count()}, (_, i) =>
+          locator.nth(i),
+        );
+      }
+
+      return /** @type {import('@playwright/test').ElementHandle<HTMLElement | SVGElement>[]} */ (
+        await locator.elementHandles()
       );
     }
   }

@@ -122,7 +122,7 @@ export class PlaywrightElement {
    * This function has to be called after every manipulation and before any query
    *
    * @readonly
-   * @type {<T>(fn: (handle: ElementHandle<HTMLElement | SVGElement>) => Promise<T>) => Promise<T>}
+   * @type {<T>(fn: (handle: Locator | ElementHandle<HTMLElement | SVGElement>) => Promise<T>) => Promise<T>}
    */
   #query;
 
@@ -132,9 +132,17 @@ export class PlaywrightElement {
    * This function has to be called after every manipulation and before any query
    *
    * @readonly
-   * @type {(fn: (handle: ElementHandle<HTMLElement | SVGElement>) => Promise<void>) => Promise<void>}
+   * @type {(fn: (handle: Locator | ElementHandle<HTMLElement | SVGElement>) => Promise<void>) => Promise<void>}
    */
   #perform;
+
+  /**
+   * Execute the given script
+   *
+   * @readonly
+   * @type {Locator['evaluate']}
+   */
+  #evaluate;
 
   /**
    * @param {() => Page} page
@@ -144,31 +152,22 @@ export class PlaywrightElement {
   constructor(page, handleOrLocator, whenStable) {
     this.#page = page;
 
-    /** @type {() => Promise<ElementHandle<HTMLElement | SVGElement>>} */
-    let getHandle;
-    if (isLocator(handleOrLocator)) {
-      // Only one case where we are passed a Locator: the root element of the page, which is always
-      // present -> we can safely ignore the null return type
-      getHandle = async () =>
-        /** @type {ElementHandle<HTMLElement | SVGElement>} */ (
-          await handleOrLocator.elementHandle()
-        );
-    } else {
-      getHandle = async () => handleOrLocator;
-    }
-
     this.#query = async fn => {
       await whenStable();
-      return fn(await getHandle());
+      return fn(handleOrLocator);
     };
 
     this.#perform = async fn => {
       try {
-        return await fn(await getHandle());
+        return await fn(handleOrLocator);
       } finally {
         await whenStable();
       }
     };
+
+    this.#evaluate = /** @type {Locator} */ (handleOrLocator).evaluate.bind(
+      handleOrLocator,
+    );
   }
 
   /**
@@ -211,7 +210,7 @@ export class PlaywrightElement {
   blur() {
     // Playwright exposes a `focus` function but no `blur` function, so we have
     // to resort to executing a function ourselves.
-    return this.#perform(handle => handle.evaluate(contentScripts.blur));
+    return this.#perform(() => this.#evaluate(contentScripts.blur));
   }
 
   /**
@@ -255,9 +254,9 @@ export class PlaywrightElement {
     // which doesn't match what angular wants: `data` are properties to be
     // placed on the event directly rather than on the `details` property
 
-    return this.#perform(handle =>
+    return this.#perform(() =>
       // Cast to `any` needed because of infinite type instantiation
-      handle.evaluate(
+      this.#evaluate(
         contentScripts.dispatchEvent,
         /** @type {[string, any]} */ ([name, data]),
       ),
@@ -276,8 +275,8 @@ export class PlaywrightElement {
    * @returns {Promise<string>}
    */
   async getCssValue(property) {
-    return this.#query(handle =>
-      handle.evaluate(contentScripts.getStyleProperty, property),
+    return this.#query(() =>
+      this.#evaluate(contentScripts.getStyleProperty, property),
     );
   }
 
@@ -293,13 +292,13 @@ export class PlaywrightElement {
    */
   async mouseAway() {
     const {left, top} = await this.#query(async handle => {
-      let {left, top} = await handle.evaluate(
+      let {left, top} = await this.#evaluate(
         contentScripts.getBoundingClientRect,
       );
 
       if (left < 0 && top < 0) {
         await handle.scrollIntoViewIfNeeded();
-        ({left, top} = await handle.evaluate(
+        ({left, top} = await this.#evaluate(
           contentScripts.getBoundingClientRect,
         ));
       }
@@ -397,7 +396,7 @@ export class PlaywrightElement {
   text(options) {
     return this.#query(handle => {
       if (options?.exclude) {
-        return handle.evaluate(
+        return this.#evaluate(
           contentScripts.getTextWithExcludedElements,
           options.exclude,
         );
@@ -412,8 +411,8 @@ export class PlaywrightElement {
    * @returns {Promise<void>}
    */
   setContenteditableValue(value) {
-    return this.#perform(handle =>
-      handle.evaluate(contentScripts.setContenteditableValue, value),
+    return this.#perform(() =>
+      this.#evaluate(contentScripts.setContenteditableValue, value),
     );
   }
 
@@ -442,8 +441,8 @@ export class PlaywrightElement {
    * @returns {Promise<ElementDimensions>}
    */
   async getDimensions() {
-    return this.#query(handle =>
-      handle.evaluate(contentScripts.getBoundingClientRect),
+    return this.#query(() =>
+      this.#evaluate(contentScripts.getBoundingClientRect),
     );
   }
 
@@ -452,7 +451,13 @@ export class PlaywrightElement {
    * @returns {Promise<any>}
    */
   async getProperty(name) {
-    const property = await this.#query(handle => handle.getProperty(name));
+    const property = await this.#query(async handle => {
+      if (isLocator(handle)) {
+        return handle.evaluateHandle(contentScripts.getProperty, name);
+      } else {
+        return handle.getProperty(name);
+      }
+    });
 
     try {
       return await property.jsonValue();
@@ -466,9 +471,7 @@ export class PlaywrightElement {
    * @returns {Promise<boolean>}
    */
   async matchesSelector(selector) {
-    return this.#query(handle =>
-      handle.evaluate(contentScripts.matches, selector),
-    );
+    return this.#query(() => this.#evaluate(contentScripts.matches, selector));
   }
 
   /**

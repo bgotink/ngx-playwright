@@ -18,6 +18,25 @@ const config = {
   testDir: join(__dirname, 'e2e/test-specs'),
   testMatch: '**/*.e2e-spec.js',
 
+  projects: [
+    {
+      name: 'using ElementHandle',
+      use: {
+        harnessEnvironmentOptions: {
+          useLocators: false,
+        },
+      },
+    },
+    {
+      name: 'using Locator',
+      use: {
+        harnessEnvironmentOptions: {
+          useLocators: true,
+        },
+      },
+    },
+  ],
+
   reporter: [
     [process.env.CI ? 'github' : 'list'],
     ['junit', {outputFile: join(__dirname, 'results/junit.xml')}],

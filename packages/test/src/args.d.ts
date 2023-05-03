@@ -1,5 +1,8 @@
 import {ComponentHarness} from '@angular/cdk/testing';
-import {PlaywrightHarnessEnvironment} from '@ngx-playwright/harness';
+import {
+  PlaywrightHarnessEnvironment,
+  PlaywrightHarnessEnvironmentOptions,
+} from '@ngx-playwright/harness';
 import {
   Fixtures,
   PlaywrightTestArgs,
@@ -51,6 +54,14 @@ export interface NgxPlaywrightTestOptions {
    * This only influences the main page. Manual stabilization is always required on secondary pages.
    */
   enableAutomaticStabilization: boolean;
+
+  /**
+   * Options for the playwright harness environment
+   *
+   * These options are used to set up the `harnessEnvironment` fixture. You can
+   * create a child environment with different options if you want to mix options.
+   */
+  harnessEnvironmentOptions: Readonly<PlaywrightHarnessEnvironmentOptions>;
 }
 
 export type PlaywrightTestConfig<

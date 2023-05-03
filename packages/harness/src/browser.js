@@ -135,3 +135,11 @@ export function setContenteditableValue(element, value) {
 
   element.textContent = value;
 }
+
+/**
+ * @param {Element} element
+ * @param {string} property
+ */
+export function getProperty(element, property) {
+  return /** @type {any} */ (element)[property];
+}

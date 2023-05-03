@@ -32,7 +32,10 @@ const ngxPlaywrightFixtures = {
   open: ({page, baseURL, harnessEnvironment}, use) =>
     use(screen => openScreen(baseURL, page, harnessEnvironment, screen)),
 
-  harnessEnvironment: ({page}, use) => use(createEnvironment(page)),
+  harnessEnvironmentOptions: [{}, {option: true}],
+
+  harnessEnvironment: ({page, harnessEnvironmentOptions}, use) =>
+    use(createEnvironment(page, harnessEnvironmentOptions)),
 
   context: async ({context}, use) => {
     await context.addInitScript({
