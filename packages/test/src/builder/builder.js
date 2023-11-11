@@ -6,14 +6,15 @@ import {
   firstValueFrom,
   targetFromTargetString,
 } from '@snuggery/architect';
-import {fileURLToPath} from 'url';
+import {env} from 'node:process';
+import {fileURLToPath} from 'node:url';
 
 /**
  *
  * @param {import('./schema.js').Schema} input
  * @param {import('@snuggery/architect').BuilderContext} context
  */
-async function getBaseUrl({baseUrl, devServerTarget, host, port}, context) {
+async function getBaseUrl({baseUrl, devServerTarget, host, port, ui}, context) {
   let stop = async () => {};
 
   if (baseUrl == null) {
@@ -28,7 +29,12 @@ async function getBaseUrl({baseUrl, devServerTarget, host, port}, context) {
 
     /** @type {Partial<import('@angular-devkit/build-angular').DevServerBuilderOptions> & import('@snuggery/core').JsonObject} */
     const overrides = {
-      watch: false,
+      // Using the UI doesn't necessarily mean watching is enabled, but as watch
+      // can be toggled in the UI we have to assume it's enabled.
+      // cspell:ignore PWTEST
+      watch: !!(ui || env.PWTEST_WATCH),
+      // Live reload would lead to reloading running tests, which can only lead
+      // to confusing errors.
       liveReload: false,
     };
 
