@@ -12,39 +12,40 @@ import {TestKey, getNoKeysSpecifiedError} from '@angular/cdk/testing';
 import * as contentScripts from './browser.js';
 
 /**
- * @type {Map<TestKey, string>}
+ * @type {Map<TestKey, [method: 'type' | 'press', key: string]>}
  */
 const keyMap = new Map([
-  [TestKey.BACKSPACE, 'Backspace'],
-  [TestKey.TAB, 'Tab'],
-  [TestKey.ENTER, 'Enter'],
-  [TestKey.SHIFT, 'Shift'],
-  [TestKey.CONTROL, 'Control'],
-  [TestKey.ALT, 'Alt'],
-  [TestKey.ESCAPE, 'Escape'],
-  [TestKey.PAGE_UP, 'PageUp'],
-  [TestKey.PAGE_DOWN, 'PageDown'],
-  [TestKey.END, 'End'],
-  [TestKey.HOME, 'Home'],
-  [TestKey.LEFT_ARROW, 'ArrowLeft'],
-  [TestKey.UP_ARROW, 'ArrowUp'],
-  [TestKey.RIGHT_ARROW, 'ArrowRight'],
-  [TestKey.DOWN_ARROW, 'ArrowDown'],
-  [TestKey.INSERT, 'Insert'],
-  [TestKey.DELETE, 'Delete'],
-  [TestKey.F1, 'F1'],
-  [TestKey.F2, 'F2'],
-  [TestKey.F3, 'F3'],
-  [TestKey.F4, 'F4'],
-  [TestKey.F5, 'F5'],
-  [TestKey.F6, 'F6'],
-  [TestKey.F7, 'F7'],
-  [TestKey.F8, 'F8'],
-  [TestKey.F9, 'F9'],
-  [TestKey.F10, 'F10'],
-  [TestKey.F11, 'F11'],
-  [TestKey.F12, 'F12'],
-  [TestKey.META, 'Meta'],
+  [TestKey.BACKSPACE, ['press', 'Backspace']],
+  [TestKey.TAB, ['press', 'Tab']],
+  [TestKey.ENTER, ['press', 'Enter']],
+  [TestKey.SHIFT, ['press', 'Shift']],
+  [TestKey.CONTROL, ['press', 'Control']],
+  [TestKey.ALT, ['press', 'Alt']],
+  [TestKey.ESCAPE, ['press', 'Escape']],
+  [TestKey.PAGE_UP, ['press', 'PageUp']],
+  [TestKey.PAGE_DOWN, ['press', 'PageDown']],
+  [TestKey.END, ['press', 'End']],
+  [TestKey.HOME, ['press', 'Home']],
+  [TestKey.LEFT_ARROW, ['press', 'ArrowLeft']],
+  [TestKey.UP_ARROW, ['press', 'ArrowUp']],
+  [TestKey.RIGHT_ARROW, ['press', 'ArrowRight']],
+  [TestKey.DOWN_ARROW, ['press', 'ArrowDown']],
+  [TestKey.INSERT, ['press', 'Insert']],
+  [TestKey.DELETE, ['press', 'Delete']],
+  [TestKey.F1, ['press', 'F1']],
+  [TestKey.F2, ['press', 'F2']],
+  [TestKey.F3, ['press', 'F3']],
+  [TestKey.F4, ['press', 'F4']],
+  [TestKey.F5, ['press', 'F5']],
+  [TestKey.F6, ['press', 'F6']],
+  [TestKey.F7, ['press', 'F7']],
+  [TestKey.F8, ['press', 'F8']],
+  [TestKey.F9, ['press', 'F9']],
+  [TestKey.F10, ['press', 'F10']],
+  [TestKey.F11, ['press', 'F11']],
+  [TestKey.F12, ['press', 'F12']],
+  [TestKey.META, ['press', 'Meta']],
+  [TestKey.COMMA, ['type', ',']],
 ]);
 
 const modifierMapping = /** @type {const} */ ([
@@ -368,7 +369,11 @@ export class PlaywrightElement {
           if (typeof key === 'string') {
             await keyboard.type(key);
           } else if (keyMap.has(key)) {
-            await keyboard.press(/** @type {string} */ (keyMap.get(key)));
+            const [method, argument] =
+              /** @type {[method: "type" | "press", key: string]} */ (
+                keyMap.get(key)
+              );
+            await keyboard[method](argument);
           } else {
             throw new Error(`Unknown key: ${TestKey[key] ?? key}`);
           }
