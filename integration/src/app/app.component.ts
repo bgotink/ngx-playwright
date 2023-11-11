@@ -46,7 +46,10 @@ export class AppComponent implements OnDestroy {
 
   private _fakeOverlayElement: HTMLElement;
 
-  constructor(private _cdr: ChangeDetectorRef, private _zone: NgZone) {
+  constructor(
+    private _cdr: ChangeDetectorRef,
+    private _zone: NgZone,
+  ) {
     this.username = 'Yi';
     this.counter = 0;
     this.asyncCounter = 0;

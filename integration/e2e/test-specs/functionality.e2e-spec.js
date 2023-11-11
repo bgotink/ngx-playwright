@@ -58,9 +58,8 @@ test.describe.parallel('PlaywrightHarnessEnvironment', () => {
       }) => {
         expect(harnessEnvironment.respectShadowBoundaries).toBe(false);
 
-        const harness = await harnessEnvironment.getHarness(
-          MainComponentHarness,
-        );
+        const harness =
+          await harnessEnvironment.getHarness(MainComponentHarness);
         const shadows = await harness.shadows();
         expect(
           await parallel(() => {
@@ -81,9 +80,8 @@ test.describe.parallel('PlaywrightHarnessEnvironment', () => {
       test('it should allow querying across shadow boundary', async ({
         harnessEnvironment,
       }) => {
-        const harness = await harnessEnvironment.getHarness(
-          MainComponentHarness,
-        );
+        const harness =
+          await harnessEnvironment.getHarness(MainComponentHarness);
         expect(await (await harness.deepShadow()).text()).toBe('Shadow 2');
       });
     });
@@ -108,9 +106,8 @@ test.describe.parallel('PlaywrightHarnessEnvironment', () => {
     manualTest(
       'it should not wait for stability when disabled',
       async ({harnessEnvironment}) => {
-        const harness = await harnessEnvironment.getHarness(
-          MainComponentHarness,
-        );
+        const harness =
+          await harnessEnvironment.getHarness(MainComponentHarness);
         const asyncCounter = await harness.asyncCounter();
         expect(await asyncCounter.text()).toBe('0');
         await harnessEnvironment.forceStabilize();
