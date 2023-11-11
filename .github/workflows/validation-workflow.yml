@@ -66,8 +66,8 @@ jobs:
           - macos-latest
           - windows-latest
         node:
-          - 16.x
           - 18.x
+          - 20.x
         cli:
           - sn
         include:
@@ -76,9 +76,9 @@ jobs:
             node: 18.x
             cli: ng
           # Test future node version(s)
-          - os: ubuntu-latest
-            node: 20.x
-            cli: sn
+          # - os: ubuntu-latest
+          #   node: 22.x
+          #   cli: sn
 
     steps:
       - uses: actions/checkout@v3
