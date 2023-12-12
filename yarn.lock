@@ -2963,6 +2963,9 @@ __metadata:
   peerDependencies:
     "@angular/cdk": ^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0
     "@playwright/test": ^1.20.2
+  peerDependenciesMeta:
+    "@angular/cdk":
+      optional: true
   bin:
     playwright: ./bin.cjs
   languageName: unknown

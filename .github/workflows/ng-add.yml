@@ -27,7 +27,7 @@ jobs:
         env:
           YARN_ENABLE_NETWORK: 0
         run: |
-          yarn install --immutable --immutable-cache
+          yarn install --immutable
           yarn sn build
 
       - name: Prepare environment
