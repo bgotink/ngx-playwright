@@ -19,10 +19,8 @@ jobs:
 
       - name: Install
         shell: bash
-        env:
-          YARN_ENABLE_NETWORK: 0
         run: |
-          yarn install --immutable --immutable-cache
+          yarn install --immutable
 
       - name: 'Check for formatting errors (fix w/ "yarn prettier --write path/to/file")'
         run: |
