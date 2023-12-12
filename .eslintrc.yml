@@ -37,7 +37,7 @@ rules:
 
 overrides:
   - files:
-      - packages/harness/src/**/browser.js
+      - packages/test/src/harness/**/browser.js
     env:
       browser: true
   - files: ["**/*.ts"]

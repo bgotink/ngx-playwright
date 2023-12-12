@@ -3,7 +3,7 @@ export * from "@playwright/test";
 export {
 	PlaywrightHarnessEnvironment,
 	createEnvironment,
-} from "@ngx-playwright/harness";
+} from "./harness/index.js";
 
 export {mixinFixtures, test} from "./fixtures.js";
 export {createTest, mixinScreenFixtures} from "./factory.js";

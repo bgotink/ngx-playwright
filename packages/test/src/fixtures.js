@@ -1,11 +1,11 @@
+import {test as base} from "@playwright/test";
+import {fileURLToPath} from "node:url";
+
 import {
 	createEnvironment,
 	autoStabilize,
 	manuallyStabilize,
-} from "@ngx-playwright/harness";
-import {test as base} from "@playwright/test";
-import {createRequire} from "module";
-
+} from "./harness/index.js";
 import {openScreen, createInScreenFn} from "./screen.js";
 
 /** @type {import('./args.js').NgxPlaywrightFixtures} */
@@ -39,9 +39,7 @@ const ngxPlaywrightFixtures = {
 
 	context: async ({context}, use) => {
 		await context.addInitScript({
-			path: createRequire(import.meta.url).resolve(
-				"@ngx-playwright/harness/zone-patch",
-			),
+			path: fileURLToPath(new URL("harness/zone/patch.js", import.meta.url)),
 		});
 
 		return use(context);

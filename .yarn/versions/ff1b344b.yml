@@ -1,3 +1,2 @@
 declined:
-  - "@ngx-playwright/harness"
   - "@ngx-playwright/test"

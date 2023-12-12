@@ -1,9 +1,5 @@
 import {ComponentHarness} from "@angular/cdk/testing";
 import {
-	PlaywrightHarnessEnvironment,
-	PlaywrightHarnessEnvironmentOptions,
-} from "@ngx-playwright/harness";
-import {
 	Fixtures,
 	PlaywrightTestArgs,
 	PlaywrightTestConfig as BaseTestConfig,
@@ -12,6 +8,10 @@ import {
 	PlaywrightWorkerOptions,
 } from "@playwright/test";
 
+import {
+	PlaywrightHarnessEnvironment,
+	PlaywrightHarnessEnvironmentOptions,
+} from "./harness/index.js";
 import {
 	ExtractablePropertiesOfScreen,
 	InScreenFn,

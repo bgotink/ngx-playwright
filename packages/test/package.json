@@ -23,7 +23,10 @@
 	"bin": {
 		"playwright": "./bin.cjs"
 	},
-	"main": "./src/index.js",
+	"exports": {
+		".": "./src/index.js",
+		"./package.json": "./package.json"
+	},
 	"builders": "./builders.json",
 	"schematics": "./collection.json",
 	"scripts": {
@@ -35,7 +38,6 @@
 	},
 	"dependencies": {
 		"@angular-devkit/schematics": "^17.0.0",
-		"@ngx-playwright/harness": "0.10.2",
 		"@playwright/test": "^1.20.2",
 		"@snuggery/architect": "^0.9.1",
 		"@snuggery/schematics": "^0.9.1",
@@ -54,6 +56,9 @@
 		"zone.js": "~0.14.0"
 	},
 	"publishConfig": {
-		"main": "./index.js"
+		"exports": {
+			".": "./index.js",
+			"./package.json": "./package.json"
+		}
 	}
 }

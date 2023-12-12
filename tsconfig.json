@@ -3,9 +3,6 @@
 	"files": [],
 	"references": [
 		{
-			"path": "./packages/harness"
-		},
-		{
 			"path": "./packages/test"
 		}
 	]

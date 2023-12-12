@@ -1,6 +1,6 @@
 import {parallel} from "@angular/cdk/testing";
-import {createEnvironment} from "@ngx-playwright/harness";
 
+import {createEnvironment} from "./harness/index.js";
 import {getDestructuredArguments} from "./parse-arguments.js";
 
 /**
@@ -21,7 +21,7 @@ function hasOpenFunction(screen) {
  * @template {import('@angular/cdk/testing').ComponentHarness} T
  * @param {string | undefined} baseURL
  * @param {import('@playwright/test').Page} page
- * @param {import('@ngx-playwright/harness').PlaywrightHarnessEnvironment} harnessEnvironment
+ * @param {import('./harness/index.js').PlaywrightHarnessEnvironment} harnessEnvironment
  * @param {import('./types').PlaywrightScreen<T>} screen
  * @returns {Promise<T>}
  */
@@ -45,7 +45,7 @@ export async function openScreen(baseURL, page, harnessEnvironment, screen) {
 
 /**
  * @param {import('@playwright/test').Page} page
- * @param {import('@ngx-playwright/harness').PlaywrightHarnessEnvironment} harnessEnvironment
+ * @param {import('./harness/index.js').PlaywrightHarnessEnvironment} harnessEnvironment
  * @param {string | undefined} baseURL
  * @returns {import('./types').InScreenFn}
  */
@@ -97,7 +97,7 @@ export function createInScreenFn(page, harnessEnvironment, baseURL) {
 		} else {
 			const properties = await parallel(() =>
 				args.map(async (name) => {
-					// @ts-expect-error Typescript doesn't realise name indexes screen
+					// @ts-expect-error Typescript doesn't realize name indexes screen
 					const value = await screen[name]?.();
 
 					return [name, value];

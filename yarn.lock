@@ -261,18 +261,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@angular/common@npm:^17.0.2":
-  version: 17.0.2
-  resolution: "@angular/common@npm:17.0.2"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    "@angular/core": 17.0.2
-    rxjs: ^6.5.3 || ^7.4.0
-  checksum: 3a3aa568639d8bb2af33fdc7e0482f120e6d3d3e892b2fcac704dfd717c8b6e1a9a24c52f6c4f24f19640a4cf2cc81e3103804b6609868e7e0be385301e46791
-  languageName: node
-  linkType: hard
-
 "@angular/common@npm:^17.1.0-next":
   version: 17.1.0-next.3
   resolution: "@angular/common@npm:17.1.0-next.3"
@@ -319,18 +307,6 @@ __metadata:
     "@angular/core":
       optional: true
   checksum: 222657fbc1bde0c5aae6ca8f57af7e83276160e6d4abab1abb0751587dc16a962d5d156daa1543931cda74d20884919d0580b19b49a31616a3ac10ff239e2e7b
-  languageName: node
-  linkType: hard
-
-"@angular/core@npm:^17.0.2":
-  version: 17.0.2
-  resolution: "@angular/core@npm:17.0.2"
-  dependencies:
-    tslib: "npm:^2.3.0"
-  peerDependencies:
-    rxjs: ^6.5.3 || ^7.4.0
-    zone.js: ~0.14.0
-  checksum: cff07c9318643749f6374c810d5384df0be4e600865a756e18f80364bf18f029518ea8ca749a488dd8bb8e0a59241892cf0ff8d3d0205cd1ecf96879cc03ea8f
   languageName: node
   linkType: hard
 
@@ -2965,23 +2941,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngx-playwright/harness@npm:0.10.2, @ngx-playwright/harness@workspace:packages/harness":
-  version: 0.0.0-use.local
-  resolution: "@ngx-playwright/harness@workspace:packages/harness"
-  dependencies:
-    "@angular/cdk": "npm:^17.0.0"
-    "@angular/common": "npm:^17.0.2"
-    "@angular/core": "npm:^17.0.2"
-    "@playwright/test": "npm:^1.20.2"
-    rxjs: "npm:^6.6.6"
-    typescript: "npm:~5.3.3"
-    zone.js: "npm:^0.14.0"
-  peerDependencies:
-    "@angular/cdk": ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0
-    "@playwright/test": ^1.20.2
-  languageName: unknown
-  linkType: soft
-
 "@ngx-playwright/test@workspace:packages/test":
   version: 0.0.0-use.local
   resolution: "@ngx-playwright/test@workspace:packages/test"
@@ -2993,7 +2952,6 @@ __metadata:
     "@angular/compiler": "npm:^17.1.0-next"
     "@angular/compiler-cli": "npm:^17.1.0-next"
     "@angular/core": "npm:^17.1.0-next"
-    "@ngx-playwright/harness": "npm:0.10.2"
     "@ngx-playwright/workspace-scripts": "workspace:scripts"
     "@playwright/test": "npm:^1.20.2"
     "@snuggery/architect": "npm:^0.9.1"
@@ -10585,7 +10543,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rxjs@npm:^6.5.4, rxjs@npm:^6.6.6":
+"rxjs@npm:^6.5.4":
   version: 6.6.7
   resolution: "rxjs@npm:6.6.7"
   dependencies:
@@ -12473,7 +12431,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zone.js@npm:^0.14.0, zone.js@npm:~0.14.0":
+"zone.js@npm:~0.14.0":
   version: 0.14.2
   resolution: "zone.js@npm:0.14.2"
   dependencies:
