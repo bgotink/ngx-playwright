@@ -1,130 +1,130 @@
 {
-  "version": 1,
-  "cli": {
-    "packageManager": "yarn"
-  },
-  "projects": {
-    "all": {
-      "root": "",
-      "architect": {
-        "build": {
-          "builder": "@snuggery/snuggery:glob",
-          "options": {
-            "include": "@ngx-playwright/*"
-          }
-        },
-        "deploy": {
-          "builder": "@snuggery/yarn:deploy",
-          "options": {
-            "useWorkspacePlugin": true,
-            "buildTarget": "build"
-          },
-          "configurations": {
-            "next": {
-              "tag": "next"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "eslintConfig": ".eslintrc.yml",
-            "ignorePath": ".eslintignore",
-            "lintFilePatterns": ["packages/*/src/**/*.[tj]s", "integration"]
-          }
-        }
-      }
-    },
-    "integration": {
-      "root": "integration",
-      "projectType": "application",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "aot": true,
-            "index": "integration/src/index.html",
-            "main": "integration/src/main.ts",
-            "outputPath": "integration/dist",
-            "polyfills": "integration/src/polyfills.ts",
-            "tsConfig": "integration/tsconfig.json",
-            "buildOptimizer": false,
-            "extractLicenses": false,
-            "namedChunks": true,
-            "optimization": false,
-            "sourceMap": true
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "integration/src/env/env.ts",
-                  "with": "integration/src/env/env.prod.ts"
-                }
-              ],
-              "buildOptimizer": true,
-              "extractLicenses": true,
-              "namedChunks": false,
-              "optimization": true,
-              "sourceMap": {"hidden": true}
-            }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "buildTarget": "integration:build",
-            "port": 0
-          },
-          "configurations": {
-            "production": {
-              "buildTarget": "integration:build:production"
-            }
-          }
-        },
-        "test": {
-          "builder": "@ngx-playwright/test:run",
-          "options": {
-            "config": "integration/playwright-test.e2e-config.js",
-            "devServerTarget": "serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": ":serve:production"
-            }
-          }
-        }
-      }
-    },
-    "@ngx-playwright/test": {
-      "root": "packages/test",
-      "architect": {
-        "build": {
-          "builder": "@snuggery/build-node:build",
-          "options": {
-            "assets": [
-              {
-                "include": ["README.md", "bin.cjs"]
-              },
-              {
-                "include": [
-                  "**/*.d.ts",
-                  "**/*.json",
-                  "**/*.js",
-                  "**/*.cjs",
-                  "schematics/*/files*"
-                ],
-                "from": "packages/test/src"
-              },
-              {
-                "include": "LICENSE.md",
-                "from": "."
-              }
-            ],
-            "package": true
-          }
-        }
-      }
-    }
-  }
+	"version": 1,
+	"cli": {
+		"packageManager": "yarn"
+	},
+	"projects": {
+		"all": {
+			"root": "",
+			"architect": {
+				"build": {
+					"builder": "@snuggery/snuggery:glob",
+					"options": {
+						"include": "@ngx-playwright/*"
+					}
+				},
+				"deploy": {
+					"builder": "@snuggery/yarn:deploy",
+					"options": {
+						"useWorkspacePlugin": true,
+						"buildTarget": "build"
+					},
+					"configurations": {
+						"next": {
+							"tag": "next"
+						}
+					}
+				},
+				"lint": {
+					"builder": "@nrwl/linter:eslint",
+					"options": {
+						"eslintConfig": ".eslintrc.yml",
+						"ignorePath": ".eslintignore",
+						"lintFilePatterns": ["packages/*/src/**/*.[tj]s", "integration"]
+					}
+				}
+			}
+		},
+		"integration": {
+			"root": "integration",
+			"projectType": "application",
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:browser",
+					"options": {
+						"aot": true,
+						"index": "integration/src/index.html",
+						"main": "integration/src/main.ts",
+						"outputPath": "integration/dist",
+						"polyfills": "integration/src/polyfills.ts",
+						"tsConfig": "integration/tsconfig.json",
+						"buildOptimizer": false,
+						"extractLicenses": false,
+						"namedChunks": true,
+						"optimization": false,
+						"sourceMap": true
+					},
+					"configurations": {
+						"production": {
+							"fileReplacements": [
+								{
+									"replace": "integration/src/env/env.ts",
+									"with": "integration/src/env/env.prod.ts"
+								}
+							],
+							"buildOptimizer": true,
+							"extractLicenses": true,
+							"namedChunks": false,
+							"optimization": true,
+							"sourceMap": {"hidden": true}
+						}
+					}
+				},
+				"serve": {
+					"builder": "@angular-devkit/build-angular:dev-server",
+					"options": {
+						"buildTarget": "integration:build",
+						"port": 0
+					},
+					"configurations": {
+						"production": {
+							"buildTarget": "integration:build:production"
+						}
+					}
+				},
+				"test": {
+					"builder": "@ngx-playwright/test:run",
+					"options": {
+						"config": "integration/playwright-test.e2e-config.js",
+						"devServerTarget": "serve"
+					},
+					"configurations": {
+						"production": {
+							"devServerTarget": ":serve:production"
+						}
+					}
+				}
+			}
+		},
+		"@ngx-playwright/test": {
+			"root": "packages/test",
+			"architect": {
+				"build": {
+					"builder": "@snuggery/build-node:build",
+					"options": {
+						"assets": [
+							{
+								"include": ["README.md", "bin.cjs"]
+							},
+							{
+								"include": [
+									"**/*.d.ts",
+									"**/*.json",
+									"**/*.js",
+									"**/*.cjs",
+									"schematics/*/files*"
+								],
+								"from": "packages/test/src"
+							},
+							{
+								"include": "LICENSE.md",
+								"from": "."
+							}
+						],
+						"package": true
+					}
+				}
+			}
+		}
+	}
 }

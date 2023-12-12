@@ -23,10 +23,10 @@ Or install and configure it manually:
    ```js
    /** @type {import('@ngx-playwright/test').PlaywrightTestConfig} */
    const config = {
-     use: {
-       channel: 'chrome',
-       headless: true,
-     },
+   	use: {
+   		channel: "chrome",
+   		headless: true,
+   	},
    };
 
    module.exports = config;
@@ -63,12 +63,12 @@ An "openable screen" is a component harness class with one of the following prop
 
   ```js
   class LoginScreen extends ComponentHarness {
-    static hostSelector = 'body';
-    static path = '/login';
+  	static hostSelector = "body";
+  	static path = "/login";
 
-    username = this.locatorFor('input#username');
-    password = this.locatorFor('input#password');
-    submit = this.locatorFor('button#submit');
+  	username = this.locatorFor("input#username");
+  	password = this.locatorFor("input#password");
+  	submit = this.locatorFor("button#submit");
   }
   ```
 
@@ -76,16 +76,16 @@ An "openable screen" is a component harness class with one of the following prop
 
   ```js
   class AuthenticatedHomepageScreen extends ComponentHarness {
-    static hostSelector = 'body';
-    static async open(_, baseUrl, open) {
-      const loginScreen = await open(LoginScreen);
+  	static hostSelector = "body";
+  	static async open(_, baseUrl, open) {
+  		const loginScreen = await open(LoginScreen);
 
-      await (await loginScreen.username()).sendKeys('j.doe');
-      await (
-        await loginScreen.password()
-      ).sendKeys('correct horse battery staple');
-      await (await loginScreen.submit()).click();
-    }
+  		await (await loginScreen.username()).sendKeys("j.doe");
+  		await (
+  			await loginScreen.password()
+  		).sendKeys("correct horse battery staple");
+  		await (await loginScreen.submit()).click();
+  	}
   }
   ```
 
@@ -96,9 +96,9 @@ There are two ways to gain access to these fixtures:
    Here's an example:
 
 ```js
-import {mixinFixtures as mixinCoverage} from '@bgotink/playwright-coverage';
-import {mixinFixtures as mixinNgxPlaywright} from '@ngx-playwright/test';
-import {test as base} from '@playwright/test';
+import {mixinFixtures as mixinCoverage} from "@bgotink/playwright-coverage";
+import {mixinFixtures as mixinNgxPlaywright} from "@ngx-playwright/test";
+import {test as base} from "@playwright/test";
 
 const test = mixinCoverage(mixinNgxPlaywright(base));
 ```
@@ -106,7 +106,7 @@ const test = mixinCoverage(mixinNgxPlaywright(base));
 The package also exposes a `createTest` function that generates a `test` function linked to a given screen:
 
 ```js
-import {createTest} from '@ngx-playwright/test';
+import {createTest} from "@ngx-playwright/test";
 
 const test = createTest(LoginScreen);
 ```
@@ -114,9 +114,9 @@ const test = createTest(LoginScreen);
 There's also a `mixinScreenFixtures` function that can be used to combine multiple fixture libraries:
 
 ```js
-import {mixinFixtures as mixinCoverage} from '@bgotink/playwright-coverage';
-import {mixinScreenFixtures} from '@ngx-playwright/test';
-import {test as base} from '@playwright/test';
+import {mixinFixtures as mixinCoverage} from "@bgotink/playwright-coverage";
+import {mixinScreenFixtures} from "@ngx-playwright/test";
+import {test as base} from "@playwright/test";
 
 const test = mixinCoverage(mixinScreenFixtures(LoginScreen, base));
 ```
@@ -125,17 +125,17 @@ The test function created by `mixinScreenFixtures` or `createTest` automatically
 It also exposes an extra special `$` fixture. This fixture can only be used via destructuring:
 
 ```js
-test('submitting login form successfully should navigate away from login screen', async ({
-  page,
-  $: {username, password, submit},
+test("submitting login form successfully should navigate away from login screen", async ({
+	page,
+	$: {username, password, submit},
 }) => {
-  await expect(page.title()).resolves.toBe('Login screen');
+	await expect(page.title()).resolves.toBe("Login screen");
 
-  await username.sendKeys('j.doe');
-  await password.sendKeys('correct horse battery staple');
-  await submit.click();
+	await username.sendKeys("j.doe");
+	await password.sendKeys("correct horse battery staple");
+	await submit.click();
 
-  await expect(page.title()).resolves.not.toBe('Login screen');
+	await expect(page.title()).resolves.not.toBe("Login screen");
 });
 ```
 

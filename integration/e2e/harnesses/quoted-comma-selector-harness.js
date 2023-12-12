@@ -6,16 +6,16 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ComponentHarness, HarnessPredicate} from '@angular/cdk/testing';
+import {ComponentHarness, HarnessPredicate} from "@angular/cdk/testing";
 
 export class QuotedCommaSelectorHarness extends ComponentHarness {
-  static hostSelector = 'div[has-comma="a,b"]';
+	static hostSelector = 'div[has-comma="a,b"]';
 
-  static with(options = {}) {
-    return new HarnessPredicate(QuotedCommaSelectorHarness, options);
-  }
+	static with(options = {}) {
+		return new HarnessPredicate(QuotedCommaSelectorHarness, options);
+	}
 
-  async getText() {
-    return (await this.host()).text();
-  }
+	async getText() {
+		return (await this.host()).text();
+	}
 }

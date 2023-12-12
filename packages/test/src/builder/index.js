@@ -1,6 +1,6 @@
-import {createBuilder} from '@snuggery/architect';
+import {createBuilder} from "@snuggery/architect";
 
-import {execute} from './builder.js';
+import {execute} from "./builder.js";
 
 /**
  * @typedef {import('./schema').Schema} Schema

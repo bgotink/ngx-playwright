@@ -8,13 +8,13 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
-import {ComponentHarness} from '@angular/cdk/testing';
+import {ComponentHarness} from "@angular/cdk/testing";
 
 export class FakeOverlayHarness extends ComponentHarness {
-  static hostSelector = '.fake-overlay';
+	static hostSelector = ".fake-overlay";
 
-  /** Gets the description of the fake overlay. */
-  async getDescription() {
-    return (await this.host()).text();
-  }
+	/** Gets the description of the fake overlay. */
+	async getDescription() {
+		return (await this.host()).text();
+	}
 }

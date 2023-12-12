@@ -1,22 +1,22 @@
 {
-  "type": "module",
-  "dependencies": {
-    "@angular/common": "^17.1.0-next",
-    "@angular/compiler": "^17.1.0-next",
-    "@angular/core": "^17.1.0-next",
-    "@angular/forms": "^17.1.0-next",
-    "@angular/platform-browser": "^17.1.0-next",
-    "@angular/platform-browser-dynamic": "^17.1.0-next",
-    "rxjs": "7.8.0",
-    "zone.js": "~0.14.0"
-  },
-  "devDependencies": {
-    "@angular-devkit/build-angular": "^17.1.0-next",
-    "@angular/cdk": "^17.0.0",
-    "@angular/compiler-cli": "^17.1.0-next",
-    "@bgotink/playwright-coverage": "0.2.0",
-    "@ngx-playwright/test": "workspace:packages/test",
-    "@playwright/test": "^1.20.2",
-    "typescript": "~5.3.3"
-  }
+	"type": "module",
+	"dependencies": {
+		"@angular/common": "^17.1.0-next",
+		"@angular/compiler": "^17.1.0-next",
+		"@angular/core": "^17.1.0-next",
+		"@angular/forms": "^17.1.0-next",
+		"@angular/platform-browser": "^17.1.0-next",
+		"@angular/platform-browser-dynamic": "^17.1.0-next",
+		"rxjs": "7.8.0",
+		"zone.js": "~0.14.0"
+	},
+	"devDependencies": {
+		"@angular-devkit/build-angular": "^17.1.0-next",
+		"@angular/cdk": "^17.0.0",
+		"@angular/compiler-cli": "^17.1.0-next",
+		"@bgotink/playwright-coverage": "0.2.0",
+		"@ngx-playwright/test": "workspace:packages/test",
+		"@playwright/test": "^1.20.2",
+		"typescript": "~5.3.3"
+	}
 }

@@ -14,17 +14,17 @@
  * @returns {Promise<void>}
  */
 export function waitUntilRootZoneStable() {
-  const rootZone =
-    /** @type {Zone & Partial<import('./types.js').PatchedRootZone>} */ (
-      Zone.root
-    );
+	const rootZone =
+		/** @type {Zone & Partial<import('./types.js').PatchedRootZone>} */ (
+			Zone.root
+		);
 
-  return (
-    rootZone._ngxWaitUntilStable?.() ??
-    Promise.reject(
-      new Error(
-        'waitForTasksOutsideAngular is only supported when using @ngx-playwright/test',
-      ),
-    )
-  );
+	return (
+		rootZone._ngxWaitUntilStable?.() ??
+		Promise.reject(
+			new Error(
+				"waitForTasksOutsideAngular is only supported when using @ngx-playwright/test",
+			),
+		)
+	);
 }

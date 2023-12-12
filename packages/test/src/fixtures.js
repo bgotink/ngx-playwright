@@ -1,51 +1,51 @@
 import {
-  createEnvironment,
-  autoStabilize,
-  manuallyStabilize,
-} from '@ngx-playwright/harness';
-import {test as base} from '@playwright/test';
-import {createRequire} from 'module';
+	createEnvironment,
+	autoStabilize,
+	manuallyStabilize,
+} from "@ngx-playwright/harness";
+import {test as base} from "@playwright/test";
+import {createRequire} from "module";
 
-import {openScreen, createInScreenFn} from './screen.js';
+import {openScreen, createInScreenFn} from "./screen.js";
 
 /** @type {import('./args.js').NgxPlaywrightFixtures} */
 const ngxPlaywrightFixtures = {
-  enableAutomaticStabilization: [true, {option: true}],
+	enableAutomaticStabilization: [true, {option: true}],
 
-  _setupAutomaticStabilization: [
-    ({enableAutomaticStabilization}, use) => {
-      if (enableAutomaticStabilization) {
-        autoStabilize();
-      } else {
-        manuallyStabilize();
-      }
+	_setupAutomaticStabilization: [
+		({enableAutomaticStabilization}, use) => {
+			if (enableAutomaticStabilization) {
+				autoStabilize();
+			} else {
+				manuallyStabilize();
+			}
 
-      return use();
-    },
-    {auto: true},
-  ],
+			return use();
+		},
+		{auto: true},
+	],
 
-  inScreen: ({page, baseURL, harnessEnvironment}, use) => {
-    return use(createInScreenFn(page, harnessEnvironment, baseURL));
-  },
+	inScreen: ({page, baseURL, harnessEnvironment}, use) => {
+		return use(createInScreenFn(page, harnessEnvironment, baseURL));
+	},
 
-  open: ({page, baseURL, harnessEnvironment}, use) =>
-    use(screen => openScreen(baseURL, page, harnessEnvironment, screen)),
+	open: ({page, baseURL, harnessEnvironment}, use) =>
+		use((screen) => openScreen(baseURL, page, harnessEnvironment, screen)),
 
-  harnessEnvironmentOptions: [{}, {option: true}],
+	harnessEnvironmentOptions: [{}, {option: true}],
 
-  harnessEnvironment: ({page, harnessEnvironmentOptions}, use) =>
-    use(createEnvironment(page, harnessEnvironmentOptions)),
+	harnessEnvironment: ({page, harnessEnvironmentOptions}, use) =>
+		use(createEnvironment(page, harnessEnvironmentOptions)),
 
-  context: async ({context}, use) => {
-    await context.addInitScript({
-      path: createRequire(import.meta.url).resolve(
-        '@ngx-playwright/harness/zone-patch',
-      ),
-    });
+	context: async ({context}, use) => {
+		await context.addInitScript({
+			path: createRequire(import.meta.url).resolve(
+				"@ngx-playwright/harness/zone-patch",
+			),
+		});
 
-    return use(context);
-  },
+		return use(context);
+	},
 };
 
 /**
@@ -56,7 +56,7 @@ const ngxPlaywrightFixtures = {
  * @returns {import('@playwright/test').TestType<import('./args.js').NgxPlaywrightTestArgs & import('./args.js').NgxPlaywrightTestOptions & T, W>}
  */
 export function mixinFixtures(test) {
-  return test.extend(ngxPlaywrightFixtures);
+	return test.extend(ngxPlaywrightFixtures);
 }
 
 export const test = mixinFixtures(base);

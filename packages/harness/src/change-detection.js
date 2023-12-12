@@ -1,9 +1,9 @@
 import {
-  handleAutoChangeDetectionStatus,
-  stopHandlingAutoChangeDetectionStatus,
-} from '@angular/cdk/testing';
+	handleAutoChangeDetectionStatus,
+	stopHandlingAutoChangeDetectionStatus,
+} from "@angular/cdk/testing";
 
-import {waitUntilAngularStable} from './browser.js';
+import {waitUntilAngularStable} from "./browser.js";
 
 let isRegistered = false;
 let disabledCount = 0;
@@ -17,7 +17,7 @@ let disabledCount = 0;
  * @returns {boolean}
  */
 export function shouldStabilizeAutomatically() {
-  return isRegistered && disabledCount === 0;
+	return isRegistered && disabledCount === 0;
 }
 
 /**
@@ -29,7 +29,7 @@ export function shouldStabilizeAutomatically() {
  * @returns {boolean}
  */
 export function isAutoStabilizing() {
-  return isRegistered;
+	return isRegistered;
 }
 
 /** @type {Set<import('@playwright/test').Page>} */
@@ -44,13 +44,13 @@ const pages = new Set();
  * @returns {void}
  */
 export function registerPage(page) {
-  if (pages.has(page)) {
-    // already registered
-    return;
-  }
+	if (pages.has(page)) {
+		// already registered
+		return;
+	}
 
-  pages.add(page);
-  page.on('close', () => pages.delete(page));
+	pages.add(page);
+	page.on("close", () => pages.delete(page));
 }
 
 /**
@@ -64,33 +64,33 @@ export function registerPage(page) {
  * {@link #manuallyStabilize} is called.
  */
 export function autoStabilize() {
-  if (isRegistered) {
-    return;
-  }
+	if (isRegistered) {
+		return;
+	}
 
-  isRegistered = true;
-  handleAutoChangeDetectionStatus(status => {
-    if (status.isDisabled) {
-      if (disabledCount++) {
-        status.onDetectChangesNow?.();
-        return;
-      }
-    } else {
-      if ((disabledCount = Math.max(0, disabledCount - 1))) {
-        status.onDetectChangesNow?.();
-        return;
-      }
-    }
+	isRegistered = true;
+	handleAutoChangeDetectionStatus((status) => {
+		if (status.isDisabled) {
+			if (disabledCount++) {
+				status.onDetectChangesNow?.();
+				return;
+			}
+		} else {
+			if ((disabledCount = Math.max(0, disabledCount - 1))) {
+				status.onDetectChangesNow?.();
+				return;
+			}
+		}
 
-    if (status.onDetectChangesNow) {
-      Promise.all(
-        Array.from(pages, page => page.evaluate(waitUntilAngularStable)),
-      ).then(
-        () => status.onDetectChangesNow?.(),
-        () => status.onDetectChangesNow?.(),
-      );
-    }
-  });
+		if (status.onDetectChangesNow) {
+			Promise.all(
+				Array.from(pages, (page) => page.evaluate(waitUntilAngularStable)),
+			).then(
+				() => status.onDetectChangesNow?.(),
+				() => status.onDetectChangesNow?.(),
+			);
+		}
+	});
 }
 
 /**
@@ -99,10 +99,10 @@ export function autoStabilize() {
  * Call {@link #forceStabilize} to manually wait until the app stabilizes.
  */
 export function manuallyStabilize() {
-  if (!isRegistered) {
-    return;
-  }
+	if (!isRegistered) {
+		return;
+	}
 
-  isRegistered = false;
-  stopHandlingAutoChangeDetectionStatus();
+	isRegistered = false;
+	stopHandlingAutoChangeDetectionStatus();
 }

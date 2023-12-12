@@ -4,10 +4,10 @@ on:
       - main
   pull_request:
 
-name: 'Validation'
+name: "Validation"
 jobs:
   code-style:
-    name: 'Code Style'
+    name: "Code Style"
     runs-on: ubuntu-latest
 
     steps:
@@ -56,7 +56,7 @@ jobs:
           yarn sn build
 
   integration:
-    name: 'Run via ${{matrix.cli}} in node.js ${{matrix.node}} on ${{matrix.os}}'
+    name: "Run via ${{matrix.cli}} in node.js ${{matrix.node}} on ${{matrix.os}}"
     runs-on: ${{matrix.os}}
     strategy:
       fail-fast: false
@@ -83,7 +83,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: 'Use Node.js ${{matrix.node}}'
+      - name: "Use Node.js ${{matrix.node}}"
         uses: actions/setup-node@v3
         with:
           node-version: ${{matrix.node}}
@@ -95,12 +95,12 @@ jobs:
         run: |
           yarn install --immutable --immutable-cache
 
-      - name: 'Run tests'
+      - name: "Run tests"
         shell: bash
         run: |
           yarn ${{matrix.cli}} test integration
 
-      - name: 'Run tests in production'
+      - name: "Run tests in production"
         shell: bash
         run: |
           yarn ${{matrix.cli}} test integration --configuration production

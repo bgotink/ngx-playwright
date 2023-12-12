@@ -7,22 +7,22 @@
  */
 
 import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  ViewEncapsulation,
-} from '@angular/core';
+	ChangeDetectionStrategy,
+	Component,
+	Input,
+	ViewEncapsulation,
+} from "@angular/core";
 
 @Component({
-  selector: 'test-sub',
-  template: ` <h2>List of {{ title }}</h2>
-    <ul>
-      <li *ngFor="let item of items">{{ item }}</li>
-    </ul>`,
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+	selector: "test-sub",
+	template: ` <h2>List of {{ title }}</h2>
+		<ul>
+			<li *ngFor="let item of items">{{ item }}</li>
+		</ul>`,
+	encapsulation: ViewEncapsulation.None,
+	changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TestSubComponent {
-  @Input() title: string;
-  @Input() items: string[];
+	@Input() title: string;
+	@Input() items: string[];
 }

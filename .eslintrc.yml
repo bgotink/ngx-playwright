@@ -2,9 +2,9 @@ env:
   node: true
   es2021: true
 extends:
-  - 'eslint:recommended'
+  - "eslint:recommended"
 plugins:
-  - 'import'
+  - "import"
 reportUnusedDisableDirectives: true
 parserOptions:
   ecmaVersion: 2022
@@ -12,26 +12,26 @@ parserOptions:
 
 rules:
   # Require packages to be listed in package.json
-  'import/no-extraneous-dependencies': error
+  "import/no-extraneous-dependencies": error
 
   # Disallow mutable exports
-  'import/no-mutable-exports': error
+  "import/no-mutable-exports": error
 
   # Disallow other module systems
-  'import/no-amd': error
+  "import/no-amd": error
   # 'import/no-commonjs': error # already covered via @typescript-eslint/no-var-requires
 
   # Code style
-  'import/first': error
-  'import/newline-after-import': error
-  'import/no-duplicates': error
-  'import/order':
+  "import/first": error
+  "import/newline-after-import": error
+  "import/no-duplicates": error
+  "import/order":
     - error
     - groups:
         - [builtin, internal, external]
         - parent
         - [index, sibling]
-      'newlines-between': always
+      "newlines-between": always
       alphabetize:
         order: asc
 
@@ -40,19 +40,19 @@ overrides:
       - packages/harness/src/**/browser.js
     env:
       browser: true
-  - files: ['**/*.ts']
+  - files: ["**/*.ts"]
     plugins:
-      - '@typescript-eslint'
-    parser: '@typescript-eslint/parser'
+      - "@typescript-eslint"
+    parser: "@typescript-eslint/parser"
     parserOptions:
       ecmaVersion: 2022
       sourceType: module
     extends:
-      - 'plugin:@typescript-eslint/recommended'
-      - 'plugin:import/typescript'
+      - "plugin:@typescript-eslint/recommended"
+      - "plugin:import/typescript"
     rules:
-      '@typescript-eslint/no-non-null-assertion': 'off'
-      '@typescript-eslint/ban-types':
+      "@typescript-eslint/no-non-null-assertion": "off"
+      "@typescript-eslint/ban-types":
         - error
         - types:
             object: false

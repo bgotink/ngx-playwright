@@ -37,7 +37,7 @@ The package will be built in `<package folder>/dist`, e.g. `packages/test/dist`.
 ```json
 // in dependencies, or via resolutions
 {
-  "@ngx-playwright/test": "file:///path/to/ngx-playwright/packages/test/dist"
+	"@ngx-playwright/test": "file:///path/to/ngx-playwright/packages/test/dist"
 }
 ```
 

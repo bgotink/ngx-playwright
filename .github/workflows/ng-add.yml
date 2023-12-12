@@ -9,10 +9,10 @@ on:
 permissions:
   contents: read
 
-name: 'Test ng-add schematic'
+name: "Test ng-add schematic"
 jobs:
   ng-add:
-    name: 'Validate ng-add'
+    name: "Validate ng-add"
     runs-on: ubuntu-latest
 
     steps:

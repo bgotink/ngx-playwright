@@ -1,9 +1,9 @@
 {
-  "builders": {
-    "run": {
-      "implementation": "./builder/index.js",
-      "schema": "./builder/schema.json",
-      "description": "Run e2e tests via playwright"
-    }
-  }
+	"builders": {
+		"run": {
+			"implementation": "./builder/index.js",
+			"schema": "./builder/schema.json",
+			"description": "Run e2e tests via playwright"
+		}
+	}
 }

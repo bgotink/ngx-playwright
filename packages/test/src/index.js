@@ -1,12 +1,12 @@
-export * from '@playwright/test';
+export * from "@playwright/test";
 
 export {
-  PlaywrightHarnessEnvironment,
-  createEnvironment,
-} from '@ngx-playwright/harness';
+	PlaywrightHarnessEnvironment,
+	createEnvironment,
+} from "@ngx-playwright/harness";
 
-export {mixinFixtures, test} from './fixtures.js';
-export {createTest, mixinScreenFixtures} from './factory.js';
+export {mixinFixtures, test} from "./fixtures.js";
+export {createTest, mixinScreenFixtures} from "./factory.js";
 
 /** @typedef {import('./args.js').NgxPlaywrightTestArgs} NgxPlaywrightTestArgs */
 /** @typedef {import('./args.js').NgxPlaywrightTestOptions} NgxPlaywrightTestOptions */

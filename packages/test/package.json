@@ -1,59 +1,59 @@
 {
-  "name": "@ngx-playwright/test",
-  "version": "0.4.3",
-  "type": "module",
-  "license": "MIT",
-  "author": {
-    "name": "Bram Gotink",
-    "email": "bram@gotink.me",
-    "url": "https://github.com/bgotink"
-  },
-  "homepage": "https://github.com/bgotink/ngx-playwright/tree/main/packages/test#readme",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bgotink/ngx-playwright",
-    "directory": "packages/test"
-  },
-  "keywords": [
-    "playwright",
-    "angular",
-    "cdk",
-    "test-harness"
-  ],
-  "bin": {
-    "playwright": "./bin.cjs"
-  },
-  "main": "./src/index.js",
-  "builders": "./builders.json",
-  "schematics": "./collection.json",
-  "scripts": {
-    "build": "sn build"
-  },
-  "peerDependencies": {
-    "@angular/cdk": "^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0",
-    "@playwright/test": "^1.20.2"
-  },
-  "dependencies": {
-    "@angular-devkit/schematics": "^17.0.0",
-    "@ngx-playwright/harness": "0.10.2",
-    "@playwright/test": "^1.20.2",
-    "@snuggery/architect": "^0.9.1",
-    "@snuggery/schematics": "^0.9.1",
-    "@snuggery/snuggery": "^0.11.1"
-  },
-  "devDependencies": {
-    "@angular-devkit/build-angular": "^17.1.0-next",
-    "@angular/cdk": "^17.0.0",
-    "@angular/common": "^17.1.0-next",
-    "@angular/compiler": "^17.1.0-next",
-    "@angular/compiler-cli": "^17.1.0-next",
-    "@angular/core": "^17.1.0-next",
-    "@ngx-playwright/workspace-scripts": "workspace:scripts",
-    "rxjs": "7.8.0",
-    "typescript": "~5.3.3",
-    "zone.js": "~0.14.0"
-  },
-  "publishConfig": {
-    "main": "./index.js"
-  }
+	"name": "@ngx-playwright/test",
+	"version": "0.4.3",
+	"type": "module",
+	"license": "MIT",
+	"author": {
+		"name": "Bram Gotink",
+		"email": "bram@gotink.me",
+		"url": "https://github.com/bgotink"
+	},
+	"homepage": "https://github.com/bgotink/ngx-playwright/tree/main/packages/test#readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/bgotink/ngx-playwright",
+		"directory": "packages/test"
+	},
+	"keywords": [
+		"playwright",
+		"angular",
+		"cdk",
+		"test-harness"
+	],
+	"bin": {
+		"playwright": "./bin.cjs"
+	},
+	"main": "./src/index.js",
+	"builders": "./builders.json",
+	"schematics": "./collection.json",
+	"scripts": {
+		"build": "sn build"
+	},
+	"peerDependencies": {
+		"@angular/cdk": "^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0",
+		"@playwright/test": "^1.20.2"
+	},
+	"dependencies": {
+		"@angular-devkit/schematics": "^17.0.0",
+		"@ngx-playwright/harness": "0.10.2",
+		"@playwright/test": "^1.20.2",
+		"@snuggery/architect": "^0.9.1",
+		"@snuggery/schematics": "^0.9.1",
+		"@snuggery/snuggery": "^0.11.1"
+	},
+	"devDependencies": {
+		"@angular-devkit/build-angular": "^17.1.0-next",
+		"@angular/cdk": "^17.0.0",
+		"@angular/common": "^17.1.0-next",
+		"@angular/compiler": "^17.1.0-next",
+		"@angular/compiler-cli": "^17.1.0-next",
+		"@angular/core": "^17.1.0-next",
+		"@ngx-playwright/workspace-scripts": "workspace:scripts",
+		"rxjs": "7.8.0",
+		"typescript": "~5.3.3",
+		"zone.js": "~0.14.0"
+	},
+	"publishConfig": {
+		"main": "./index.js"
+	}
 }

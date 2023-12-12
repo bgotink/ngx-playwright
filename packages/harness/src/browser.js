@@ -15,18 +15,18 @@
  * @returns {string}
  */
 export function getTextWithExcludedElements(element, excludeSelector) {
-  const clone = /** @type {Element} */ (element.cloneNode(true));
+	const clone = /** @type {Element} */ (element.cloneNode(true));
 
-  for (const child of clone.querySelectorAll(excludeSelector)) {
-    child.parentNode?.removeChild(child);
-  }
+	for (const child of clone.querySelectorAll(excludeSelector)) {
+		child.parentNode?.removeChild(child);
+	}
 
-  // Fallback to textContent for SVG elements
-  return (
-    /** @type {Element & Partial<HTMLElement>} */ (clone).innerText ??
-    clone.textContent ??
-    ''
-  );
+	// Fallback to textContent for SVG elements
+	return (
+		/** @type {Element & Partial<HTMLElement>} */ (clone).innerText ??
+		clone.textContent ??
+		""
+	);
 }
 
 /**
@@ -35,7 +35,7 @@ export function getTextWithExcludedElements(element, excludeSelector) {
  * @internal
  */
 export function blur(element) {
-  element.blur();
+	element.blur();
 }
 
 /**
@@ -47,7 +47,7 @@ export function blur(element) {
  * @internal
  */
 export function matches(element, selector) {
-  return element.matches(selector);
+	return element.matches(selector);
 }
 
 /**
@@ -58,8 +58,8 @@ export function matches(element, selector) {
  * @internal
  */
 export function getBoundingClientRect(element) {
-  const {left, top, width, height} = element.getBoundingClientRect();
-  return {left, top, width, height};
+	const {left, top, width, height} = element.getBoundingClientRect();
+	return {left, top, width, height};
 }
 
 /**
@@ -70,7 +70,7 @@ export function getBoundingClientRect(element) {
  * @returns {string} The value for the style property
  */
 export function getStyleProperty(element, styleProperty) {
-  return getComputedStyle(element).getPropertyValue(styleProperty);
+	return getComputedStyle(element).getPropertyValue(styleProperty);
 }
 
 /**
@@ -79,12 +79,12 @@ export function getStyleProperty(element, styleProperty) {
  * @returns {boolean}
  */
 export function isAngularBootstrapped() {
-  return (
-    typeof (
-      /** @type {import('./angular-types').AngularWindow} */ (globalThis)
-        .frameworkStabilizers
-    ) !== 'undefined'
-  );
+	return (
+		typeof (
+			/** @type {import('./angular-types').AngularWindow} */ (globalThis)
+				.frameworkStabilizers
+		) !== "undefined"
+	);
 }
 
 /**
@@ -93,18 +93,18 @@ export function isAngularBootstrapped() {
  * @returns {Promise<void>}
  */
 export async function waitUntilAngularStable() {
-  if (
-    typeof (
-      /** @type {import('./angular-types').AngularWindow} */ (globalThis)
-        .frameworkStabilizers
-    ) !== 'undefined'
-  ) {
-    await Promise.all(
-      /** @type {import('./angular-types').AngularWindow} */ (
-        globalThis
-      ).frameworkStabilizers.map(fn => new Promise(fn)),
-    );
-  }
+	if (
+		typeof (
+			/** @type {import('./angular-types').AngularWindow} */ (globalThis)
+				.frameworkStabilizers
+		) !== "undefined"
+	) {
+		await Promise.all(
+			/** @type {import('./angular-types').AngularWindow} */ (
+				globalThis
+			).frameworkStabilizers.map((fn) => new Promise(fn)),
+		);
+	}
 }
 
 /**
@@ -114,12 +114,12 @@ export async function waitUntilAngularStable() {
  * @returns {void}
  */
 export function dispatchEvent(element, [name, properties]) {
-  const {detail, ...otherProps} = properties ?? {};
+	const {detail, ...otherProps} = properties ?? {};
 
-  const event = new CustomEvent(name, {detail});
-  Object.assign(event, otherProps);
+	const event = new CustomEvent(name, {detail});
+	Object.assign(event, otherProps);
 
-  element.dispatchEvent(event);
+	element.dispatchEvent(event);
 }
 
 /**
@@ -127,13 +127,13 @@ export function dispatchEvent(element, [name, properties]) {
  * @param {string} value
  */
 export function setContenteditableValue(element, value) {
-  if (!(/** @type {HTMLElement} */ (element).isContentEditable)) {
-    throw new Error(
-      "setContenteditableValue can only be called on a 'contenteditable' element",
-    );
-  }
+	if (!(/** @type {HTMLElement} */ (element).isContentEditable)) {
+		throw new Error(
+			"setContenteditableValue can only be called on a 'contenteditable' element",
+		);
+	}
 
-  element.textContent = value;
+	element.textContent = value;
 }
 
 /**
@@ -141,5 +141,5 @@ export function setContenteditableValue(element, value) {
  * @param {string} property
  */
 export function getProperty(element, property) {
-  return /** @type {any} */ (element)[property];
+	return /** @type {any} */ (element)[property];
 }

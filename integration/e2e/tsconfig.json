@@ -1,12 +1,12 @@
 {
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "module": "esnext",
-    "moduleResolution": "node",
-    "types": ["node"],
-    "useUnknownInCatchVariables": false,
-    "noUncheckedIndexedAccess": false
-  },
-  "include": ["test-specs/**/*.js", "harnesses/**/*"],
-  "references": [{"path": "../../packages/test"}]
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"module": "esnext",
+		"moduleResolution": "node",
+		"types": ["node"],
+		"useUnknownInCatchVariables": false,
+		"noUncheckedIndexedAccess": false
+	},
+	"include": ["test-specs/**/*.js", "harnesses/**/*"],
+	"references": [{"path": "../../packages/test"}]
 }

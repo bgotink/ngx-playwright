@@ -1,8 +1,8 @@
 {
-  "name": "@ngx-playwright/workspace-scripts",
-  "private": true,
-  "dependencies": {
-    "ts-node": "9.1.1",
-    "typescript": "~5.0.4"
-  }
+	"name": "@ngx-playwright/workspace-scripts",
+	"private": true,
+	"dependencies": {
+		"ts-node": "9.1.1",
+		"typescript": "~5.0.4"
+	}
 }

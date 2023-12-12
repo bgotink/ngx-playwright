@@ -1,7 +1,7 @@
-import {parallel} from '@angular/cdk/testing';
+import {parallel} from "@angular/cdk/testing";
 
-import {test} from './fixtures.js';
-import {getDestructured$Argument} from './parse-arguments.js';
+import {test} from "./fixtures.js";
+import {getDestructured$Argument} from "./parse-arguments.js";
 
 /**
  * @template {import('@angular/cdk/testing').ComponentHarness} C
@@ -9,33 +9,33 @@ import {getDestructured$Argument} from './parse-arguments.js';
  * @returns {import('./args.js').NgxPlaywrightScreenFixtures<C>}
  */
 function createScreenFixtures(Screen) {
-  return {
-    screen: [async ({open}, use) => use(await open(Screen)), {auto: true}],
+	return {
+		screen: [async ({open}, use) => use(await open(Screen)), {auto: true}],
 
-    $: async ({screen}, use, testInfo) => {
-      const propertyNames =
-        /** @type {import('./types').ExtractablePropertyNamesOfScreen<C>[] | null} */ (
-          getDestructured$Argument(testInfo.fn)
-        );
+		$: async ({screen}, use, testInfo) => {
+			const propertyNames =
+				/** @type {import('./types').ExtractablePropertyNamesOfScreen<C>[] | null} */ (
+					getDestructured$Argument(testInfo.fn)
+				);
 
-      if (propertyNames == null) {
-        await use(
-          /** @type {import('./types.js').ExtractablePropertiesOfScreen<C>} */ ({}),
-        );
-      } else {
-        const entries = await parallel(() =>
-          propertyNames.map(async name => {
-            // @ts-expect-error Typescript doesn't know name indexes screen
-            const value = await screen[name]?.();
+			if (propertyNames == null) {
+				await use(
+					/** @type {import('./types.js').ExtractablePropertiesOfScreen<C>} */ ({}),
+				);
+			} else {
+				const entries = await parallel(() =>
+					propertyNames.map(async (name) => {
+						// @ts-expect-error Typescript doesn't know name indexes screen
+						const value = await screen[name]?.();
 
-            return [name, value];
-          }),
-        );
+						return [name, value];
+					}),
+				);
 
-        await use(Object.fromEntries(entries));
-      }
-    },
-  };
+				await use(Object.fromEntries(entries));
+			}
+		},
+	};
 }
 
 /**
@@ -47,7 +47,7 @@ function createScreenFixtures(Screen) {
  * @returns {import('@playwright/test').TestType<import('./args.js').NgxPlaywrightScreenTestArgs<C> & T, W>}
  */
 export function mixinScreenFixtures(Screen, test) {
-  return test.extend(createScreenFixtures(Screen));
+	return test.extend(createScreenFixtures(Screen));
 }
 
 /**
@@ -67,5 +67,5 @@ export function mixinScreenFixtures(Screen, test) {
 // The return type is very complex, typescript is more than capable of inferring it
 
 export function createTest(Screen) {
-  return mixinScreenFixtures(Screen, test);
+	return mixinScreenFixtures(Screen, test);
 }

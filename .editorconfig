@@ -1,20 +1,15 @@
-# EditorConfig is awesome!
-
-# Mark this as the root editorconfig file
 root = true
 
-# Base ruleset for all files
 [*]
-trim_trailing_whitespace = true
+end_of_line = lf
 insert_final_newline = true
+charset = utf-8
+indent_style = tab
+
+[*.{yml,yaml}]
 indent_style = space
 indent_size = 2
 
-# Override rules for markdown
+# Trailing whitespace is significant in markdown
 [*.md]
-# trailing whitespace is significant in markdown -> do not remove
 trim_trailing_whitespace = false
-
-[*.patch]
-trim_trailing_whitespace = false
-insert_final_newline = false

@@ -1,6 +1,6 @@
-import {PlaywrightHarnessEnvironment} from './abstract-environment.js';
-import {registerPage} from './change-detection.js';
-import {PlaywrightHarnessEnvironmentImplementation} from './environment.js';
+import {PlaywrightHarnessEnvironment} from "./abstract-environment.js";
+import {registerPage} from "./change-detection.js";
+import {PlaywrightHarnessEnvironmentImplementation} from "./environment.js";
 
 export {PlaywrightHarnessEnvironment};
 
@@ -17,12 +17,12 @@ export {PlaywrightHarnessEnvironment};
  * @public
  */
 export function createEnvironment(page, options) {
-  registerPage(page);
-  return new PlaywrightHarnessEnvironmentImplementation(page, options);
+	registerPage(page);
+	return new PlaywrightHarnessEnvironmentImplementation(page, options);
 }
 
 export {
-  autoStabilize,
-  manuallyStabilize,
-  isAutoStabilizing,
-} from './change-detection.js';
+	autoStabilize,
+	manuallyStabilize,
+	isAutoStabilizing,
+} from "./change-detection.js";
