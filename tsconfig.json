@@ -1,4 +1,12 @@
 {
   "extends": "./tsconfig.base.json",
-  "references": [{"path": "./packages/harness"}, {"path": "./packages/test"}]
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/harness"
+    },
+    {
+      "path": "./packages/test"
+    }
+  ]
 }

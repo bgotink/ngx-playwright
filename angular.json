@@ -1,5 +1,8 @@
 {
   "version": 1,
+  "cli": {
+    "packageManager": "yarn"
+  },
   "projects": {
     "all": {
       "root": "",
@@ -93,35 +96,11 @@
         }
       }
     },
-    "@ngx-playwright/harness": {
-      "root": "packages/harness",
-      "architect": {
-        "build": {
-          "builder": "@snuggery/node:build",
-          "options": {
-            "assets": [
-              {
-                "include": "README.md"
-              },
-              {
-                "include": ["**/*.js", "**/*.d.ts"],
-                "from": "packages/harness/src"
-              },
-              {
-                "include": "LICENSE.md",
-                "from": "."
-              }
-            ],
-            "packager": "@snuggery/yarn"
-          }
-        }
-      }
-    },
     "@ngx-playwright/test": {
       "root": "packages/test",
       "architect": {
         "build": {
-          "builder": "@snuggery/node:build",
+          "builder": "@snuggery/build-node:build",
           "options": {
             "assets": [
               {
@@ -142,7 +121,7 @@
                 "from": "."
               }
             ],
-            "packager": "@snuggery/yarn"
+            "package": true
           }
         }
       }
