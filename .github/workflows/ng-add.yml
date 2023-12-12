@@ -34,10 +34,18 @@ jobs:
         shell: bash
         run: ./scripts/ng-add/prepare.sh
 
-      - name: ng-add with typescript
+      - name: ng-add with typescript & using ngx-playwright fixtures
         shell: bash
         run: ./scripts/ng-add/run.sh --typescript
 
-      - name: ng-add without typescript
+      - name: ng-add without typescript & using ngx-playwright fixtures
         shell: bash
         run: ./scripts/ng-add/run.sh --no-typescript
+
+      - name: ng-add with typescript without ngx-playwright fixtures
+        shell: bash
+        run: ./scripts/ng-add/run.sh --no-angular --typescript
+
+      - name: ng-add without typescript without ngx-playwright fixtures
+        shell: bash
+        run: ./scripts/ng-add/run.sh --no-angular --no-typescript

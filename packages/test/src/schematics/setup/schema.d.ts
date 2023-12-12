@@ -13,4 +13,9 @@ export interface Schema {
 	 * Set up typescript files for playwright tests
 	 */
 	typescript?: boolean;
+
+	/**
+	 * Whether to set up an angular project or a non-angular project
+	 */
+	angular?: boolean | null;
 }

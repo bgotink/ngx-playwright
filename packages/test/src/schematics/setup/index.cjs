@@ -19,17 +19,18 @@ const {posix: path} = require("path");
  */
 exports.factory = function (options) {
 	return async (tree, context) => {
-		const [projectName, project] = getProject(
+		const [projectName, project, isAngularProject] = getProject(
 			options,
 			await getWorkspace(tree),
 			context,
 		);
 
 		const ext = options.typescript ? "ts" : "mjs";
+		const type = options.angular ?? isAngularProject ? "angular" : "vanilla";
 
 		return chain([
 			mergeWith(
-				apply(url(`./files-${ext}`), [
+				apply(url(`./files-${type}-${ext}`), [
 					applyTemplates({
 						dot: ".",
 						prefix: project.prefix ?? "app",
@@ -67,7 +68,7 @@ exports.factory = function (options) {
  * @param {import('./schema.js').Schema} options
  * @param {import('@snuggery/core').WorkspaceDefinition} workspace
  * @param {import('@angular-devkit/schematics').SchematicContext} context
- * @returns {[string, import('@snuggery/core').ProjectDefinition]}
+ * @returns {[string, import('@snuggery/core').ProjectDefinition, boolean]}
  */
 function getProject(options, workspace, context) {
 	const applicationProjectNames = Array.from(workspace.projects)
@@ -113,6 +114,19 @@ function getProject(options, workspace, context) {
 			)} already has an e2e target, pass --replace-e2e-target to replace that target`,
 		);
 	}
+	const serveTarget = project.targets.get("serve");
+	if (!serveTarget) {
+		throw new SchematicsException(
+			`Project ${JSON.stringify(
+				projectName,
+			)} doesn't have a "serve" target, add one before adding e2e tests`,
+		);
+	}
 
-	return [projectName, project];
+	return [
+		projectName,
+		project,
+		serveTarget.builder.startsWith("@nx/angular:") ||
+			serveTarget.builder.startsWith("@angular-devkit/build-angular:"),
+	];
 }

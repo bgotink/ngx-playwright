@@ -1,6 +1,8 @@
 # `@ngx-playwright/test` [![Latest published version on NPM](https://img.shields.io/npm/v/@ngx-playwright/test)](https://npm.im/@ngx-playwright/test)
 
-Builder for running e2e tests in an angular application using `@playwright/test` with Angular CDK's component harnesses.
+Builder for running e2e tests using `@playwright/test` in Angular's `ng` CLI or Narwhal's `nx` CLI.
+
+For angular applications, this comes with built-in support for Angular CDK's component harnesses.
 
 ## Set up
 
@@ -21,7 +23,7 @@ Or install and configure it manually:
 1. Create a [test configuration](https://playwright.dev/docs/test-configuration), e.g.
 
    ```js
-   /** @type {import('@ngx-playwright/test').PlaywrightTestConfig} */
+   /** @type {import('@playwright/test').PlaywrightTestConfig} */
    const config = {
    	use: {
    		channel: "chrome",
@@ -44,11 +46,19 @@ Or install and configure it manually:
    },
    ```
 
-1. Write your playwright tests as documented on the playwright docs, but replace all imports from `@playwright/test` with `@ngx-playwright/test`.
+1. Write your playwright tests as documented on the playwright docs!
 
-## Fixtures
+## Angular integrations
 
-On top of [the built-in fixtures](https://playwright.dev/docs/api/class-fixtures) provided by playwright itself, this package adds the following fixtures:
+The setup for an angular application is identical to the setup above, except for two minor changes:
+
+1. If you're not using `@angular-devkit/build-angular` or `@nx/angular` to build your angular application, you'll have to add `--angular` to the `ng add @ngx-playwright/test` or `ng generate @ngx-playwright/test:setup` command.
+1. In your tests and `playwright.config.js` (or `.ts`), replace all usage of `@playwright/test` with `@ngx-playwright/test`.
+   This will give you access to a bunch of extra fixtures, described below.
+
+## Angular fixtures
+
+On top of [the built-in fixtures](https://playwright.dev/docs/api/class-fixtures) provided by playwright itself, this package adds the following fixtures when you use the `test` function from `@ngx-playwright/test` instead of `@playwright/test`:
 
 - `enableAutomaticStabilization`: Whether automatic waiting for the angular app to become stable is enabled by default.
   Setting this to true (which is the default) makes all elements created on the current page automatically wait upon interaction. Waiting is done before anything is read from the page, and after anything is done to the page.

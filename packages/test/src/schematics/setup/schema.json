@@ -1,4 +1,5 @@
 {
+	"$schema": "http://json-schema.org/draft-07/schema#",
 	"type": "object",
 	"properties": {
 		"project": {
@@ -13,6 +14,11 @@
 			"type": "boolean",
 			"description": "Set up typescript files for playwright tests",
 			"x-prompt": "Use typescript for the playwright tests?"
+		},
+		"angular": {
+			"oneOf": [{"type": "boolean"}, {"type": "null"}],
+			"default": null,
+			"description": "Whether to set up an angular project or a non-angular project"
 		}
 	},
 	"additionalProperties": false

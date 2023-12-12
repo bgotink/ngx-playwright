@@ -10,8 +10,10 @@ npx --package @angular/cli ng new test --package-manager yarn --skip-git --skip-
 cd test
 yarn install
 
-# add the CDK, a peer dependency of our package
-yarn add @angular/cdk
+if ! [[ "$*" =~ --no-angular ]]; then
+	# add the CDK, a peer dependency of our package
+	yarn add @angular/cdk
+fi
 
 # add our package
 yarn ng add --registry "$(npm config get registry)" --skip-confirmation --defaults @ngx-playwright/test "$@"
