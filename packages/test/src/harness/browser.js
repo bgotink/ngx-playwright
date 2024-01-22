@@ -54,7 +54,7 @@ export function matches(element, selector) {
  * Returns the dimensions of the given element
  *
  * @param {Element} element The element for which to get the dimensions
- * @returns {import('@angular/cdk/testing').ElementDimensions} The dimensions of the element
+ * @returns {import('@ngx-playwright/harness').ElementDimensions} The dimensions of the element
  * @internal
  */
 export function getBoundingClientRect(element) {
@@ -81,7 +81,7 @@ export function getStyleProperty(element, styleProperty) {
 export function isAngularBootstrapped() {
 	return (
 		typeof (
-			/** @type {import('./angular-types').AngularWindow} */ (globalThis)
+			/** @type {import('./angular-types.js').AngularWindow} */ (globalThis)
 				.frameworkStabilizers
 		) !== "undefined"
 	);
@@ -95,12 +95,12 @@ export function isAngularBootstrapped() {
 export async function waitUntilAngularStable() {
 	if (
 		typeof (
-			/** @type {import('./angular-types').AngularWindow} */ (globalThis)
+			/** @type {import('./angular-types.js').AngularWindow} */ (globalThis)
 				.frameworkStabilizers
 		) !== "undefined"
 	) {
 		await Promise.all(
-			/** @type {import('./angular-types').AngularWindow} */ (
+			/** @type {import('./angular-types.js').AngularWindow} */ (
 				globalThis
 			).frameworkStabilizers.map((fn) => new Promise(fn)),
 		);
@@ -110,7 +110,7 @@ export async function waitUntilAngularStable() {
 /**
  *
  * @param {Element} element
- * @param {[string, Record<string, import('@angular/cdk/testing').EventData>]} event
+ * @param {[string, Record<string, import('@ngx-playwright/harness').EventData>]} event
  * @returns {void}
  */
 export function dispatchEvent(element, [name, properties]) {

@@ -1,16 +1,16 @@
-import {parallel} from "@angular/cdk/testing";
+import {parallel} from "@ngx-playwright/harness";
 
 import {createEnvironment} from "./harness/index.js";
 import {getDestructuredArguments} from "./parse-arguments.js";
 
 /**
- * @param {import('./types').PlaywrightScreen<import('@angular/cdk/testing').ComponentHarness>} screen
- * @returns {screen is import('./types').PlaywrightScreenWithOpenFunction<import('@angular/cdk/testing').ComponentHarness>}
+ * @param {import('./types.js').PlaywrightScreen<import("@ngx-playwright/harness").AnyComponentHarness>} screen
+ * @returns {screen is import('./types.js').PlaywrightScreenWithOpenFunction<import("@ngx-playwright/harness").AnyComponentHarness>}
  */
 function hasOpenFunction(screen) {
 	return (
 		typeof (
-			/** @type {import('./types').PlaywrightScreenWithOpenFunction<import('@angular/cdk/testing').ComponentHarness>} */ (
+			/** @type {import('./types.js').PlaywrightScreenWithOpenFunction<import("@ngx-playwright/harness").AnyComponentHarness>} */ (
 				screen
 			).open
 		) === "function"
@@ -18,11 +18,11 @@ function hasOpenFunction(screen) {
 }
 
 /**
- * @template {import('@angular/cdk/testing').ComponentHarness} T
+ * @template {import('@ngx-playwright/harness').AnyComponentHarness} T
  * @param {string | undefined} baseURL
  * @param {import('@playwright/test').Page} page
  * @param {import('./harness/index.js').PlaywrightHarnessEnvironment} harnessEnvironment
- * @param {import('./types').PlaywrightScreen<T>} screen
+ * @param {import('./types.js').PlaywrightScreen<T>} screen
  * @returns {Promise<T>}
  */
 export async function openScreen(baseURL, page, harnessEnvironment, screen) {
@@ -47,22 +47,22 @@ export async function openScreen(baseURL, page, harnessEnvironment, screen) {
  * @param {import('@playwright/test').Page} page
  * @param {import('./harness/index.js').PlaywrightHarnessEnvironment} harnessEnvironment
  * @param {string | undefined} baseURL
- * @returns {import('./types').InScreenFn}
+ * @returns {import('./types.js').InScreenFn}
  */
 export function createInScreenFn(page, harnessEnvironment, baseURL) {
 	/**
-	 * @template {import('@angular/cdk/testing').ComponentHarness} T
-	 * @param {import('@playwright/test').Page | import('./types').PlaywrightScreen<T>} pageOrScreen
-	 * @param {import('./types').PlaywrightScreen<T> | ((props: import('./types').ExtractablePropertiesOfScreen<T>, screen: T) => void | Promise<void>)} screenOrFn
-	 * @param {((props: import('./types').ExtractablePropertiesOfScreen<T>, screen: T) => void | Promise<void>)=} fn
+	 * @template {import("@ngx-playwright/harness").AnyComponentHarness} T
+	 * @param {import('@playwright/test').Page | import('./types.js').PlaywrightScreen<T>} pageOrScreen
+	 * @param {import('./types.js').PlaywrightScreen<T> | ((props: import('./types.js').ExtractablePropertiesOfScreen<T>, screen: T) => void | Promise<void>)} screenOrFn
+	 * @param {((props: import('./types.js').ExtractablePropertiesOfScreen<T>, screen: T) => void | Promise<void>)=} fn
 	 * @returns {Promise<void>}
 	 */
 	async function inScreen(pageOrScreen, screenOrFn, fn) {
 		/** @type {import('@playwright/test').Page} */
 		let _page;
-		/** @type {import('./types').PlaywrightScreen<T>} */
+		/** @type {import('./types.js').PlaywrightScreen<T>} */
 		let Screen;
-		/** @type {(props: import('./types').ExtractablePropertiesOfScreen<T>, screen: T) => void | Promise<void>} */
+		/** @type {(props: import('./types.js').ExtractablePropertiesOfScreen<T>, screen: T) => void | Promise<void>} */
 		let testFunction;
 
 		if (typeof pageOrScreen === "function") {
@@ -76,7 +76,7 @@ export function createInScreenFn(page, harnessEnvironment, baseURL) {
 		}
 
 		const args =
-			/** @type {(keyof import('./types').ExtractablePropertiesOfScreen<T>)[]} */ (
+			/** @type {(keyof import('./types.js').ExtractablePropertiesOfScreen<T>)[]} */ (
 				getDestructuredArguments(testFunction)
 			);
 
@@ -91,7 +91,7 @@ export function createInScreenFn(page, harnessEnvironment, baseURL) {
 
 		if (args == null) {
 			await testFunction(
-				/** @type {import('./types').ExtractablePropertiesOfScreen<T>} */ ({}),
+				/** @type {import('./types.js').ExtractablePropertiesOfScreen<T>} */ ({}),
 				screen,
 			);
 		} else {

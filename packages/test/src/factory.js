@@ -1,10 +1,10 @@
-import {parallel} from "@angular/cdk/testing";
+import {parallel} from "@ngx-playwright/harness";
 
 import {test} from "./fixtures.js";
 import {getDestructured$Argument} from "./parse-arguments.js";
 
 /**
- * @template {import('@angular/cdk/testing').ComponentHarness} C
+ * @template {import('@ngx-playwright/harness').AnyComponentHarness} C
  * @param {import('./types.js').PlaywrightScreen<C>} Screen
  * @returns {import('./args.js').NgxPlaywrightScreenFixtures<C>}
  */
@@ -14,7 +14,7 @@ function createScreenFixtures(Screen) {
 
 		$: async ({screen}, use, testInfo) => {
 			const propertyNames =
-				/** @type {import('./types').ExtractablePropertyNamesOfScreen<C>[] | null} */ (
+				/** @type {import('./types.js').ExtractablePropertyNamesOfScreen<C>[] | null} */ (
 					getDestructured$Argument(testInfo.fn)
 				);
 
@@ -39,7 +39,7 @@ function createScreenFixtures(Screen) {
 }
 
 /**
- * @template {import('@angular/cdk/testing').ComponentHarness} C
+ * @template {import('@ngx-playwright/harness').AnyComponentHarness} C
  * @template {import('./args.js').NgxPlaywrightTestArgs & import('./args.js').NgxPlaywrightTestOptions & import('@playwright/test').PlaywrightTestArgs & import('@playwright/test').PlaywrightTestOptions} T
  * @template {import('@playwright/test').PlaywrightWorkerArgs & import('@playwright/test').PlaywrightWorkerOptions} W
  * @param {import('./types.js').PlaywrightScreen<C>} Screen
@@ -60,7 +60,7 @@ export function mixinScreenFixtures(Screen, test) {
  *   destructured properties available. Accessing extra properties later on or using rest properties
  *   is not supported and will yield undefined values.
  *
- * @template {import('@angular/cdk/testing').ComponentHarness} C
+ * @template {import("@ngx-playwright/harness").AnyComponentHarness} C
  * @param {import('./types.js').PlaywrightScreen<C>} Screen The screen class to run the test in
  * @returns A test function to use for tests in the given screen
  */

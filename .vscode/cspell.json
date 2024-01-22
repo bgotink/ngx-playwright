@@ -22,6 +22,7 @@
 		"pwdebug",
 		"shadowroots",
 		"structs",
+		"transpiles",
 		"tsbuildinfo",
 		"wasm",
 		"yarnpkg"

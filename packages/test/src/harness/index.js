@@ -1,10 +1,9 @@
-import {PlaywrightHarnessEnvironment} from "./abstract-environment.js";
 import {registerPage} from "./change-detection.js";
-import {PlaywrightHarnessEnvironmentImplementation} from "./environment.js";
+import {PlaywrightHarnessEnvironment} from "./environment.js";
 
 export {PlaywrightHarnessEnvironment};
 
-/** @typedef {import('./abstract-environment.js').PlaywrightHarnessEnvironmentOptions} PlaywrightHarnessEnvironmentOptions */
+/** @typedef {import('./types.js').PlaywrightHarnessEnvironmentOptions} PlaywrightHarnessEnvironmentOptions */
 
 /**
  * Create a harness environment for the given page
@@ -18,7 +17,7 @@ export {PlaywrightHarnessEnvironment};
  */
 export function createEnvironment(page, options) {
 	registerPage(page);
-	return new PlaywrightHarnessEnvironmentImplementation(page, options);
+	return new PlaywrightHarnessEnvironment(page, options);
 }
 
 export {

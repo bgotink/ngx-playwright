@@ -14,7 +14,7 @@ const {posix: path} = require("path");
 
 /**
  *
- * @param {import("./schema.js").Schema} options
+ * @param {import("./schema.cjs").Schema} options
  * @returns {import("@angular-devkit/schematics").Rule}
  */
 exports.factory = function (options) {
@@ -25,15 +25,29 @@ exports.factory = function (options) {
 			context,
 		);
 
-		const ext = options.typescript ? "ts" : "mjs";
-		const type = options.angular ?? isAngularProject ? "angular" : "vanilla";
+		const extension = options.typescript ? "ts" : "mjs";
+		const angular = options.angular ?? isAngularProject;
 
 		return chain([
 			mergeWith(
-				apply(url(`./files-${type}-${ext}`), [
+				apply(url(`./files-${extension}`), [
+					applyTemplates({
+						dot: ".",
+					}),
+					move(path.join(project.root, "playwright")),
+				]),
+			),
+			mergeWith(
+				apply(url(`./files-${options.harnesses ? "harness" : "no-harness"}`), [
 					applyTemplates({
 						dot: ".",
 						prefix: project.prefix ?? "app",
+
+						extension,
+						importExtension: extension === "ts" ? "js" : extension,
+
+						harnessPackage:
+							angular ? "@angular/cdk/testing" : "@ngx-playwright/test",
 					}),
 					move(path.join(project.root, "playwright")),
 				]),
@@ -49,7 +63,7 @@ exports.factory = function (options) {
 					options: {
 						config: path.join(
 							project.root,
-							`playwright/playwright.config.${ext}`,
+							`playwright/playwright.config.${extension}`,
 						),
 						devServerTarget: "serve",
 					},
@@ -65,7 +79,7 @@ exports.factory = function (options) {
 };
 
 /**
- * @param {import('./schema.js').Schema} options
+ * @param {import('./schema.cjs').Schema} options
  * @param {import('@snuggery/core').WorkspaceDefinition} workspace
  * @param {import('@angular-devkit/schematics').SchematicContext} context
  * @returns {[string, import('@snuggery/core').ProjectDefinition, boolean]}

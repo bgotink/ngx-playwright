@@ -1,13 +1,16 @@
-import {TestKey, getNoKeysSpecifiedError} from "@angular/cdk/testing";
+import {TestKey, getNoKeysSpecifiedError} from "@ngx-playwright/harness";
 
-/** @typedef {import('@angular/cdk/testing').ElementDimensions} ElementDimensions */
-/** @typedef {import('@angular/cdk/testing').EventData} EventData */
-/** @typedef {import('@angular/cdk/testing').ModifierKeys} ModifierKeys */
-/** @typedef {import('@angular/cdk/testing').TestElement} TestElement */
-/** @typedef {import('@angular/cdk/testing').TextOptions} TextOptions */
+/** @typedef {import('@ngx-playwright/harness').ElementDimensions} ElementDimensions */
+/** @typedef {import('@ngx-playwright/harness').EventData} EventData */
+/** @typedef {import('@ngx-playwright/harness').ModifierKeys} ModifierKeys */
+/** @typedef {import('@ngx-playwright/harness').TestElement} TestElement */
+/** @typedef {import('@ngx-playwright/harness').TextOptions} TextOptions */
 /** @template [T=Node] @typedef {import('@playwright/test').ElementHandle<T>} ElementHandle */
 /** @typedef {import('@playwright/test').Locator} Locator */
 /** @typedef {import('@playwright/test').Page} Page */
+
+/** @typedef {import('@angular/cdk/testing').TestKey} _AngularTestKey */
+/** @typedef {boolean extends _AngularTestKey ? never : _AngularTestKey} AngularTestKey */
 
 import * as contentScripts from "./browser.js";
 
@@ -65,8 +68,8 @@ function getModifiers(modifiers) {
 }
 
 /**
- * @param {(string | TestKey)[] | [ModifierKeys, ...(string | TestKey)[]]} keys
- * @returns {keys is [ModifierKeys, ...(string | TestKey)[]]}
+ * @param {(string | TestKey | AngularTestKey)[] | [ModifierKeys, ...(string | TestKey | AngularTestKey)[]]} keys
+ * @returns {keys is [ModifierKeys, ...(string | TestKey | AngularTestKey)[]]}
  */
 function hasModifiers(keys) {
 	return typeof keys[0] === "object";
@@ -334,7 +337,7 @@ export class PlaywrightElement {
 
 	/**
 	 *
-	 * @param  {(string | TestKey)[] | [ModifierKeys, ...(string | TestKey)[]]} input
+	 * @param  {(string | TestKey | AngularTestKey)[] | [ModifierKeys, ...(string | TestKey | AngularTestKey)[]]} input
 	 * @returns {Promise<void>}
 	 */
 	sendKeys(...input) {

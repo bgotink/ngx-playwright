@@ -1,12 +1,16 @@
 {
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"module": "esnext",
-		"moduleResolution": "node",
+		"module": "Node16",
+		"moduleResolution": "Node16",
 		"types": ["node"],
 		"useUnknownInCatchVariables": false,
 		"noUncheckedIndexedAccess": false
 	},
 	"include": ["test-specs/**/*.js", "harnesses/**/*"],
-	"references": [{"path": "../../packages/test"}]
+	"references": [
+		{
+			"path": "../../packages/test/tsconfig.lib.json"
+		}
+	]
 }

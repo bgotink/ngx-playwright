@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 pushd "$(mktemp -d)" &>/dev/null
 

@@ -43,7 +43,7 @@ const skipAsyncTests = false;
  */
 
 test.describe.parallel("HarnessLoader", () => {
-	/** @type {import('@angular/cdk/testing').HarnessLoader} */
+	/** @type {import('@ngx-playwright/test').HarnessLoader} */
 	let loader;
 
 	test.beforeEach(async ({harnessEnvironment, page}) => {

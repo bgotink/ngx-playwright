@@ -1,16 +1,16 @@
 import {
+	AnyComponentHarness,
 	AsyncFactoryFn,
-	ComponentHarness,
 	ComponentHarnessConstructor,
-} from "@angular/cdk/testing";
+} from "@ngx-playwright/harness";
 import {Page} from "@playwright/test";
 
-export interface PlaywrightScreenWithPath<T extends ComponentHarness>
+export interface PlaywrightScreenWithPath<T extends AnyComponentHarness>
 	extends ComponentHarnessConstructor<T> {
 	readonly path: string;
 }
 
-export interface PlaywrightScreenWithOpenFunction<T extends ComponentHarness>
+export interface PlaywrightScreenWithOpenFunction<T extends AnyComponentHarness>
 	extends ComponentHarnessConstructor<T> {
 	open(
 		page: Page,
@@ -19,12 +19,12 @@ export interface PlaywrightScreenWithOpenFunction<T extends ComponentHarness>
 	): Promise<void>;
 }
 
-export type PlaywrightScreen<T extends ComponentHarness> =
+export type PlaywrightScreen<T extends AnyComponentHarness> =
 	| PlaywrightScreenWithOpenFunction<T>
 	| PlaywrightScreenWithPath<T>;
 
 export interface PlaywrightScreenOpener {
-	<T extends ComponentHarness>(screen: PlaywrightScreen<T>): Promise<T>;
+	<T extends AnyComponentHarness>(screen: PlaywrightScreen<T>): Promise<T>;
 }
 
 export interface InScreenFn {
@@ -35,7 +35,7 @@ export interface InScreenFn {
 	 * @param screen The screen to open
 	 * @param fn Function to execute once the given screen is opened
 	 */
-	<T extends ComponentHarness>(
+	<T extends AnyComponentHarness>(
 		page: Page,
 		screen: PlaywrightScreen<T>,
 		fn: (
@@ -50,7 +50,7 @@ export interface InScreenFn {
 	 * @param screen The screen to open
 	 * @param fn Function to execute once the given screen is opened
 	 */
-	<T extends ComponentHarness>(
+	<T extends AnyComponentHarness>(
 		screen: PlaywrightScreen<T>,
 		fn: (
 			props: ExtractablePropertiesOfScreen<T>,
@@ -59,11 +59,11 @@ export interface InScreenFn {
 	): Promise<void>;
 }
 
-export type ExtractablePropertyNamesOfScreen<T extends ComponentHarness> = {
+export type ExtractablePropertyNamesOfScreen<T extends AnyComponentHarness> = {
 	[K in keyof T]: T[K] extends AsyncFactoryFn<unknown> ? K : never;
 }[keyof T];
 
-export type ExtractablePropertiesOfScreen<T extends ComponentHarness> = {
+export type ExtractablePropertiesOfScreen<T extends AnyComponentHarness> = {
 	// Once updated to angular 12 (typescript 4.2) replace the intermediary type with
 	// [K in ExtractablePropertyNamesOfScreen<T> as T[K] extends AsyncFactoryFn<unknown> ? K : never]
 	[K in ExtractablePropertyNamesOfScreen<T>]: T[K] extends (

@@ -35,7 +35,7 @@ function patchZoneToInterceptRootZone(Zone) {
 	}
 
 	const rootZone =
-		/** @type {import('./types').PrivateZone & import('./types').PatchedRootZone} */ (
+		/** @type {import('./types.js').PrivateZone & import('./types.js').PatchedRootZone} */ (
 			Zone.root
 		);
 

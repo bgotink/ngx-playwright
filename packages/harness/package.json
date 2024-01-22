@@ -1,0 +1,26 @@
+{
+	"name": "@ngx-playwright/harness",
+	"version": "0.10.2",
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./src/index.d.ts",
+			"default": "./src/index.js"
+		},
+		"./package.json": "./package.json"
+	},
+	"peerDependencies": {
+		"@angular/cdk": "^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0"
+	},
+	"peerDependenciesMeta": {
+		"@angular/cdk": {
+			"optional": true
+		}
+	},
+	"publishConfig": {
+		"exports": {
+			".": "./index.js",
+			"./package.json": "./package.json"
+		}
+	}
+}

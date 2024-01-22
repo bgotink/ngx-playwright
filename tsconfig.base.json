@@ -7,7 +7,7 @@
 		"composite": true,
 
 		"target": "es2019",
-		"module": "esnext",
+		"module": "Node16",
 		"lib": ["es2020", "dom", "DOM.Iterable"],
 		"declaration": true,
 		"declarationMap": true,
@@ -21,7 +21,6 @@
 		"noFallthroughCasesInSwitch": true,
 		"noUncheckedIndexedAccess": true,
 
-		"moduleResolution": "node",
 		"esModuleInterop": true,
 
 		"skipLibCheck": true,
@@ -33,10 +32,6 @@
 		"importsNotUsedAsValues": "error",
 
 		"allowJs": true,
-		"checkJs": true,
-
-		"paths": {
-			"@ngx-playwright/*": ["./packages/*"]
-		}
+		"checkJs": true
 	}
 }

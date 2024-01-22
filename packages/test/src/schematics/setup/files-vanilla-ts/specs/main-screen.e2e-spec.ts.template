@@ -1,9 +1,0 @@
-import {expect, test} from '@playwright/test';
-
-test.describe('the main screen of the application', () => {
-  test('it should have a title', ({page}) => {
-		await page.goTo('/');
-
-    await expect(page.locator('h1, h2, h3, h4, h5, h6')).resolves.toBeTruthy();
-  });
-});

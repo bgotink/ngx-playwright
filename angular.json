@@ -96,6 +96,31 @@
 				}
 			}
 		},
+		"@ngx-playwright/harness": {
+			"root": "packages/harness",
+			"architect": {
+				"build": {
+					"builder": "@snuggery/build-node:build",
+					"options": {
+						"assets": [
+							{
+								"include": ["README.md", "NOTICE.md"]
+							},
+							{
+								"include": ["**/*.d.ts", "**/*.js", "**/*.cjs"],
+								"from": "packages/harness/src"
+							},
+							{
+								"include": "LICENSE.md",
+								"from": "."
+							}
+						],
+						"package": true,
+						"tsconfig": "packages/harness/tsconfig.lib.json"
+					}
+				}
+			}
+		},
 		"@ngx-playwright/test": {
 			"root": "packages/test",
 			"architect": {
@@ -108,10 +133,11 @@
 							},
 							{
 								"include": [
-									"**/*.d.ts",
 									"**/*.json",
 									"**/*.js",
+									"**/*.d.ts",
 									"**/*.cjs",
+									"**/*.d.cts",
 									"schematics/*/files*"
 								],
 								"from": "packages/test/src"
@@ -121,7 +147,8 @@
 								"from": "."
 							}
 						],
-						"package": true
+						"package": true,
+						"tsconfig": "packages/test/tsconfig.lib.json"
 					}
 				}
 			}

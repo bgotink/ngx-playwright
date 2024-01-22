@@ -1,0 +1,15 @@
+{
+	"extends": "../../tsconfig.base.json",
+	"compilerOptions": {
+		"outDir": "./dist",
+		"rootDir": "./src",
+		"mapRoot": ".",
+		"emitDeclarationOnly": true
+	},
+	"include": ["src/**/*.js", "src/**/*.d.ts", "src/**/*.cjs", "src/**/*.d.cts"],
+	"references": [
+		{
+			"path": "../harness/tsconfig.lib.json"
+		}
+	]
+}

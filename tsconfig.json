@@ -3,7 +3,13 @@
 	"files": [],
 	"references": [
 		{
-			"path": "./packages/test"
+			"path": "./packages/harness/tsconfig.lib.json"
+		},
+		{
+			"path": "./packages/harness/tsconfig.test.json"
+		},
+		{
+			"path": "./packages/test/tsconfig.lib.json"
 		}
 	]
 }

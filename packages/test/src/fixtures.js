@@ -1,3 +1,4 @@
+import {_setParallelImplementation} from "@ngx-playwright/harness";
 import {test as base} from "@playwright/test";
 import {fileURLToPath} from "node:url";
 
@@ -10,17 +11,58 @@ import {openScreen, createInScreenFn} from "./screen.js";
 
 /** @type {import('./args.js').NgxPlaywrightFixtures} */
 const ngxPlaywrightFixtures = {
-	enableAutomaticStabilization: [true, {option: true}],
-
-	_setupAutomaticStabilization: [
-		({enableAutomaticStabilization}, use) => {
-			if (enableAutomaticStabilization) {
-				autoStabilize();
-			} else {
-				manuallyStabilize();
+	enableAutomaticStabilization: [
+		// eslint-disable-next-line no-empty-pattern
+		async ({}, use) => {
+			let value;
+			try {
+				await import("@angular/cdk/testing");
+				value = true;
+			} catch {
+				value = false;
 			}
 
-			return use();
+			await use(value);
+		},
+		{option: true},
+	],
+
+	_setupAutomaticStabilization: [
+		async ({enableAutomaticStabilization}, use) => {
+			let parallel,
+				handleAutoChangeDetectionStatus,
+				stopHandlingAutoChangeDetectionStatus;
+			try {
+				({
+					parallel,
+					handleAutoChangeDetectionStatus,
+					stopHandlingAutoChangeDetectionStatus,
+				} = await import("@angular/cdk/testing"));
+			} catch {
+				// ignore
+			}
+
+			if (enableAutomaticStabilization) {
+				if (handleAutoChangeDetectionStatus == null) {
+					throw new Error(
+						"enableAutomaticStabilization requires @angular/cdk, but it could not be imported",
+					);
+				}
+
+				autoStabilize(handleAutoChangeDetectionStatus);
+			} else {
+				manuallyStabilize(stopHandlingAutoChangeDetectionStatus);
+			}
+
+			if (parallel) {
+				_setParallelImplementation(parallel);
+			}
+
+			await use();
+
+			if (parallel) {
+				_setParallelImplementation(undefined);
+			}
 		},
 		{auto: true},
 	],

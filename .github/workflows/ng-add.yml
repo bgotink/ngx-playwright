@@ -48,3 +48,19 @@ jobs:
       - name: ng-add without typescript without ngx-playwright fixtures
         shell: bash
         run: ./scripts/ng-add/run.sh --no-angular --no-typescript
+
+      - name: ng-add with typescript & using ngx-playwright fixtures without harnesses
+        shell: bash
+        run: ./scripts/ng-add/run.sh --typescript --no-harnesses
+
+      - name: ng-add without typescript & using ngx-playwright fixtures without harnesses
+        shell: bash
+        run: ./scripts/ng-add/run.sh --no-typescript --no-harnesses
+
+      - name: ng-add with typescript without ngx-playwright fixtures without harnesses
+        shell: bash
+        run: ./scripts/ng-add/run.sh --no-angular --typescript --no-harnesses
+
+      - name: ng-add without typescript without ngx-playwright fixtures without harnesses
+        shell: bash
+        run: ./scripts/ng-add/run.sh --no-angular --no-typescript --no-harnesses

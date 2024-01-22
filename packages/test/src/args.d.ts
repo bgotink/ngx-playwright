@@ -1,4 +1,4 @@
-import {ComponentHarness} from "@angular/cdk/testing";
+import type {AnyComponentHarness} from "@ngx-playwright/harness";
 import {
 	Fixtures,
 	PlaywrightTestArgs,
@@ -71,7 +71,7 @@ export type PlaywrightTestConfig<
 	WorkerArgs = {},
 > = BaseTestConfig<NgxPlaywrightTestOptions & TestArgs, WorkerArgs>;
 
-export type NgxPlaywrightScreenTestArgs<C extends ComponentHarness> = {
+export type NgxPlaywrightScreenTestArgs<C extends AnyComponentHarness> = {
 	/**
 	 * The screen instance
 	 */
@@ -97,13 +97,14 @@ export type NgxPlaywrightFixtures = Fixtures<
 	PlaywrightWorkerArgs & PlaywrightWorkerOptions
 >;
 
-export type NgxPlaywrightScreenFixtures<C extends ComponentHarness> = Fixtures<
-	NgxPlaywrightScreenTestArgs<C>,
-	// eslint-disable-next-line @typescript-eslint/ban-types
-	{},
-	NgxPlaywrightTestArgs &
-		NgxPlaywrightTestOptions &
-		PlaywrightTestArgs &
-		PlaywrightTestOptions,
-	PlaywrightWorkerArgs & PlaywrightWorkerOptions
->;
+export type NgxPlaywrightScreenFixtures<C extends AnyComponentHarness> =
+	Fixtures<
+		NgxPlaywrightScreenTestArgs<C>,
+		// eslint-disable-next-line @typescript-eslint/ban-types
+		{},
+		NgxPlaywrightTestArgs &
+			NgxPlaywrightTestOptions &
+			PlaywrightTestArgs &
+			PlaywrightTestOptions,
+		PlaywrightWorkerArgs & PlaywrightWorkerOptions
+	>;

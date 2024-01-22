@@ -1,8 +1,3 @@
-import {
-	handleAutoChangeDetectionStatus,
-	stopHandlingAutoChangeDetectionStatus,
-} from "@angular/cdk/testing";
-
 import {waitUntilAngularStable} from "./browser.js";
 
 let isRegistered = false;
@@ -62,8 +57,10 @@ export function registerPage(page) {
  *
  * The environment automatically waits for stabilization by default, unless
  * {@link #manuallyStabilize} is called.
+ *
+ * @param {import('@angular/cdk/testing')['handleAutoChangeDetectionStatus']} handleAutoChangeDetectionStatus
  */
-export function autoStabilize() {
+export function autoStabilize(handleAutoChangeDetectionStatus) {
 	if (isRegistered) {
 		return;
 	}
@@ -97,12 +94,14 @@ export function autoStabilize() {
  * Stop automatically waiting for the angular application to become stable
  *
  * Call {@link #forceStabilize} to manually wait until the app stabilizes.
+ *
+ * @param {import('@angular/cdk/testing')['stopHandlingAutoChangeDetectionStatus']=} stopHandlingAutoChangeDetectionStatus
  */
-export function manuallyStabilize() {
+export function manuallyStabilize(stopHandlingAutoChangeDetectionStatus) {
 	if (!isRegistered) {
 		return;
 	}
 
 	isRegistered = false;
-	stopHandlingAutoChangeDetectionStatus();
+	stopHandlingAutoChangeDetectionStatus?.();
 }
