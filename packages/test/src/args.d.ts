@@ -40,6 +40,15 @@ export interface NgxPlaywrightTestArgs {
 	 * @internal
 	 */
 	_setupAutomaticStabilization: void;
+
+	/**
+	 * Fully fleshed out options
+	 *
+	 * @internal
+	 */
+	_harnessEnvironmentOptions: Readonly<
+		Required<PlaywrightHarnessEnvironmentOptions>
+	>;
 }
 
 export interface NgxPlaywrightTestOptions {
@@ -60,8 +69,31 @@ export interface NgxPlaywrightTestOptions {
 	 *
 	 * These options are used to set up the `harnessEnvironment` fixture. You can
 	 * create a child environment with different options if you want to mix options.
+	 *
+	 * @deprecated Pass the individual options directly
 	 */
-	harnessEnvironmentOptions: Readonly<PlaywrightHarnessEnvironmentOptions>;
+	harnessEnvironmentOptions: Partial<PlaywrightHarnessEnvironmentOptions>;
+
+	/**
+	 * If true, all query selectors respect shadowroots
+	 *
+	 * By default, shadow boundaries are pierced by all queries.
+	 */
+	respectShadowBoundaries: boolean | undefined;
+
+	/**
+	 * If true, `TestElement#text()` will include shadow content and slotted content
+	 *
+	 * Enabling this deviates from other `TestElement` implementations, so it is currently opt-in to ensure compatibility by default.
+	 */
+	innerTextWithShadows: boolean | undefined;
+
+	/**
+	 * If true, back the `TestElement`s with `Locator`s instead of `ElementHandle`s.
+	 *
+	 * Uses `ElementHandle`s by default
+	 */
+	useLocators: boolean | undefined;
 }
 
 export type PlaywrightTestConfig<

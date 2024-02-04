@@ -22,17 +22,13 @@ const config = {
 		{
 			name: "using ElementHandle",
 			use: {
-				harnessEnvironmentOptions: {
-					useLocators: false,
-				},
+				useLocators: false,
 			},
 		},
 		{
 			name: "using Locator",
 			use: {
-				harnessEnvironmentOptions: {
-					useLocators: true,
-				},
+				useLocators: true,
 			},
 		},
 	],

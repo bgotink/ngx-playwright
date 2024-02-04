@@ -130,9 +130,7 @@ test.describe.parallel("PlaywrightHarnessEnvironment", () => {
 		});
 
 		const testThruShadows = test.extend({
-			harnessEnvironmentOptions: {
-				innerTextWithShadows: true,
-			},
+			innerTextWithShadows: true,
 		});
 
 		testThruShadows(

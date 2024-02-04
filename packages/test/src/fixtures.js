@@ -27,6 +27,12 @@ const ngxPlaywrightFixtures = {
 		{option: true},
 	],
 
+	harnessEnvironmentOptions: [{}, {option: true}],
+
+	respectShadowBoundaries: [undefined, {option: true}],
+	innerTextWithShadows: [undefined, {option: true}],
+	useLocators: [undefined, {option: true}],
+
 	_setupAutomaticStabilization: [
 		async ({enableAutomaticStabilization}, use) => {
 			let parallel,
@@ -67,6 +73,29 @@ const ngxPlaywrightFixtures = {
 		{auto: true},
 	],
 
+	_harnessEnvironmentOptions: (
+		{
+			harnessEnvironmentOptions,
+			respectShadowBoundaries,
+			innerTextWithShadows,
+			useLocators,
+		},
+		use,
+	) => {
+		return use({
+			innerTextWithShadows:
+				innerTextWithShadows ??
+				harnessEnvironmentOptions.innerTextWithShadows ??
+				false,
+			respectShadowBoundaries:
+				respectShadowBoundaries ??
+				harnessEnvironmentOptions.respectShadowBoundaries ??
+				false,
+			useLocators:
+				useLocators ?? harnessEnvironmentOptions.useLocators ?? false,
+		});
+	},
+
 	inScreen: ({page, baseURL, harnessEnvironment}, use) => {
 		return use(createInScreenFn(page, harnessEnvironment, baseURL));
 	},
@@ -74,10 +103,8 @@ const ngxPlaywrightFixtures = {
 	open: ({page, baseURL, harnessEnvironment}, use) =>
 		use((screen) => openScreen(baseURL, page, harnessEnvironment, screen)),
 
-	harnessEnvironmentOptions: [{}, {option: true}],
-
-	harnessEnvironment: ({page, harnessEnvironmentOptions}, use) =>
-		use(createEnvironment(page, harnessEnvironmentOptions)),
+	harnessEnvironment: ({page, _harnessEnvironmentOptions}, use) =>
+		use(createEnvironment(page, _harnessEnvironmentOptions)),
 
 	context: async ({context}, use) => {
 		await context.addInitScript({
