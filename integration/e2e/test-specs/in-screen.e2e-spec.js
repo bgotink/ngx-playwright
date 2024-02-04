@@ -1,9 +1,6 @@
-import {mixinFixtures} from "@bgotink/playwright-coverage";
-import {test as base, createTest, expect} from "@ngx-playwright/test";
+import {test, createTest, expect} from "@ngx-playwright/test";
 
 import {MainComponentHarness} from "../harnesses/app-component-harness.js";
-
-const test = mixinFixtures(base);
 
 test.describe.parallel("the inScreen fixture", () => {
 	test.describe("without passing a page", () => {
@@ -113,7 +110,7 @@ test.describe.parallel("the inScreen fixture", () => {
 });
 
 test.describe("the createTest function", () => {
-	const test = mixinFixtures(createTest(MainComponentHarness));
+	const test = createTest(MainComponentHarness);
 
 	test("it should pass in a screen", ({screen, $}) => {
 		expect($).toEqual({});

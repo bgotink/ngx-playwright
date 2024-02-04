@@ -14,7 +14,6 @@
 		"@angular-devkit/build-angular": "^17.1.0-next",
 		"@angular/cdk": "^17.0.0",
 		"@angular/compiler-cli": "^17.1.0-next",
-		"@bgotink/playwright-coverage": "0.2.0",
 		"@ngx-playwright/test": "workspace:packages/test",
 		"@playwright/test": "^1.20.2",
 		"typescript": "~5.3.3"

@@ -1,11 +1,8 @@
 /* spell-checker: disable */
 import {parallel} from "@angular/cdk/testing";
-import {mixinFixtures} from "@bgotink/playwright-coverage";
-import {test as base, expect} from "@ngx-playwright/test";
+import {test, expect} from "@ngx-playwright/test";
 
 import {MainComponentHarness} from "../harnesses/app-component-harness.js";
-
-const test = mixinFixtures(base);
 
 test.describe.parallel("PlaywrightHarnessEnvironment", () => {
 	test.beforeEach(async ({page}) => {
