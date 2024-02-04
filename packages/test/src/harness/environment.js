@@ -49,7 +49,11 @@ export class PlaywrightHarnessEnvironment {
 	 */
 	constructor(
 		page,
-		{respectShadowBoundaries = false, useLocators = false} = {},
+		{
+			respectShadowBoundaries = false,
+			useLocators = false,
+			innerTextWithShadows = false,
+		} = {},
 		documentRoot = page.locator(":root"),
 		element = documentRoot,
 	) {
@@ -59,6 +63,7 @@ export class PlaywrightHarnessEnvironment {
 		this.#opts = {
 			respectShadowBoundaries,
 			useLocators,
+			innerTextWithShadows,
 		};
 	}
 
@@ -69,6 +74,22 @@ export class PlaywrightHarnessEnvironment {
 	 */
 	get respectShadowBoundaries() {
 		return this.#opts.respectShadowBoundaries;
+	}
+
+	/**
+	 * If true, `TestElement#text()` will include shadow content and slotted content
+	 *
+	 * Enabling this deviates from other `TestElement` implementations, so it is currently opt-in to try and ensure compatibility.
+	 */
+	get innerTextWithShadows() {
+		return this.#opts.innerTextWithShadows;
+	}
+
+	/**
+	 * The playwright page in which this environment looks for elements and components
+	 */
+	get page() {
+		return this.#page;
 	}
 
 	/**
@@ -428,7 +449,7 @@ export class PlaywrightHarnessEnvironment {
 	#createTestElement(handle) {
 		// This function is called in the HarnessEnvironment constructor, so we
 		// can't directly use private properties here due to the polyfill in tslib
-		const element = new PlaywrightElement(this.#page, handle, async () => {
+		const element = new PlaywrightElement(this, handle, async () => {
 			if (shouldStabilizeAutomatically()) {
 				await this.forceStabilize();
 			}

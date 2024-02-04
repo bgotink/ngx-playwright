@@ -119,4 +119,31 @@ test.describe.parallel("PlaywrightHarnessEnvironment", () => {
 			},
 		);
 	});
+
+	test.describe("innerText", () => {
+		test("should not pierce shadow boundaries by default", async ({
+			harnessEnvironment,
+		}) => {
+			await expect(
+				(await harnessEnvironment.locatorFor("test-shadow-boundary")()).text(),
+			).resolves.toBe("");
+		});
+
+		const testThruShadows = test.extend({
+			harnessEnvironmentOptions: {
+				innerTextWithShadows: true,
+			},
+		});
+
+		testThruShadows(
+			"should support piercing shadow boundaries",
+			async ({harnessEnvironment}) => {
+				await expect(
+					(
+						await harnessEnvironment.locatorFor("test-shadow-boundary")()
+					).text(),
+				).resolves.toBe("Shadow 1\nShadow 2");
+			},
+		);
+	});
 });

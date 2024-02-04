@@ -113,12 +113,12 @@ export function isLocator(handleOrLocator) {
  */
 export class PlaywrightElement {
 	/**
-	 * The page the element is on
+	 * The environment the element is in
 	 *
 	 * @readonly
-	 * @type {Page}
+	 * @type {import('./environment.js').PlaywrightHarnessEnvironment}
 	 */
-	#page;
+	#environment;
 
 	/**
 	 * Awaits for the angular app to become stable
@@ -149,12 +149,12 @@ export class PlaywrightElement {
 	#evaluate;
 
 	/**
-	 * @param {Page} page
+	 * @param {import('./environment.js').PlaywrightHarnessEnvironment} environment
 	 * @param {ElementHandle<HTMLElement | SVGElement> | Locator} handleOrLocator
 	 * @param {() => Promise<void>} whenStable
 	 */
-	constructor(page, handleOrLocator, whenStable) {
-		this.#page = page;
+	constructor(environment, handleOrLocator, whenStable) {
+		this.#environment = environment;
 
 		this.#query = async (fn) => {
 			await whenStable();
@@ -311,7 +311,10 @@ export class PlaywrightElement {
 		});
 
 		return this.#perform(() =>
-			this.#page.mouse.move(Math.max(0, left - 1), Math.max(0, top - 1)),
+			this.#environment.page.mouse.move(
+				Math.max(0, left - 1),
+				Math.max(0, top - 1),
+			),
 		);
 	}
 
@@ -361,7 +364,7 @@ export class PlaywrightElement {
 
 			await handle.focus();
 
-			const {keyboard} = this.#page;
+			const {keyboard} = this.#environment.page;
 
 			if (modifiers) {
 				await keyboard.down(modifiers);
@@ -403,9 +406,13 @@ export class PlaywrightElement {
 	 */
 	text(options) {
 		return this.#query((handle) => {
+			if (this.#environment.innerTextWithShadows) {
+				return this.#evaluate(contentScripts.innerText, options?.exclude);
+			}
+
 			if (options?.exclude) {
 				return this.#evaluate(
-					contentScripts.getTextWithExcludedElements,
+					contentScripts.nativeInnerTextWithExcludedElements,
 					options.exclude,
 				);
 			}

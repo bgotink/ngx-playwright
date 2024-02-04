@@ -31,6 +31,13 @@ export interface PlaywrightHarnessEnvironmentOptions {
 	respectShadowBoundaries?: boolean;
 
 	/**
+	 * If true, `TestElement#text()` will include shadow content and slotted content
+	 *
+	 * Enabling this deviates from other `TestElement` implementations, so it is currently opt-in to ensure compatibility by default.
+	 */
+	innerTextWithShadows?: boolean;
+
+	/**
 	 * If true, back the `TestElement`s with `Locator`s instead of `ElementHandle`s.
 	 *
 	 * Uses `ElementHandle`s by default
