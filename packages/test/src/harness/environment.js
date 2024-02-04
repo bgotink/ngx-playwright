@@ -428,15 +428,11 @@ export class PlaywrightHarnessEnvironment {
 	#createTestElement(handle) {
 		// This function is called in the HarnessEnvironment constructor, so we
 		// can't directly use private properties here due to the polyfill in tslib
-		const element = new PlaywrightElement(
-			() => this.#page,
-			handle,
-			async () => {
-				if (shouldStabilizeAutomatically()) {
-					await this.forceStabilize();
-				}
-			},
-		);
+		const element = new PlaywrightElement(this.#page, handle, async () => {
+			if (shouldStabilizeAutomatically()) {
+				await this.forceStabilize();
+			}
+		});
 
 		elementHandles.set(element, handle);
 
@@ -527,6 +523,7 @@ function _parseQueries(queries) {
  * @returns {Promise<T>}
  */
 async function _removeDuplicateQueryResults(results) {
+	/* cspell:ignore deduped */
 	let testElementMatched = false;
 	const matchedHarnessTypes = new Set();
 	const dedupedMatches = [];

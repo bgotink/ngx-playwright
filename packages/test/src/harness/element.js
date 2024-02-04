@@ -116,7 +116,7 @@ export class PlaywrightElement {
 	 * The page the element is on
 	 *
 	 * @readonly
-	 * @type {() => Page}
+	 * @type {Page}
 	 */
 	#page;
 
@@ -149,7 +149,7 @@ export class PlaywrightElement {
 	#evaluate;
 
 	/**
-	 * @param {() => Page} page
+	 * @param {Page} page
 	 * @param {ElementHandle<HTMLElement | SVGElement> | Locator} handleOrLocator
 	 * @param {() => Promise<void>} whenStable
 	 */
@@ -311,7 +311,7 @@ export class PlaywrightElement {
 		});
 
 		return this.#perform(() =>
-			this.#page().mouse.move(Math.max(0, left - 1), Math.max(0, top - 1)),
+			this.#page.mouse.move(Math.max(0, left - 1), Math.max(0, top - 1)),
 		);
 	}
 
@@ -361,7 +361,7 @@ export class PlaywrightElement {
 
 			await handle.focus();
 
-			const {keyboard} = this.#page();
+			const {keyboard} = this.#page;
 
 			if (modifiers) {
 				await keyboard.down(modifiers);
