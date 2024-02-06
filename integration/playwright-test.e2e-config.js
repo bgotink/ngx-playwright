@@ -15,21 +15,27 @@ const config = {
 		headless: true,
 	},
 
-	testDir: join(__dirname, "e2e/test-specs"),
-	testMatch: "**/*.e2e-spec.js",
-
 	projects: [
 		{
 			name: "using ElementHandle",
+			testDir: join(__dirname, "e2e/test-specs"),
+			testMatch: "**/*.e2e-spec.js",
 			use: {
 				useLocators: false,
 			},
 		},
 		{
 			name: "using Locator",
+			testDir: join(__dirname, "e2e/test-specs"),
+			testMatch: "**/*.e2e-spec.js",
 			use: {
 				useLocators: true,
 			},
+		},
+		{
+			name: "selector engine",
+			testDir: join(__dirname, "e2e/selector-specs"),
+			testMatch: "**/*.spec.js",
 		},
 	],
 

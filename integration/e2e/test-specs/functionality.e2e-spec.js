@@ -74,11 +74,29 @@ test.describe.parallel("PlaywrightHarnessEnvironment", () => {
 				expect(await harness.shadows()).toEqual([]);
 			});
 
+			test("it should respect shadow boundaries when `selectorEngine` is set to `light``", async ({
+				harnessEnvironment,
+			}) => {
+				const harness = await harnessEnvironment
+					.withOptions({selectorEngine: "light"})
+					.getHarness(MainComponentHarness);
+				expect(await harness.shadows()).toEqual([]);
+			});
+
 			test("it should allow querying across shadow boundary", async ({
 				harnessEnvironment,
 			}) => {
 				const harness =
 					await harnessEnvironment.getHarness(MainComponentHarness);
+				expect(await (await harness.deepShadow()).text()).toBe("Shadow 2");
+			});
+
+			test("it should allow querying across shadow boundary when `selectorEngine` is set to `composed", async ({
+				harnessEnvironment,
+			}) => {
+				const harness = await harnessEnvironment
+					.withOptions({selectorEngine: "composed"})
+					.getHarness(MainComponentHarness);
 				expect(await (await harness.deepShadow()).text()).toBe("Shadow 2");
 			});
 		});

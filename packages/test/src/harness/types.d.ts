@@ -24,11 +24,22 @@ export type ParsedQueries<T extends ComponentHarness> = {
 
 export interface PlaywrightHarnessEnvironmentOptions {
 	/**
-	 * If true, all query selectors respect shadowroots
+	 * If `true`, the default `selectorEngine` is `light` instead of `playwright`.
 	 *
-	 * By default, shadow boundaries are pierced by all queries.
+	 * @deprecated Set `selectorEngine` instead
 	 */
 	respectShadowBoundaries?: boolean;
+
+	/**
+	 * The selector engine to use
+	 *
+	 * The `light` engine only traverses light DOM, it never pierces shadow roots or slotted content.
+	 * The `composed` engine traverses the composed DOM, i.e. the DOM with shadow and light intermixed into one tree.
+	 * The `playwright` engine is playwright's default engine, which traverses the light DOM while also piercing shadow roots. This engine doesn't traverse into slotted content, meaning it does something between `light` and `composed`.
+	 *
+	 * The default engine is `playwright`.
+	 */
+	selectorEngine?: "playwright" | "light" | "composed" | null;
 
 	/**
 	 * If true, `TestElement#text()` will include shadow content and slotted content

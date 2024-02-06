@@ -38,6 +38,7 @@ rules:
 overrides:
   - files:
       - packages/test/src/harness/**/browser.js
+      - packages/composed-css/src/**/*.js
     env:
       browser: true
   - files: ["**/*.ts"]

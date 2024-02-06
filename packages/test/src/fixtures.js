@@ -1,5 +1,6 @@
 import {_setParallelImplementation} from "@ngx-playwright/harness";
 import {test as base} from "@playwright/test";
+import {createRequire} from "node:module";
 import {fileURLToPath} from "node:url";
 
 import {
@@ -32,6 +33,7 @@ const ngxPlaywrightFixtures = {
 	respectShadowBoundaries: [undefined, {option: true}],
 	innerTextWithShadows: [undefined, {option: true}],
 	useLocators: [undefined, {option: true}],
+	selectorEngine: [undefined, {option: true}],
 
 	_setupAutomaticStabilization: [
 		async ({enableAutomaticStabilization}, use) => {
@@ -79,6 +81,7 @@ const ngxPlaywrightFixtures = {
 			respectShadowBoundaries,
 			innerTextWithShadows,
 			useLocators,
+			selectorEngine,
 		},
 		use,
 	) => {
@@ -93,6 +96,8 @@ const ngxPlaywrightFixtures = {
 				false,
 			useLocators:
 				useLocators ?? harnessEnvironmentOptions.useLocators ?? false,
+			selectorEngine:
+				selectorEngine ?? harnessEnvironmentOptions.selectorEngine ?? null,
 		});
 	},
 
@@ -113,6 +118,24 @@ const ngxPlaywrightFixtures = {
 
 		return use(context);
 	},
+
+	// Register composed CSS selector once per worker.
+	_setupComposedCssSelector: [
+		async ({playwright}, use) => {
+			await playwright.selectors.register(
+				"composed-css",
+				{
+					// Replace with import.meta.resolve() once targeting only Node ≥20.6.0
+					path: createRequire(import.meta.url).resolve(
+						"@ngx-playwright/composed-css/selector-engine",
+					),
+				},
+				{contentScript: true},
+			);
+			await use();
+		},
+		{scope: "worker", auto: true},
+	],
 };
 
 /**
@@ -120,9 +143,10 @@ const ngxPlaywrightFixtures = {
  * @template {import('@playwright/test').PlaywrightTestArgs & import('@playwright/test').PlaywrightTestOptions} T
  * @template {import('@playwright/test').PlaywrightWorkerArgs & import('@playwright/test').PlaywrightWorkerOptions} W
  * @param {import('@playwright/test').TestType<T, W>} test
- * @returns {import('@playwright/test').TestType<import('./args.js').NgxPlaywrightTestArgs & import('./args.js').NgxPlaywrightTestOptions & T, W>}
+ * @returns {import('@playwright/test').TestType<import('./args.js').NgxPlaywrightTestArgs & import('./args.js').NgxPlaywrightTestOptions & T, import('./args.js').NgxPlaywrightTestWorkerArgs & W>}
  */
 export function mixinFixtures(test) {
+	// @ts-expect-error Not sure what goes wrong, but...
 	return test.extend(ngxPlaywrightFixtures);
 }
 

@@ -41,6 +41,12 @@ export class PlaywrightHarnessEnvironment {
 	#rawRootElement;
 
 	/**
+	 * @readonly
+	 * @type {string}
+	 */
+	#engine;
+
+	/**
 	 * @internal
 	 * @param {import('@playwright/test').Page} page
 	 * @param {Readonly<import('./types.js').PlaywrightHarnessEnvironmentOptions>=} options
@@ -53,6 +59,7 @@ export class PlaywrightHarnessEnvironment {
 			respectShadowBoundaries = false,
 			useLocators = false,
 			innerTextWithShadows = false,
+			selectorEngine = null,
 		} = {},
 		documentRoot = page.locator(":root"),
 		element = documentRoot,
@@ -64,16 +71,47 @@ export class PlaywrightHarnessEnvironment {
 			respectShadowBoundaries,
 			useLocators,
 			innerTextWithShadows,
+			selectorEngine,
 		};
+
+		switch (this.selectorEngine) {
+			case "composed":
+				this.#engine = "composed-css";
+				break;
+			case "light":
+				this.#engine = "css:light";
+				break;
+			case "playwright":
+				this.#engine = "css";
+				break;
+		}
 	}
 
 	/**
 	 * If true, all query selectors respect shadowroots
 	 *
 	 * By default, shadow boundaries are pierced by all queries.
+	 *
+	 * @deprecated This property is not necessary
 	 */
 	get respectShadowBoundaries() {
-		return this.#opts.respectShadowBoundaries;
+		return this.selectorEngine === "light";
+	}
+
+	/**
+	 * The selector engine to use
+	 *
+	 * The `light` engine only traverses light DOM, it never pierces shadow roots or slotted content.
+	 * The `composed` engine traverses the composed DOM, i.e. the DOM with shadow and light intermixed into one tree.
+	 * The `playwright` engine is playwright's default engine, which traverses the light DOM while also piercing shadow roots. This engine doesn't traverse into slotted content, meaning it does something between `light` and `composed`.
+	 *
+	 * The default engine is `playwright`.
+	 */
+	get selectorEngine() {
+		return (
+			this.#opts.selectorEngine ??
+			(this.#opts.respectShadowBoundaries ? "light" : "playwright")
+		);
 	}
 
 	/**
@@ -479,19 +517,14 @@ export class PlaywrightHarnessEnvironment {
 	 */
 	async #getAllRawElements(selector) {
 		if (!isLocator(this.#rawRootElement)) {
-			return await this.#rawRootElement.$$(
-				this.#opts.respectShadowBoundaries ?
-					`css:light=${selector}`
-				:	`css=${selector}`,
-			);
+			return await this.#rawRootElement.$$(`${this.#engine}=${selector}`);
 		} else {
 			const locator = this.#rawRootElement.locator(
-				this.#opts.respectShadowBoundaries ?
-					`css:light=${selector}`
-				:	`css=${selector}`,
+				`${this.#engine}=${selector}`,
 			);
 
 			if (this.#opts.useLocators) {
+				// Replace with `locator.all()` once minimum playwright version is ≥ 1.29
 				return Array.from({length: await locator.count()}, (_, i) =>
 					locator.nth(i),
 				);

@@ -1,0 +1,3 @@
+releases:
+  "@ngx-playwright/composed-css": minor
+  "@ngx-playwright/test": patch

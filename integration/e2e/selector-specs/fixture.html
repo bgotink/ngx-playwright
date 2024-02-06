@@ -1,0 +1,34 @@
+<!doctype html>
+<!-- cspell:word shadowrootmode -->
+<html id="1" lang="en">
+	<div id="2" class="light">
+		<div id="3" class="intermediary">
+			<div id="4" class="leaf first"></div>
+			<div id="5" class="leaf second"></div>
+			<div id="6" class="leaf last"></div>
+		</div>
+		<div id="7" class="empty"></div>
+	</div>
+
+	<div id="8" class="shadow">
+		<template shadowrootmode="open">
+			<div id="9" class="intermediary">
+				<slot id="10"></slot>
+			</div>
+			<div id="11" class="empty"></div>
+		</template>
+
+		<div id="12" class="leaf first"></div>
+		<div id="13" class="leaf second"></div>
+		<div id="14" class="leaf last"></div>
+	</div>
+
+	<div id="slot-children">
+		<template shadowrootmode="open">
+			<slot><span id="1"></span></slot>
+			<slot name="alt"><span id="2"></span></slot>
+		</template>
+
+		<span id="3"></span>
+	</div>
+</html>

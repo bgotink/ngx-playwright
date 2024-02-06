@@ -7,7 +7,7 @@
 		"useUnknownInCatchVariables": false,
 		"noUncheckedIndexedAccess": false
 	},
-	"include": ["test-specs/**/*.js", "harnesses/**/*"],
+	"include": ["test-specs/**/*.js", "selector-specs/**/*.js", "harnesses/**/*"],
 	"references": [
 		{
 			"path": "../../packages/test/tsconfig.lib.json"

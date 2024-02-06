@@ -89,9 +89,38 @@
 						"devServerTarget": "serve"
 					},
 					"configurations": {
+						"only-selectors": {
+							"project": "selector engine"
+						},
 						"production": {
 							"devServerTarget": ":serve:production"
 						}
+					}
+				}
+			}
+		},
+		"@ngx-playwright/composed-css": {
+			"root": "packages/composed-css",
+			"architect": {
+				"build": {
+					"builder": "@snuggery/build-node:build",
+					"options": {
+						"assets": [
+							{
+								"include": [
+									"README.md",
+									"NOTICE.md",
+									"selector-engine.cjs",
+									"index.js"
+								]
+							},
+							{
+								"include": "LICENSE.md",
+								"from": "."
+							}
+						],
+						"package": true,
+						"tsconfig": "packages/composed-css/tsconfig.lib.json"
 					}
 				}
 			}

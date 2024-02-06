@@ -11,7 +11,7 @@
 		"test": "sn test"
 	},
 	"devDependencies": {
-		"@angular/cli": "^17.0.0",
+		"@angular/cli": "^17.1.2",
 		"@nrwl/linter": "^12.8.0",
 		"@snuggery/build-node": "0.9.1",
 		"@snuggery/snuggery": "0.11.1",

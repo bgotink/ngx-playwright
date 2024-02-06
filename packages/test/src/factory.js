@@ -41,7 +41,7 @@ function createScreenFixtures(Screen) {
 /**
  * @template {import('@ngx-playwright/harness').AnyComponentHarness} C
  * @template {import('./args.js').NgxPlaywrightTestArgs & import('./args.js').NgxPlaywrightTestOptions & import('@playwright/test').PlaywrightTestArgs & import('@playwright/test').PlaywrightTestOptions} T
- * @template {import('@playwright/test').PlaywrightWorkerArgs & import('@playwright/test').PlaywrightWorkerOptions} W
+ * @template {import('./args.js').NgxPlaywrightTestWorkerArgs & import('@playwright/test').PlaywrightWorkerArgs & import('@playwright/test').PlaywrightWorkerOptions} W
  * @param {import('./types.js').PlaywrightScreen<C>} Screen
  * @param {import('@playwright/test').TestType<T, W>} test
  * @returns {import('@playwright/test').TestType<import('./args.js').NgxPlaywrightScreenTestArgs<C> & T, W>}
