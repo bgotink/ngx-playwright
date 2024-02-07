@@ -2,3 +2,4 @@
 
 /packages/*/dist
 /packages/composed-css/*.js
+/packages/composed-css/*.cjs

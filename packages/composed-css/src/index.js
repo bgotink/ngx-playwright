@@ -1,6 +1,18 @@
 import {parse} from "parsel-js";
 
 /** @param {Element} element */
+function getChildNodes(element) {
+	if (
+		element.tagName === "SLOT" &&
+		/** @type {HTMLSlotElement} */ (element).assignedNodes().length
+	) {
+		return /** @type {HTMLSlotElement} */ (element).assignedNodes();
+	}
+
+	return Array.from((element.shadowRoot ?? element).childNodes);
+}
+
+/** @param {Element} element */
 function getChildren(element) {
 	if (
 		element.tagName === "SLOT" &&
@@ -53,6 +65,36 @@ function getParent(element) {
 /**
  * @param {Element} element
  */
+function getSiblings(element) {
+	if (element.assignedSlot) {
+		return element.assignedSlot.assignedElements();
+	}
+
+	// parentElement could be null if the element is the scope or :root
+	return element.parentElement ?
+			Array.from(element.parentElement.children)
+		:	null;
+}
+
+/**
+ * @param {Element} element
+ */
+function getSiblingsOfType(element) {
+	const siblings = getSiblings(element);
+
+	if (!siblings) {
+		return siblings;
+	}
+
+	return Array.from(siblings).filter(
+		(sibling) =>
+			sibling.tagName.toLowerCase() === element.tagName.toLowerCase(),
+	);
+}
+
+/**
+ * @param {Element} element
+ */
 function getPreviousSibling(element) {
 	if (element.assignedSlot) {
 		const siblings = element.assignedSlot.assignedElements();
@@ -60,6 +102,70 @@ function getPreviousSibling(element) {
 	}
 
 	return element.previousElementSibling;
+}
+
+/**
+ * @param {string} nth
+ */
+function parseNth(nth) {
+	const [anb, selector] = /** @type {[String, string | undefined]} */ (
+		nth.split(/\s+of\s*/, 2)
+	);
+
+	/** @type {(indexStartingFromOne: number) => boolean} */
+	let indexMatches;
+	switch (anb) {
+		case "even":
+			indexMatches = (i) => i % 2 === 0;
+			break;
+		case "odd":
+			indexMatches = (i) => i % 2 !== 0;
+			break;
+		default: {
+			let [a, b] =
+				anb.includes("n") ?
+					/** @type {[String, string]} */ (anb.split("n"))
+				:	["0", anb];
+			a = a.trim();
+			b = b.trim();
+
+			let aNumber = 1;
+			if (a) {
+				aNumber = a === "-" ? -1 : parseInt(a);
+			}
+
+			let bNumber = 0;
+			if (b) {
+				switch (b[0]) {
+					case "-":
+						bNumber = -1 * parseInt(b.slice(1).trim());
+						break;
+					case "+":
+						bNumber = parseInt(b.slice(1).trim());
+						break;
+					default:
+						bNumber = parseInt(b);
+						break;
+				}
+			}
+
+			console.log({aNumber, bNumber});
+			if (aNumber === 0) {
+				indexMatches = (i) => i === bNumber;
+			} else {
+				indexMatches = (i) => {
+					i = i - bNumber;
+
+					return i % aNumber === 0 && i / aNumber >= 0;
+				};
+			}
+		}
+	}
+
+	return {
+		childAst: selector && parse(selector),
+		indexMatches,
+	};
 }
 
 /**
@@ -79,6 +185,9 @@ function matchesSelector(element, scope, ast) {
 		case "id":
 			return element.id === ast.name;
 		case "type":
+			// HTML tag names are upper case, but XML (SVG, XHTML) tag names are cased
+			// as they're written in the document, so we have to transform both the
+			// selector and the tag name to a consistent case.
 			return element.tagName.toLowerCase() === ast.name.toLowerCase();
 
 		case "list":
@@ -98,20 +207,122 @@ function matchesSelector(element, scope, ast) {
 
 			return true;
 
+		case "pseudo-element":
+			return invalidSelector(ast.content);
 		case "pseudo-class":
 			switch (ast.name) {
 				case "root":
-					if (ast.subtree) {
+					if (ast.argument) {
 						invalidSelector(ast.content);
 					}
 
 					return element === scope.ownerDocument.documentElement;
 				case "scope":
-					if (ast.subtree) {
+					if (ast.argument) {
 						invalidSelector(ast.content);
 					}
 
 					return element === scope;
+
+				case "empty":
+					if (ast.argument) {
+						invalidSelector(ast.content);
+					}
+
+					return getChildNodes(element).every(
+						(node) => node.nodeType === Node.COMMENT_NODE,
+					);
+
+				case "first-child":
+					if (ast.argument) {
+						invalidSelector(ast.content);
+					}
+
+					return element === getSiblings(element)?.at(0);
+				case "last-child": {
+					if (ast.argument) {
+						invalidSelector(ast.content);
+					}
+
+					return element === getSiblings(element)?.at(-1);
+				}
+				case "only-child":
+					if (ast.argument) {
+						invalidSelector(ast.content);
+					}
+
+					return getSiblings(element)?.length === 1;
+
+				case "first-of-type":
+					if (ast.argument) {
+						invalidSelector(ast.content);
+					}
+
+					return element === getSiblingsOfType(element)?.at(0);
+				case "last-of-type": {
+					if (ast.argument) {
+						invalidSelector(ast.content);
+					}
+
+					return element === getSiblingsOfType(element)?.at(-1);
+				}
+				case "only-of-type":
+					if (ast.argument) {
+						invalidSelector(ast.content);
+					}
+
+					return getSiblingsOfType(element)?.length === 1;
+
+				case "nth-of-type":
+				case "nth-last-of-type": {
+					if (!ast.argument) {
+						invalidSelector(ast.content);
+					}
+
+					const siblings = getSiblingsOfType(element);
+					if (siblings == null) {
+						return false;
+					}
+
+					const {childAst, indexMatches} = parseNth(ast.argument);
+
+					if (childAst) {
+						invalidSelector(ast.content);
+					}
+
+					if (ast.name === "nth-of-type") {
+						return indexMatches(1 + siblings.indexOf(element));
+					} else {
+						return indexMatches(siblings.length - siblings.indexOf(element));
+					}
+				}
+
+				case "nth-child":
+				case "nth-last-child": {
+					if (!ast.argument) {
+						invalidSelector(ast.content);
+					}
+
+					let siblings = getSiblings(element);
+					if (siblings == null) {
+						return false;
+					}
+
+					const {childAst, indexMatches} = parseNth(ast.argument);
+
+					if (childAst) {
+						siblings = Array.from(siblings).filter((sibling) =>
+							matchesSelector(sibling, scope, childAst),
+						);
+					}
+
+					if (ast.name === "nth-child") {
+						return indexMatches(1 + siblings.indexOf(element));
+					} else {
+						return indexMatches(siblings.length - siblings.indexOf(element));
+					}
+				}
+
 				case "is":
 				case "where":
 					if (!ast.subtree) {
@@ -124,6 +335,8 @@ function matchesSelector(element, scope, ast) {
 						invalidSelector(ast.content);
 					}
 
+					// :scope is there to prevent the :has argument from matching the element
+					// itself
 					return querySelector(`:scope ${ast.argument}`, element) != null;
 				case "not":
 					if (!ast.subtree) {
@@ -131,9 +344,11 @@ function matchesSelector(element, scope, ast) {
 					}
 
 					return !matchesSelector(element, scope, ast.subtree);
+
 				case "host":
 				case "host-context":
 					return invalidSelector(ast.content);
+
 				default:
 					return element.matches(ast.content);
 			}
@@ -198,8 +413,6 @@ function matchesSelector(element, scope, ast) {
 			}
 
 			return unreachable();
-		case "pseudo-element":
-			invalidSelector(ast.content);
 	}
 
 	unreachable();

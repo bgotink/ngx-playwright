@@ -174,4 +174,122 @@ test.describe("composed CSS selector", () => {
 			page.locator("composed-css=#slot-children #1").count(),
 		).resolves.toBe(0);
 	});
+
+	test("support for (first/last/only)-(child/of-type) selectors", async ({
+		page,
+	}) => {
+		const fixture = page.locator("#slot-nth");
+
+		await expect(
+			fixture
+				.locator("composed-css=slot:not([name]) :first-child")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["1"]);
+		await expect(
+			fixture
+				.locator("composed-css=slot[name=alt] :first-child")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["3"]);
+		await expect(
+			fixture
+				.locator('composed-css=slot[name="alt-too"] :first-child')
+				.evaluateAll(getIds),
+		).resolves.toEqual(["8"]);
+
+		await expect(
+			fixture
+				.locator("composed-css=slot:not([name]) :last-child")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["7"]);
+		await expect(
+			fixture
+				.locator("composed-css=slot[name=alt] :last-child")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["5"]);
+		await expect(
+			fixture
+				.locator('composed-css=slot[name="alt-too"] :last-child')
+				.evaluateAll(getIds),
+		).resolves.toEqual(["8"]);
+
+		await expect(
+			fixture.locator("composed-css=:only-child").evaluateAll(getIds),
+		).resolves.toEqual(["8"]);
+
+		await expect(
+			fixture.locator("composed-css=:only-of-type").evaluateAll(getIds),
+		).resolves.toEqual(["4", "8"]);
+	});
+
+	test("support for nth-of-type selectors", async ({page}) => {
+		const fixture = page.locator("#slot-nth slot:not([name])");
+
+		await expect(
+			fixture
+				.locator("composed-css=:scope :nth-of-type(1)")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["1", "2"]);
+		await expect(
+			fixture
+				.locator("composed-css=:scope :nth-of-type(2)")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["6", "7"]);
+		await expect(
+			fixture
+				.locator("composed-css=:scope :nth-of-type(2n)")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["6", "7"]);
+		await expect(
+			fixture
+				.locator("composed-css=:scope :nth-of-type(2n -1)")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["1", "2"]);
+		await expect(
+			fixture
+				.locator("composed-css=:scope :nth-of-type(-n + 1)")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["1", "2"]);
+	});
+
+	test("support for nth-child selectors", async ({page}) => {
+		const fixture = page.locator("#slot-nth slot:not([name])");
+
+		await expect(
+			fixture.locator("composed-css=:scope :nth-child(1)").evaluateAll(getIds),
+		).resolves.toEqual(["1"]);
+		await expect(
+			fixture.locator("composed-css=:scope :nth-child(2)").evaluateAll(getIds),
+		).resolves.toEqual(["2"]);
+
+		await expect(
+			fixture.locator("composed-css=:scope :nth-child(2n)").evaluateAll(getIds),
+		).resolves.toEqual(["2", "7"]);
+
+		await expect(
+			fixture
+				.locator("composed-css=:scope :nth-child(n + 3)")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["6", "7"]);
+		await expect(
+			fixture
+				.locator("composed-css=:scope :nth-child(-n + 3)")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["1", "2", "6"]);
+		await expect(
+			fixture
+				.locator("composed-css=:scope :nth-child(2n + 2)")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["2", "7"]);
+		await expect(
+			fixture
+				.locator("composed-css=:scope :nth-child(2n + 3)")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["6"]);
+
+		await expect(
+			fixture
+				.locator("composed-css=:scope :nth-child(1 of b)")
+				.evaluateAll(getIds),
+		).resolves.toEqual(["2"]);
+	});
 });

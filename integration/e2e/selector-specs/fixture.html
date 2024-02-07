@@ -31,4 +31,21 @@
 
 		<span id="3"></span>
 	</div>
+
+	<div id="slot-nth">
+		<template shadowrootmode="open">
+			<slot></slot>
+			<slot name="alt"></slot>
+			<slot name="alt-too"></slot>
+		</template>
+
+		<span id="1"></span>
+		<b id="2"></b>
+		<span id="3" slot="alt"></span>
+		<b id="4" slot="alt"></b>
+		<span id="5" slot="alt"></span>
+		<b id="6"></b>
+		<span id="7"></span>
+		<span id="8" slot="alt-too"></span>
+	</div>
 </html>
