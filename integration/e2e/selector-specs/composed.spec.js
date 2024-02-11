@@ -292,4 +292,22 @@ test.describe("composed CSS selector", () => {
 				.evaluateAll(getIds),
 		).resolves.toEqual(["2"]);
 	});
+
+	test("support for :has(>/+/~ selector)", async ({page}) => {
+		const fixture = page.locator(".shadow");
+
+		await expect(
+			fixture.locator("composed-css=:has(.last)").evaluateAll(getIds),
+		).resolves.toEqual(["8", "9", "10"]);
+		await expect(
+			fixture.locator("composed-css=:has(> .last)").evaluateAll(getIds),
+		).resolves.toEqual(["10"]);
+
+		await expect(
+			fixture.locator("composed-css=.leaf:has(+ .last)").evaluateAll(getIds),
+		).resolves.toEqual(["13"]);
+		await expect(
+			fixture.locator("composed-css=.leaf:has(~ .last)").evaluateAll(getIds),
+		).resolves.toEqual(["12", "13"]);
+	});
 });

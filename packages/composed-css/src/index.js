@@ -1,4 +1,23 @@
-import {parse} from "parsel-js";
+import {parse as _parse} from "parsel-js";
+
+/** @type {Map<string, WeakRef<import("parsel-js").AST>>} */
+const parseCache = new Map();
+
+/**
+ * @param {string} selector
+ */
+function parse(selector) {
+	let ast = parseCache.get(selector)?.deref();
+
+	if (!ast) {
+		// Don't ask parsel to parse sub-selectors in :is/:where/:has/:not, because of
+		// https://github.com/LeaVerou/parsel/issues/74.
+		ast = _parse(selector, {recursive: false}) || invalidSelector(selector);
+		parseCache.set(selector, new WeakRef(ast));
+	}
+
+	return ast;
+}
 
 /** @param {Element} element */
 function getChildNodes(element) {
@@ -22,13 +41,6 @@ function getChildren(element) {
 	}
 
 	return Array.from((element.shadowRoot ?? element).children);
-}
-
-/**
- * @param {Element | Document} node
- */
-function getContext(node) {
-	return "documentElement" in node ? node.documentElement : node;
 }
 
 /**
@@ -324,26 +336,33 @@ function matchesSelector(element, scope, ast) {
 				}
 
 				case "is":
-				case "where":
-					if (!ast.subtree) {
+				case "where": {
+					if (!ast.argument) {
 						invalidSelector(ast.content);
 					}
 
-					return matchesSelector(element, scope, ast.subtree);
+					return matchesSelector(element, scope, parse(ast.argument));
+				}
 				case "has":
 					if (!ast.argument) {
 						invalidSelector(ast.content);
 					}
 
 					// :scope is there to prevent the :has argument from matching the element
-					// itself
-					return querySelector(`:scope ${ast.argument}`, element) != null;
+					// itself, and because :has selectors can start with a combinator
+					return (
+						querySelector(
+							`:scope ${ast.argument}`,
+							getParent(element) || element,
+							element,
+						) != null
+					);
 				case "not":
-					if (!ast.subtree) {
+					if (!ast.argument) {
 						invalidSelector(ast.content);
 					}
 
-					return !matchesSelector(element, scope, ast.subtree);
+					return !matchesSelector(element, scope, parse(ast.argument));
 
 				case "host":
 				case "host-context":
@@ -434,15 +453,26 @@ function unreachable() {
 }
 
 /**
- * @param {string} selector
- * @param {Element | Document} context
+ * @param {Element | Document} node
  */
-export function querySelector(selector, context = document) {
-	const ast = parse(selector) || invalidSelector(selector);
-	context = getContext(context);
+function toElement(node) {
+	return "documentElement" in node ? node.documentElement : node;
+}
 
-	for (const element of walkComposedTree(context)) {
-		if (matchesSelector(element, context, ast)) {
+/**
+ * @param {string} selector
+ * @param {Element | Document} container
+ * @param {Element} scope
+ */
+export function querySelector(
+	selector,
+	container = document,
+	scope = toElement(container),
+) {
+	const ast = parse(selector);
+
+	for (const element of walkComposedTree(toElement(container))) {
+		if (matchesSelector(element, scope, ast)) {
 			return element;
 		}
 	}
@@ -452,16 +482,20 @@ export function querySelector(selector, context = document) {
 
 /**
  * @param {string} selector
- * @param {Element | Document} context
+ * @param {Element | Document} container
+ * @param {Element} scope
  */
-export function querySelectorAll(selector, context = document) {
-	const ast = parse(selector) || invalidSelector(selector);
-	context = getContext(context);
+export function querySelectorAll(
+	selector,
+	container = document,
+	scope = toElement(container),
+) {
+	const ast = parse(selector);
 
 	/** @type {Element[]} */
 	const results = [];
-	for (const element of walkComposedTree(context)) {
-		if (matchesSelector(element, context, ast)) {
+	for (const element of walkComposedTree(toElement(container))) {
+		if (matchesSelector(element, scope, ast)) {
 			results.push(element);
 		}
 	}
