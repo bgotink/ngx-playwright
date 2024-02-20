@@ -461,9 +461,11 @@ function toElement(node) {
 }
 
 /**
- * @param {string} selector
- * @param {Element | Document} container
- * @param {Element} scope
+ * Returns the first element matching the given selector in the given container in the composed DOM tree
+ *
+ * @param {string} selector The selector to look for
+ * @param {Element | Document} [container] The element to look inside of, note the element itself can also match. If no container is passed, the entire `globalThis.document` is searched.
+ * @param {Element} [scope] Element that matches `:scope`, you shouldn't need to pass this parameter, it is used internally to support `:has(+/~)`
  */
 export function querySelector(
 	selector,
@@ -482,9 +484,11 @@ export function querySelector(
 }
 
 /**
- * @param {string} selector
- * @param {Element | Document} container
- * @param {Element} scope
+ * Returns all elements matching the given selector in the given container in the composed DOM tree
+ *
+ * @param {string} selector The selector to look for
+ * @param {Element | Document} [container] The element to look inside of, note the element itself can also match. If no container is passed, the entire `globalThis.document` is searched.
+ * @param {Element} [scope] Element that matches `:scope`, you shouldn't need to pass this parameter, it is used internally to support `:has(+/~)`
  */
 export function querySelectorAll(
 	selector,

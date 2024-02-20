@@ -1,0 +1,5 @@
+releases:
+  "@ngx-playwright/composed-css": patch
+
+declined:
+  - "@ngx-playwright/test"
