@@ -28,7 +28,7 @@ function getChildNodes(element) {
 		return /** @type {HTMLSlotElement} */ (element).assignedNodes();
 	}
 
-	return Array.from((element.shadowRoot ?? element).childNodes);
+	return (element.shadowRoot ?? element).childNodes;
 }
 
 /** @param {Element} element */
@@ -40,7 +40,7 @@ function getChildren(element) {
 		return /** @type {HTMLSlotElement} */ (element).assignedElements();
 	}
 
-	return Array.from((element.shadowRoot ?? element).children);
+	return (element.shadowRoot ?? element).children;
 }
 
 /**
@@ -120,7 +120,7 @@ function getPreviousSibling(element) {
  * @param {string} nth
  */
 function parseNth(nth) {
-	const [anb, selector] = /** @type {[String, string | undefined]} */ (
+	const [anb, selector] = /** @type {[string, string | undefined]} */ (
 		nth.split(/\s+of\s*/, 2)
 	);
 
@@ -240,9 +240,13 @@ function matchesSelector(element, scope, ast) {
 						invalidSelector(ast.content);
 					}
 
-					return getChildNodes(element).every(
-						(node) => node.nodeType === Node.COMMENT_NODE,
-					);
+					for (const child of getChildNodes(element)) {
+						if (child.nodeType !== Node.COMMENT_NODE) {
+							return false;
+						}
+					}
+
+					return true;
 
 				case "first-child":
 					if (ast.argument) {
@@ -250,13 +254,12 @@ function matchesSelector(element, scope, ast) {
 					}
 
 					return element === getSiblings(element)?.at(0);
-				case "last-child": {
+				case "last-child":
 					if (ast.argument) {
 						invalidSelector(ast.content);
 					}
 
 					return element === getSiblings(element)?.at(-1);
-				}
 				case "only-child":
 					if (ast.argument) {
 						invalidSelector(ast.content);
@@ -270,13 +273,12 @@ function matchesSelector(element, scope, ast) {
 					}
 
 					return element === getSiblingsOfType(element)?.at(0);
-				case "last-of-type": {
+				case "last-of-type":
 					if (ast.argument) {
 						invalidSelector(ast.content);
 					}
 
 					return element === getSiblingsOfType(element)?.at(-1);
-				}
 				case "only-of-type":
 					if (ast.argument) {
 						invalidSelector(ast.content);
