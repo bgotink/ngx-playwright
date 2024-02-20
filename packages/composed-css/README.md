@@ -4,6 +4,17 @@
 
 This package exposes two functions `querySelector` and `querySelectorAll` that allow for querying the composed DOM, i.e. the DOM as it is shown by the browser, with light and shadow DOM intermixed.
 
+## CSS selectors
+
+The selectors accepted by the functions in this package differ from the CSS selectors accepted by the browser in a few key ways.
+
+- There is no support for `:host` and `:host-context`, these don't really mean anything in the context of `querySelector(All)`.
+- There is no support for pseudo-element selectors:
+  - `::slotted()` is not necessary, as you can replace `#some-slot::slotted(child-selector)` with `#some-slot > child-selector`
+  - `::part()` is not considered useful in the context of writing tests, so it was not implemented
+  - None of the other pseudo-elements yield actual elements, so they can't really work
+- Browsers are lenient if unsupported or invalid selectors are used in e.g. `:is()`, but this package is strict and will throw an error whenever it encounters an invalid selector.
+
 ## Composed DOM
 
 Suppose the following DOM:
@@ -62,7 +73,7 @@ The following queries work if this package, but not via `document.querySelector(
 - `querySelector('h1:last-child')`
 - `querySelector('button:first-child')`
 - `querySelector('p:only-child')`
-- `querySelector('slot[name=footer] button')`
+- `querySelector('slot[name=footer] > button')`
 
 ## Playwright custom selector engine
 

@@ -10,8 +10,17 @@ function parse(selector) {
 	let ast = parseCache.get(selector)?.deref();
 
 	if (!ast) {
-		// Don't ask parsel to parse sub-selectors in :is/:where/:has/:not, because of
-		// https://github.com/LeaVerou/parsel/issues/74.
+		// Don't ask parsel to parse sub-selectors in :is/:where/:has/:not, because
+		// of https://github.com/LeaVerou/parsel/issues/74.
+		// This means we have to look through the AST and parse sub-selectors in
+		// these pseudo-selectors. The naive solution would parse the selector when
+		// needed in matchesSelector, but that would result in a lot of redundant
+		// parse operations.
+		// There are basically two approaches to solve this, either by pre-processing
+		// the AST to look for sub-selectors to parse, or by memoizing the parse
+		// function. The latter is easier, in fewer lines of code, but it is
+		// theoretically less safe, e.g. `querySelector(':root, :is(<invalid>)') is
+		// invalid but will work because we never parse `<invalid>` as selector.
 		ast = _parse(selector, {recursive: false}) || invalidSelector(selector);
 		parseCache.set(selector, new WeakRef(ast));
 	}
@@ -21,6 +30,10 @@ function parse(selector) {
 
 /** @param {Element} element */
 function getChildNodes(element) {
+	// If the element is a `<slot>` with assigned nodes, use those assigned nodes.
+	// If the element is a `<slot>` but there are no assigned nodes, use the slot's
+	// children, which function as default content for the slot.
+
 	if (
 		element.tagName === "SLOT" &&
 		/** @type {HTMLSlotElement} */ (element).assignedNodes().length
@@ -33,6 +46,8 @@ function getChildNodes(element) {
 
 /** @param {Element} element */
 function getChildren(element) {
+	// Identical to getChildNodes(element) but limited to elements only
+
 	if (
 		element.tagName === "SLOT" &&
 		/** @type {HTMLSlotElement} */ (element).assignedNodes().length
@@ -45,20 +60,13 @@ function getChildren(element) {
 
 /**
  * @param {Element} element
- * @returns {Generator<Element>}
- */
-function* walkComposedTree(element) {
-	yield element;
-
-	for (const child of getChildren(element)) {
-		yield* walkComposedTree(child);
-	}
-}
-
-/**
- * @param {Element} element
  */
 function getParent(element) {
+	// This function is the inverse to getChildNodes(el), i.e.
+	// for (const b of getChildren(a)) {
+	//   assert(getParent(b) === a);
+	// }
+
 	if (element.assignedSlot) {
 		return element.assignedSlot;
 	}
@@ -72,6 +80,23 @@ function getParent(element) {
 	}
 
 	return null;
+}
+
+/**
+ * Walk the composed DOM from the given element in document order
+ *
+ * That means: depth first. This is identical to the way {@link TreeWalker} walks
+ * through the DOM, except this function pierces through slots and shadow roots.
+ *
+ * @param {Element} element
+ * @returns {Generator<Element>}
+ */
+function* walkComposedTree(element) {
+	yield element;
+
+	for (const child of getChildren(element)) {
+		yield* walkComposedTree(child);
+	}
 }
 
 /**
@@ -98,7 +123,7 @@ function getSiblingsOfType(element) {
 		return siblings;
 	}
 
-	return Array.from(siblings).filter(
+	return siblings.filter(
 		(sibling) =>
 			sibling.tagName.toLowerCase() === element.tagName.toLowerCase(),
 	);
@@ -120,8 +145,10 @@ function getPreviousSibling(element) {
  * @param {string} nth
  */
 function parseNth(nth) {
+	// If the recursive option to parsel is ever re-enabled in `parse()`, this can
+	// be simplified as parsel already takes care of the sub-selector part.
 	const [anb, selector] = /** @type {[string, string | undefined]} */ (
-		nth.split(/\s+of\s*/, 2)
+		nth.split(/\s+of\s+/, 2)
 	);
 
 	/** @type {(indexStartingFromOne: number) => boolean} */
@@ -136,7 +163,7 @@ function parseNth(nth) {
 		default: {
 			let [a, b] =
 				anb.includes("n") ?
-					/** @type {[String, string]} */ (anb.split("n"))
+					/** @type {[string, string]} */ (anb.split("n"))
 				:	["0", anb];
 			a = a.trim();
 			b = b.trim();
@@ -180,13 +207,16 @@ function parseNth(nth) {
 }
 
 /**
- * @param {Element} element
- * @param {Element} scope
- * @param {import('parsel-js').AST} ast
+ * Check if the element matches the selector described by the given AST
+ *
+ * @param {Element} element The element to check
+ * @param {Element} scope The element that counts as `:scope`
+ * @param {import('parsel-js').AST} ast The selector's AST
  * @returns {boolean}
  */
 function matchesSelector(element, scope, ast) {
 	switch (ast.type) {
+		// First, the simple selectors, e.g. `.lorem`, `#ipsum`
 		case "universal":
 			return true;
 		case "attribute":
@@ -201,14 +231,7 @@ function matchesSelector(element, scope, ast) {
 			// selector and the tag name to a consistent case.
 			return element.tagName.toLowerCase() === ast.name.toLowerCase();
 
-		case "list":
-			for (const child of ast.list) {
-				if (matchesSelector(element, scope, child)) {
-					return true;
-				}
-			}
-
-			return false;
+		// Compound selectors, e.g. `.lorem#ipsum`
 		case "compound":
 			for (const child of ast.list) {
 				if (!matchesSelector(element, scope, child)) {
@@ -218,8 +241,91 @@ function matchesSelector(element, scope, ast) {
 
 			return true;
 
+		// Complex selectors, e.g. `.lorem > #ipsum`
+		case "complex":
+			switch (ast.combinator) {
+				case ">": {
+					const parent = getParent(element);
+
+					return (
+						parent != null &&
+						matchesSelector(element, scope, ast.right) &&
+						matchesSelector(parent, scope, ast.left)
+					);
+				}
+				case " ": {
+					let ancestor = getParent(element);
+
+					if (ancestor == null || !matchesSelector(element, scope, ast.right)) {
+						return false;
+					}
+
+					while (ancestor != null) {
+						if (matchesSelector(ancestor, scope, ast.left)) {
+							return true;
+						}
+
+						ancestor = getParent(ancestor);
+					}
+
+					return false;
+				}
+				case "+": {
+					const previousSibling = getPreviousSibling(element);
+
+					return (
+						previousSibling != null &&
+						matchesSelector(element, scope, ast.right) &&
+						matchesSelector(previousSibling, scope, ast.left)
+					);
+				}
+				case "~": {
+					let previousSibling = getPreviousSibling(element);
+
+					if (
+						previousSibling == null ||
+						!matchesSelector(element, scope, ast.right)
+					) {
+						return false;
+					}
+
+					while (previousSibling) {
+						if (matchesSelector(previousSibling, scope, ast.left)) {
+							return true;
+						}
+
+						previousSibling = getPreviousSibling(previousSibling);
+					}
+
+					return false;
+				}
+				default:
+					return unreachable();
+			}
+
+		// List of selectors, e.g. `.lorem, #ipsum`
+		case "list":
+			for (const child of ast.list) {
+				if (matchesSelector(element, scope, child)) {
+					return true;
+				}
+			}
+
+			return false;
+
+		// Pseudo-elements are not supported.
+		// There are only two types of pseudo-elements that actually yield elements:
+		// - `:slotted()` is superfluous because you can simply use the `>` combinator
+		// - `::part()` doesn't seem like it's useful? idk
+		//
+		// See https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements
 		case "pseudo-element":
 			return invalidSelector(ast.content);
+
+		// Now the hard part: pseudo-classes...
+		// Add a custom implementation for all pseudo-classes that depend on the DOM
+		// tree itself and for pseudo-classes that contain sub-selectors, use the
+		// native Element#matches() for all other pseudos.
 		case "pseudo-class":
 			switch (ast.name) {
 				case "root":
@@ -324,7 +430,7 @@ function matchesSelector(element, scope, ast) {
 					const {childAst, indexMatches} = parseNth(ast.argument);
 
 					if (childAst) {
-						siblings = Array.from(siblings).filter((sibling) =>
+						siblings = siblings.filter((sibling) =>
 							matchesSelector(sibling, scope, childAst),
 						);
 					}
@@ -344,6 +450,12 @@ function matchesSelector(element, scope, ast) {
 
 					return matchesSelector(element, scope, parse(ast.argument));
 				}
+				case "not":
+					if (!ast.argument) {
+						invalidSelector(ast.content);
+					}
+
+					return !matchesSelector(element, scope, parse(ast.argument));
 				case "has":
 					if (!ast.argument) {
 						invalidSelector(ast.content);
@@ -351,6 +463,9 @@ function matchesSelector(element, scope, ast) {
 
 					// :scope is there to prevent the :has argument from matching the element
 					// itself, and because :has selectors can start with a combinator
+					// We start the selector at the parent element because the combinator
+					// can point towards siblings, which would be missed if the selector
+					// started at the element instead.
 					return (
 						querySelector(
 							`:scope ${ast.argument}`,
@@ -358,12 +473,6 @@ function matchesSelector(element, scope, ast) {
 							element,
 						) != null
 					);
-				case "not":
-					if (!ast.argument) {
-						invalidSelector(ast.content);
-					}
-
-					return !matchesSelector(element, scope, parse(ast.argument));
 
 				case "host":
 				case "host-context":
@@ -372,67 +481,6 @@ function matchesSelector(element, scope, ast) {
 				default:
 					return element.matches(ast.content);
 			}
-
-		case "complex":
-			switch (ast.combinator) {
-				case ">": {
-					const parent = getParent(element);
-
-					return (
-						parent != null &&
-						matchesSelector(element, scope, ast.right) &&
-						matchesSelector(parent, scope, ast.left)
-					);
-				}
-				case " ": {
-					let ancestor = getParent(element);
-
-					if (ancestor == null || !matchesSelector(element, scope, ast.right)) {
-						return false;
-					}
-
-					while (ancestor != null) {
-						if (matchesSelector(ancestor, scope, ast.left)) {
-							return true;
-						}
-
-						ancestor = getParent(ancestor);
-					}
-
-					return false;
-				}
-				case "+": {
-					const previousSibling = getPreviousSibling(element);
-
-					return (
-						previousSibling != null &&
-						matchesSelector(element, scope, ast.right) &&
-						matchesSelector(previousSibling, scope, ast.left)
-					);
-				}
-				case "~": {
-					let previousSibling = getPreviousSibling(element);
-
-					if (
-						previousSibling == null ||
-						!matchesSelector(element, scope, ast.right)
-					) {
-						return false;
-					}
-
-					while (previousSibling) {
-						if (matchesSelector(previousSibling, scope, ast.left)) {
-							return true;
-						}
-
-						previousSibling = getPreviousSibling(previousSibling);
-					}
-
-					return false;
-				}
-			}
-
-			return unreachable();
 	}
 
 	unreachable();
