@@ -161,7 +161,6 @@ function parseNth(nth) {
 				}
 			}
 
-			console.log({aNumber, bNumber});
 			if (aNumber === 0) {
 				indexMatches = (i) => i === bNumber;
 			} else {
