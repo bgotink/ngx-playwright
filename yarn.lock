@@ -2545,7 +2545,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngx-playwright/composed-css@npm:^0.1.0, @ngx-playwright/composed-css@workspace:packages/composed-css":
+"@ngx-playwright/composed-css@npm:^0.1.1, @ngx-playwright/composed-css@workspace:packages/composed-css":
   version: 0.0.0-use.local
   resolution: "@ngx-playwright/composed-css@workspace:packages/composed-css"
   dependencies:
@@ -2576,7 +2576,7 @@ __metadata:
     "@angular/compiler": "npm:^17.1.2"
     "@angular/compiler-cli": "npm:^17.1.2"
     "@angular/core": "npm:^17.1.2"
-    "@ngx-playwright/composed-css": "npm:^0.1.0"
+    "@ngx-playwright/composed-css": "npm:^0.1.1"
     "@ngx-playwright/harness": "npm:^0.11.0"
     "@ngx-playwright/workspace-scripts": "workspace:scripts"
     "@playwright/test": "npm:^1.20.2"
