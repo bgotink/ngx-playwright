@@ -18,11 +18,10 @@ const {posix: path} = require("path");
  * @returns {import("@angular-devkit/schematics").Rule}
  */
 exports.factory = function (options) {
-	return async (tree, context) => {
+	return async (tree) => {
 		const [projectName, project, isAngularProject] = getProject(
 			options,
 			await getWorkspace(tree),
-			context,
 		);
 
 		const extension = options.typescript ? "ts" : "mjs";
@@ -81,29 +80,27 @@ exports.factory = function (options) {
 /**
  * @param {import('./schema.cjs').Schema} options
  * @param {import('@snuggery/core').WorkspaceDefinition} workspace
- * @param {import('@angular-devkit/schematics').SchematicContext} context
  * @returns {[string, import('@snuggery/core').ProjectDefinition, boolean]}
  */
-function getProject(options, workspace, context) {
-	const applicationProjectNames = Array.from(workspace.projects)
-		.filter(([, project]) => project.extensions.projectType === "application")
-		.map(([name]) => name);
-
+function getProject(options, workspace) {
 	let projectName = options.project;
 	if (projectName == null) {
-		if (applicationProjectNames.length !== 1) {
-			if (applicationProjectNames.length === 0) {
+		const projectsWithServeTarget = Array.from(workspace.projects)
+			.filter(([, project]) => project.targets.has("serve"))
+			.map(([name]) => name);
+		if (projectsWithServeTarget.length !== 1) {
+			if (projectsWithServeTarget.length === 0) {
 				throw new SchematicsException(
-					`Couldn't find any application projects to configure e2e tests for`,
+					`Couldn't find any projects to configure e2e tests for, no projects have a "serve" target`,
 				);
 			}
 
 			throw new SchematicsException(
-				`Multiple applications found, pass one existing application project name with --project`,
+				`Multiple projects with a "serve" target found, pass one project name with --project`,
 			);
 		}
 
-		projectName = /** @type {string} */ (applicationProjectNames[0]);
+		projectName = /** @type {string} */ (projectsWithServeTarget[0]);
 	}
 
 	if (!workspace.projects.has(projectName)) {
@@ -112,15 +109,10 @@ function getProject(options, workspace, context) {
 		);
 	}
 
-	if (!applicationProjectNames.includes(projectName)) {
-		context.logger.warn(
-			`Project ${JSON.stringify(projectName)} is not an application project`,
-		);
-	}
-
 	const project = /** @type {import('@snuggery/core').ProjectDefinition} */ (
 		workspace.projects.get(projectName)
 	);
+
 	if (project.targets.has("e2e") && !options.replaceE2eTarget) {
 		throw new SchematicsException(
 			`Project ${JSON.stringify(
@@ -128,6 +120,7 @@ function getProject(options, workspace, context) {
 			)} already has an e2e target, pass --replace-e2e-target to replace that target`,
 		);
 	}
+
 	const serveTarget = project.targets.get("serve");
 	if (!serveTarget) {
 		throw new SchematicsException(
