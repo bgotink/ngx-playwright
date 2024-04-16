@@ -12,6 +12,7 @@ export {createTest, mixinScreenFixtures} from "./factory.js";
 export type {
 	NgxPlaywrightTestArgs,
 	NgxPlaywrightTestOptions,
+	NgxPlaywrightTestWorkerArgs,
 	PlaywrightTestConfig,
 } from "./args.js";
 export type {NgxPlaywrightScreenTestArgs} from "./args.js";
