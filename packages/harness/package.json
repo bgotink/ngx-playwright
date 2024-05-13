@@ -10,7 +10,7 @@
 		"./package.json": "./package.json"
 	},
 	"peerDependencies": {
-		"@angular/cdk": "^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0"
+		"@angular/cdk": ">=13.3.2"
 	},
 	"peerDependenciesMeta": {
 		"@angular/cdk": {

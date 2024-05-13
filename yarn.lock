@@ -2558,7 +2558,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@ngx-playwright/harness@workspace:packages/harness"
   peerDependencies:
-    "@angular/cdk": ^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0
+    "@angular/cdk": ">=13.3.2"
   peerDependenciesMeta:
     "@angular/cdk":
       optional: true
@@ -2579,7 +2579,7 @@ __metadata:
     "@ngx-playwright/composed-css": "npm:^0.1.1"
     "@ngx-playwright/harness": "npm:^0.11.0"
     "@ngx-playwright/workspace-scripts": "workspace:scripts"
-    "@playwright/test": "npm:^1.20.2"
+    "@playwright/test": "npm:^1.41.2"
     "@snuggery/architect": "npm:^0.9.1"
     "@snuggery/schematics": "npm:^0.9.1"
     "@snuggery/snuggery": "npm:^0.11.1"
@@ -2587,9 +2587,9 @@ __metadata:
     typescript: "npm:~5.3.3"
     zone.js: "npm:~0.14.0"
   peerDependencies:
-    "@angular/cdk": ^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0
+    "@angular/cdk": ">=13.3.2"
     "@ngx-playwright/harness": ^0.11.0
-    "@playwright/test": ^1.20.2
+    "@playwright/test": ^1.41.2
   peerDependenciesMeta:
     "@angular/cdk":
       optional: true
@@ -2767,14 +2767,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.20.2":
-  version: 1.41.1
-  resolution: "@playwright/test@npm:1.41.1"
+"@playwright/test@npm:^1.41.2":
+  version: 1.44.0
+  resolution: "@playwright/test@npm:1.44.0"
   dependencies:
-    playwright: "npm:1.41.1"
+    playwright: "npm:1.44.0"
   bin:
     playwright: cli.js
-  checksum: 72bd5bb67c512027d214b9c54c2a22a469bd19d7809771e53a5bfdcc11330591e01579bb22f807d1ebbcdcea35d625e0fc9eb9791cebcc63bf55b82dd1cdefdd
+  checksum: 34c48b18f64f1be6ccba3e27fa4691aa9f7f8ea1eb1555ac4ae8e4bfc9136d61923a4376d8a711390c95401e4cfd77a15b18aab6a507bddd9925e6dab3acb9e1
   languageName: node
   linkType: hard
 
@@ -6900,7 +6900,7 @@ __metadata:
     "@angular/platform-browser": "npm:^17.1.2"
     "@angular/platform-browser-dynamic": "npm:^17.1.2"
     "@ngx-playwright/test": "workspace:packages/test"
-    "@playwright/test": "npm:^1.20.2"
+    "@playwright/test": "npm:^1.41.2"
     rxjs: "npm:^7.8.1"
     typescript: "npm:~5.3.3"
     zone.js: "npm:~0.14.0"
@@ -8909,27 +8909,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.41.1":
-  version: 1.41.1
-  resolution: "playwright-core@npm:1.41.1"
+"playwright-core@npm:1.44.0":
+  version: 1.44.0
+  resolution: "playwright-core@npm:1.44.0"
   bin:
     playwright-core: cli.js
-  checksum: cdd91267ca23e3f65d519100e956859c70e3e9ca29e3fe00e700b457903129e41dfa17752f1ea37ad0a8a7c6330baf9f3be503e4cbfa3e8833e80a037f899aee
+  checksum: e1220371a76cdf145f6aaefb2dd6c5194531d1c1e2b67712c56dbc1d589dffb66fd4fc0168be60cd2115aca40660aa13c572e14be47674c0542bc879705b9fb3
   languageName: node
   linkType: hard
 
-"playwright@npm:1.41.1":
-  version: 1.41.1
-  resolution: "playwright@npm:1.41.1"
+"playwright@npm:1.44.0":
+  version: 1.44.0
+  resolution: "playwright@npm:1.44.0"
   dependencies:
     fsevents: "npm:2.3.2"
-    playwright-core: "npm:1.41.1"
+    playwright-core: "npm:1.44.0"
   dependenciesMeta:
     fsevents:
       optional: true
   bin:
     playwright: cli.js
-  checksum: 32d48c1f8ff881770a19c9245fb4191fc36b5e97ab5f48effa0b1cf5e83fa958f6fdd7e4268dd984aa306ac5fe9e4324510211910751fb52cebb9bae819d13ca
+  checksum: dcbee9022623dd9e219e9867983789262e80339f0c3601219930883e5a304ce75e1397715c0f378a2bab0a799cf88a73ea4b58fe595cfd9058bd7a82f5d8e3b6
   languageName: node
   linkType: hard
 

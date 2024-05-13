@@ -15,7 +15,7 @@
 		"@angular/cdk": "^17.1.2",
 		"@angular/compiler-cli": "^17.1.2",
 		"@ngx-playwright/test": "workspace:packages/test",
-		"@playwright/test": "^1.20.2",
+		"@playwright/test": "^1.41.2",
 		"typescript": "~5.3.3"
 	}
 }
