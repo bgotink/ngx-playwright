@@ -4,6 +4,7 @@
 		"outDir": "./dist",
 		"rootDir": "./src",
 		"mapRoot": ".",
+		"types": ["node"],
 		"emitDeclarationOnly": true
 	},
 	"include": ["src/**/*.js", "src/**/*.d.ts", "src/**/*.cjs", "src/**/*.d.cts"],
