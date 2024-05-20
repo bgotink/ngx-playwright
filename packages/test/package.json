@@ -1,6 +1,6 @@
 {
 	"name": "@ngx-playwright/test",
-	"version": "0.5.5",
+	"version": "0.5.6",
 	"type": "module",
 	"license": "MIT",
 	"author": {
@@ -34,7 +34,7 @@
 	},
 	"peerDependencies": {
 		"@angular/cdk": "^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0 || ^18.0.0-rc.0",
-		"@ngx-playwright/harness": "^0.11.0",
+		"@ngx-playwright/harness": "^0.11.1",
 		"@playwright/test": "^1.20.2"
 	},
 	"peerDependenciesMeta": {
@@ -44,12 +44,12 @@
 	},
 	"dependencies": {
 		"@angular-devkit/schematics": "^17.0.0",
-		"@ngx-playwright/harness": "^0.11.0",
+		"@ngx-playwright/harness": "^0.11.1",
 		"@playwright/test": "^1.20.2",
 		"@snuggery/architect": "^0.10.1",
 		"@snuggery/schematics": "^0.10.1",
 		"@snuggery/snuggery": "^0.12.3",
-		"composed-dom": "^0.0.0"
+		"composed-dom": "^1.0.0"
 	},
 	"devDependencies": {
 		"@angular/build": "^18.0.0-rc",
