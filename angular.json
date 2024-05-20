@@ -61,7 +61,6 @@
 									"with": "integration/src/env/env.prod.ts"
 								}
 							],
-							"buildOptimizer": true,
 							"extractLicenses": true,
 							"namedChunks": false,
 							"optimization": true,
