@@ -1,0 +1,5 @@
+releases:
+  composed-dom: major
+
+declined:
+  - "@ngx-playwright/test"

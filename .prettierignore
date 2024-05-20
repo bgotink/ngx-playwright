@@ -1,5 +1,5 @@
 .yarn
 
 /packages/*/dist
-/packages/composed-css/*.js
-/packages/composed-css/*.cjs
+/packages/composed-dom/*.js
+/packages/composed-dom/*.cjs

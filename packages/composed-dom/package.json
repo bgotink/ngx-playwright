@@ -1,6 +1,7 @@
 {
-	"name": "@ngx-playwright/composed-css",
-	"version": "0.1.1",
+	"name": "composed-dom",
+	"version": "0.0.0",
+	"description": "querySelector(All) for the composed DOM tree",
 	"type": "module",
 	"license": "MIT",
 	"author": {
@@ -8,19 +9,23 @@
 		"email": "bram@gotink.me",
 		"url": "https://github.com/bgotink"
 	},
-	"homepage": "https://github.com/bgotink/ngx-playwright/tree/main/packages/composed-css#readme",
+	"homepage": "https://github.com/bgotink/ngx-playwright/tree/main/packages/composed-dom#readme",
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/bgotink/ngx-playwright",
-		"directory": "packages/composed-css"
+		"directory": "packages/composed-dom"
 	},
 	"keywords": [
+		"composed",
+		"shadow-dom",
+		"shadow",
+		"querySelector",
 		"playwright",
 		"selector-engine"
 	],
 	"scripts": {
 		"build": "run build-index && run build-selector-engine",
-		"build-index": "esbuild --format=esm --bundle --minify src/index.js > ./index.js",
+		"build-index": "esbuild --format=esm --bundle src/index.js > ./index.js",
 		"build-selector-engine": "esbuild --global-name=VERY_UNIQUE_NAME --bundle --minify src/selector-engine.js | sed -e 's/.*var VERY_UNIQUE_NAME=//' -e 's/;$//' > ./selector-engine.cjs"
 	},
 	"exports": {

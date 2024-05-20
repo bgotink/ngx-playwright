@@ -3,7 +3,7 @@
 	"files": [],
 	"references": [
 		{
-			"path": "./packages/composed-css/tsconfig.lib.json"
+			"path": "./packages/composed-dom/tsconfig.lib.json"
 		},
 		{
 			"path": "./packages/harness/tsconfig.lib.json"

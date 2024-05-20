@@ -19,7 +19,7 @@ function parse(selector) {
 		// There are basically two approaches to solve this, either by pre-processing
 		// the AST to look for sub-selectors to parse, or by memoizing the parse
 		// function. The latter is easier, in fewer lines of code, but it is
-		// theoretically less safe, e.g. `querySelector(':root, :is(<invalid>)') is
+		// theoretically less safe, e.g. `querySelector(':root, :is(<invalid>)')` is
 		// invalid but will work because we never parse `<invalid>` as selector.
 		ast = _parse(selector, {recursive: false}) || invalidSelector(selector);
 		parseCache.set(selector, new WeakRef(ast));
@@ -315,7 +315,7 @@ function matchesSelector(element, scope, ast) {
 
 		// Pseudo-elements are not supported.
 		// There are only two types of pseudo-elements that actually yield elements:
-		// - `:slotted()` is superfluous because you can simply use the `>` combinator
+		// - `::slotted()` is superfluous because you can simply use the `>` combinator
 		// - `::part()` doesn't seem like it's useful? idk
 		//
 		// See https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements
@@ -347,7 +347,7 @@ function matchesSelector(element, scope, ast) {
 					}
 
 					for (const child of getChildNodes(element)) {
-						if (child.nodeType !== Node.COMMENT_NODE) {
+						if (child.nodeType !== 8 /* Node.COMMENT_NODE */) {
 							return false;
 						}
 					}
@@ -502,10 +502,24 @@ function unreachable() {
 }
 
 /**
- * @param {Element | Document} node
+ * @param {Element | Document} [container]
+ * @param {Element} [scope]
+ * @returns {[Element, Element]}
  */
-function toElement(node) {
-	return "documentElement" in node ? node.documentElement : node;
+function getContainerAndScope(container, scope) {
+	if (container == null) {
+		container = globalThis.document;
+	}
+
+	if (container == null) {
+		throw new TypeError(
+			"Container parameter is required in environments without global document",
+		);
+	}
+
+	const containerElement =
+		"documentElement" in container ? container.documentElement : container;
+	return [containerElement, scope ?? containerElement];
 }
 
 /**
@@ -515,14 +529,12 @@ function toElement(node) {
  * @param {Element | Document} [container] The element to look inside of, note the element itself can also match. If no container is passed, the entire `globalThis.document` is searched.
  * @param {Element} [scope] Element that matches `:scope`, you shouldn't need to pass this parameter, it is used internally to support `:has(+/~)`
  */
-export function querySelector(
-	selector,
-	container = document,
-	scope = toElement(container),
-) {
+export function querySelector(selector, container, scope) {
+	[container, scope] = getContainerAndScope(container, scope);
+
 	const ast = parse(selector);
 
-	for (const element of walkComposedTree(toElement(container))) {
+	for (const element of walkComposedTree(container)) {
 		if (matchesSelector(element, scope, ast)) {
 			return element;
 		}
@@ -538,16 +550,14 @@ export function querySelector(
  * @param {Element | Document} [container] The element to look inside of, note the element itself can also match. If no container is passed, the entire `globalThis.document` is searched.
  * @param {Element} [scope] Element that matches `:scope`, you shouldn't need to pass this parameter, it is used internally to support `:has(+/~)`
  */
-export function querySelectorAll(
-	selector,
-	container = document,
-	scope = toElement(container),
-) {
+export function querySelectorAll(selector, container, scope) {
+	[container, scope] = getContainerAndScope(container, scope);
+
 	const ast = parse(selector);
 
 	/** @type {Element[]} */
 	const results = [];
-	for (const element of walkComposedTree(toElement(container))) {
+	for (const element of walkComposedTree(container)) {
 		if (matchesSelector(element, scope, ast)) {
 			results.push(element);
 		}

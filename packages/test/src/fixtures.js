@@ -127,7 +127,7 @@ const ngxPlaywrightFixtures = {
 				{
 					// Replace with import.meta.resolve() once targeting only Node ≥20.6.0
 					path: createRequire(import.meta.url).resolve(
-						"@ngx-playwright/composed-css/selector-engine",
+						"composed-dom/selector-engine",
 					),
 				},
 				{contentScript: true},

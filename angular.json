@@ -10,7 +10,7 @@
 				"build": {
 					"builder": "@snuggery/snuggery:glob",
 					"options": {
-						"include": "@ngx-playwright/*"
+						"include": ["@ngx-playwright/*", "composed-dom"]
 					}
 				},
 				"deploy": {
@@ -99,8 +99,8 @@
 				}
 			}
 		},
-		"@ngx-playwright/composed-css": {
-			"root": "packages/composed-css",
+		"composed-dom": {
+			"root": "packages/composed-dom",
 			"architect": {
 				"build": {
 					"builder": "@snuggery/build-node:build",
@@ -120,7 +120,7 @@
 							}
 						],
 						"package": true,
-						"tsconfig": "packages/composed-css/tsconfig.lib.json"
+						"tsconfig": "packages/composed-dom/tsconfig.lib.json"
 					}
 				}
 			}

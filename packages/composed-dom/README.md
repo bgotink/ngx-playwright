@@ -1,4 +1,4 @@
-# `@ngx-playwright/composed-css`
+# `composed-dom`
 
 <!-- cspell:word shadowrootmode -->
 
@@ -86,6 +86,23 @@ import {selectors} from "@playwright/test";
 
 await selectors.register(
 	"css:composed",
-	import.meta.resolve("@ngx-playwright/composed-css/selector-engine"),
+	import.meta.resolve("composed-dom/selector-engine"),
 );
+```
+
+## Usage in non-browser environments
+
+The `composed-dom` package only references one browser-specific global: the `document`.
+The `document` is only used if no `container` is passed as second parameter.
+This makes it possible to use this package in environments other than a browser tab, as long as you're able to provide a valid DOM Document or Element as `container` parameter.
+
+```js
+import {querySelector} from "composed-dom";
+import {JSDOM} from "jsdom";
+
+const dom = new JSDOM(/* ... */);
+
+// Pass in a container argument to make querySelector run in
+// this non-browser environment.
+const mainHeader = querySelector("h1", dom.window.document);
 ```
