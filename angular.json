@@ -40,18 +40,17 @@
 			"projectType": "application",
 			"architect": {
 				"build": {
-					"builder": "@angular-devkit/build-angular:browser-esbuild",
+					"builder": "@angular/build:application",
 					"options": {
 						"aot": true,
-						"index": "integration/src/index.html",
-						"main": "integration/src/main.ts",
-						"outputPath": "integration/dist",
-						"polyfills": "integration/src/polyfills.ts",
-						"tsConfig": "integration/tsconfig.json",
-						"buildOptimizer": false,
+						"browser": "integration/src/main.ts",
 						"extractLicenses": false,
+						"index": "integration/src/index.html",
 						"namedChunks": true,
 						"optimization": false,
+						"outputPath": "integration/dist",
+						"polyfills": ["zone.js"],
+						"tsConfig": "integration/tsconfig.json",
 						"sourceMap": true
 					},
 					"configurations": {
@@ -71,7 +70,7 @@
 					}
 				},
 				"serve": {
-					"builder": "@angular-devkit/build-angular:dev-server",
+					"builder": "@angular/build:dev-server",
 					"options": {
 						"buildTarget": "integration:build",
 						"port": 0

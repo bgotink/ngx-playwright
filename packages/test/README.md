@@ -52,7 +52,7 @@ Or install and configure it manually:
 
 The setup for an angular application is identical to the setup above, except for two minor changes:
 
-1. If you're not using `@angular-devkit/build-angular` or `@nx/angular` to build your angular application, you'll have to add `--angular` to the `ng add @ngx-playwright/test` or `ng generate @ngx-playwright/test:setup` command.
+1. If you're not using `@angular-devkit/build-angular`, `@angular/build`, or `@nx/angular` to build your angular application, you'll have to add `--angular` to the `ng add @ngx-playwright/test` or `ng generate @ngx-playwright/test:setup` command.
 1. In your tests and `playwright.config.js` (or `.ts`), replace all usage of `@playwright/test` with `@ngx-playwright/test`.
    This will give you access to a bunch of extra fixtures, described below.
 
@@ -102,7 +102,7 @@ An "openable screen" is a component harness class with one of the following prop
 There are two ways to gain access to these fixtures:
 
 1. The easiest is to import `test` from `@ngx-playwright/test` instead of `@playwright/test`. In fact, this package re-exports everything from `@playwright/test` so you can import everything from `@ngx-playwright/test` instead.
-2. Alternatively you can mix in the `@ngx-playwright/test` fixtures using the `mixinFixtures` function. This function allows combining multiple playwright fixture libraries into a single `test` function.  
+2. Alternatively you can mix in the `@ngx-playwright/test` fixtures using the `mixinFixtures` function. This function allows combining multiple playwright fixture libraries into a single `test` function.
    Here's an example:
 
 ```js

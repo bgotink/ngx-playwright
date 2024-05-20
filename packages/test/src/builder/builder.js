@@ -27,7 +27,7 @@ async function getBaseUrl({baseUrl, devServerTarget, host, port, ui}, context) {
 		);
 		const serverOptions = await context.getTargetOptions(target);
 
-		/** @type {Partial<import('@angular-devkit/build-angular').DevServerBuilderOptions> & import('@snuggery/core').JsonObject} */
+		/** @type {Partial<import('@angular/build').DevServerBuilderOptions> & import('@snuggery/core').JsonObject} */
 		const overrides = {
 			// Using the UI doesn't necessarily mean watching is enabled, but as watch
 			// can be toggled in the UI we have to assume it's enabled.

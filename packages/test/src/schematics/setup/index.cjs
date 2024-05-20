@@ -134,6 +134,7 @@ function getProject(options, workspace) {
 		projectName,
 		project,
 		serveTarget.builder.startsWith("@nx/angular:") ||
-			serveTarget.builder.startsWith("@angular-devkit/build-angular:"),
+			serveTarget.builder.startsWith("@angular-devkit/build-angular:") ||
+			serveTarget.builder.startsWith("@angular/build:"),
 	];
 }
