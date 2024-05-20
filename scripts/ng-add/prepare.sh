@@ -17,6 +17,10 @@ packages:
     access: $all
     publish: $authenticated
     proxy:
+  "composed-dom":
+    access: $all
+    publish: $authenticated
+    proxy:
   "@*/*":
     access: $all
     publish: $authenticated
@@ -41,10 +45,10 @@ npx npm-cli-login -u test -p 1234 -e test@domain.test -r http://localhost:4873
 popd &>/dev/null
 
 cd "$(dirname "$0")"
-cd ../..
+cd ../../dist
 
 # Publish all packages
-for i in dist/*.tgz
+for i in *.tgz
 do
   npm publish "$i"
 done
