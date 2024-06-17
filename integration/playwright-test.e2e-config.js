@@ -37,6 +37,11 @@ const config = {
 			testDir: join(__dirname, "e2e/selector-specs"),
 			testMatch: "**/*.spec.js",
 		},
+		{
+			name: "innerHTML",
+			testDir: join(__dirname, "e2e/inner-html-specs"),
+			testMatch: "**/*.spec.js",
+		},
 	],
 
 	reporter: [

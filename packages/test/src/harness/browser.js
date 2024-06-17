@@ -210,12 +210,21 @@ export function innerText(element, exclude) {
 
 	// cleanedList is either [number], or [...(string | number)[], string] due to
 	// how it is set up, so we don't have to check if it ends with a number.
-	if (typeof cleanedList[0] === "number") {
+	if (typeof cleanedList.at(0) === "number") {
 		cleanedList.shift();
+	}
+	if (typeof cleanedList.at(-1) === "number") {
+		cleanedList.pop();
 	}
 
 	return cleanedList
-		.map((v) => (typeof v === "number" ? "\n".repeat(v) : v))
+		.map((v) =>
+			typeof v === "number" ?
+				v === 0.5 ?
+					" "
+				:	"\n".repeat(v)
+			:	v,
+		)
 		.join("");
 
 	/**
@@ -231,13 +240,28 @@ export function innerText(element, exclude) {
 				return [];
 			}
 
-			textContainer.firstChild?.remove();
-			textContainer.append(node.cloneNode(true));
+			const text = /** @type {Text} */ (node.cloneNode(true));
+			textContainer.append(text);
 
 			textContainer.style.whiteSpace = ps.whiteSpace;
 			textContainer.style.textTransform = ps.textTransform;
 
-			return [textContainer.innerText];
+			const textContent = /** @type {string} */ (text.textContent);
+			const innerText = textContainer.innerText;
+
+			text.remove();
+
+			/** @type {ReturnType<helper>} */
+			const result = [innerText];
+
+			if (innerText.at(0) !== textContent.at(0)) {
+				result.unshift(0.5);
+			}
+			if (innerText.at(-1) !== textContent.at(-1)) {
+				result.push(0.5);
+			}
+
+			return result;
 		} else if (!(node instanceof Element)) {
 			return [];
 		}
