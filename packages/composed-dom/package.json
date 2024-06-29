@@ -29,7 +29,7 @@
 		"build-selector-engine": "esbuild --global-name=VERY_UNIQUE_NAME --bundle --minify src/selector-engine.js | sed -e 's/.*var VERY_UNIQUE_NAME=//' -e 's/;$//' > ./selector-engine.cjs"
 	},
 	"exports": {
-		".": "./index.js",
+		".": "./src/index.js",
 		"./selector-engine": {
 			"types": null,
 			"default": "./selector-engine.cjs"
@@ -39,5 +39,15 @@
 	"devDependencies": {
 		"esbuild": "0.19.11",
 		"parsel-js": "^1.1.2"
+	},
+	"publishConfig": {
+		"exports": {
+			".": "./index.js",
+			"./selector-engine": {
+				"types": null,
+				"default": "./selector-engine.cjs"
+			},
+			"./package.json": "./package.json"
+		}
 	}
 }

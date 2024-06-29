@@ -11,6 +11,9 @@
 	"references": [
 		{
 			"path": "../harness/tsconfig.lib.json"
+		},
+		{
+			"path": "../composed-dom/tsconfig.lib.json"
 		}
 	]
 }

@@ -1,0 +1,3 @@
+declined:
+  - composed-dom
+  - "@ngx-playwright/test"
