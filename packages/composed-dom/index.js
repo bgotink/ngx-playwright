@@ -269,7 +269,7 @@ function parse(selector, { recursive = true, list = true } = {}) {
   return ast;
 }
 
-// src/index.js
+// src/query-selector.js
 var parseCache = /* @__PURE__ */ new Map();
 function parse2(selector) {
   let ast = parseCache.get(selector)?.deref();
@@ -626,7 +626,145 @@ function querySelectorAll(selector, container, scope) {
   }
   return results;
 }
+
+// src/inner-text.js
+function innerText(element, exclude) {
+  if (!element || !isElement(element)) {
+    throw new TypeError("Parameter element must be a DOM Element");
+  }
+  if (exclude != null && typeof exclude !== "string") {
+    throw new TypeError("Parameter exclude must be a string");
+  }
+  if (!element.isConnected) {
+    return "";
+  }
+  const document = element.ownerDocument;
+  if (!document) {
+    throw new TypeError("Parameter element must be linked to a document");
+  }
+  const window = document.defaultView;
+  if (!window) {
+    throw new TypeError(
+      "Parameter element must be linked to a document shown in a window"
+    );
+  }
+  const { getComputedStyle } = window;
+  const textContainer = document.createElement("div");
+  document.body.append(textContainer);
+  const originalDisplay = (
+    /** @type {HTMLElement | SVGElement | MathMLElement} */
+    element.style.display
+  );
+  element.style.display = "initial";
+  const list = helper(element, void 0);
+  element.style.display = originalDisplay;
+  textContainer.remove();
+  const cleanedList = [];
+  let newLinesToInsert = 0;
+  for (const item of list) {
+    if (item === "") {
+      continue;
+    }
+    if (typeof item === "string") {
+      if (newLinesToInsert > 0) {
+        cleanedList.push(newLinesToInsert);
+        newLinesToInsert = 0;
+      }
+      cleanedList.push(item);
+    } else {
+      newLinesToInsert = Math.max(newLinesToInsert, item);
+    }
+  }
+  if (typeof cleanedList.at(0) === "number") {
+    cleanedList.shift();
+  }
+  if (typeof cleanedList.at(-1) === "number") {
+    cleanedList.pop();
+  }
+  return cleanedList.map(
+    (v) => typeof v === "number" ? v === 0.5 ? " " : "\n".repeat(v) : v
+  ).join("");
+  function helper(node, parentStyle) {
+    if (isText(node)) {
+      const ps = (
+        /** @type {CSSStyleDeclaration} */
+        parentStyle
+      );
+      if (ps.visibility !== "visible") {
+        return [];
+      }
+      const text = (
+        /** @type {Text} */
+        node.cloneNode(true)
+      );
+      textContainer.append(text);
+      textContainer.style.whiteSpace = ps.whiteSpace;
+      textContainer.style.textTransform = ps.textTransform;
+      const textContent = (
+        /** @type {string} */
+        text.textContent
+      );
+      const innerText2 = textContainer.innerText;
+      text.remove();
+      const result2 = [innerText2];
+      if (innerText2.at(0) !== textContent.at(0)) {
+        result2.unshift(0.5);
+      }
+      if (innerText2.at(-1) !== textContent.at(-1)) {
+        result2.push(0.5);
+      }
+      return result2;
+    } else if (!isElement(node)) {
+      return [];
+    }
+    if (exclude && node.matches(exclude)) {
+      return [];
+    }
+    const computedStyle = getComputedStyle(node);
+    if (computedStyle.display === "none") {
+      return [];
+    }
+    let childNodes;
+    if (node.shadowRoot) {
+      childNodes = node.shadowRoot.childNodes;
+    } else if ("assignedNodes" in node) {
+      const assignedNodes = (
+        /** @type {HTMLSlotElement} */
+        node.assignedNodes()
+      );
+      childNodes = assignedNodes.length ? assignedNodes : node.childNodes;
+    } else {
+      childNodes = node.childNodes;
+    }
+    const result = Array.from(
+      childNodes,
+      (child) => helper(child, computedStyle)
+    ).flat();
+    if (computedStyle.visibility !== "visible") {
+      return result;
+    }
+    if (node.tagName === "BR") {
+      result.push("\n");
+    }
+    if (computedStyle.display === "table-cell") {
+    } else if (computedStyle.display === "table-row") {
+    }
+    if (node.tagName === "P") {
+      return [2, ...result, 2];
+    } else if (computedStyle.display.startsWith("block ") || computedStyle.display === "block" || computedStyle.display === "flex" || computedStyle.display === "grid" || computedStyle.display === "table" || computedStyle.display === "table-caption") {
+      return [1, ...result, 1];
+    }
+    return result;
+  }
+  function isText(node) {
+    return node.nodeType === 3;
+  }
+  function isElement(node) {
+    return node.nodeType === 1;
+  }
+}
 export {
+  innerText,
   querySelector,
   querySelectorAll
 };

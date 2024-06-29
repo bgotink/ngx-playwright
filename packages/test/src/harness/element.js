@@ -1,4 +1,5 @@
 import {TestKey, getNoKeysSpecifiedError} from "@ngx-playwright/harness";
+import {innerText} from "composed-dom";
 
 /** @typedef {import('@ngx-playwright/harness').ElementDimensions} ElementDimensions */
 /** @typedef {import('@ngx-playwright/harness').EventData} EventData */
@@ -407,7 +408,7 @@ export class PlaywrightElement {
 	text(options) {
 		return this.#query((handle) => {
 			if (this.#environment.innerTextWithShadows) {
-				return this.#evaluate(contentScripts.innerText, options?.exclude);
+				return this.#evaluate(innerText, options?.exclude);
 			}
 
 			if (options?.exclude) {
