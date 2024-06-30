@@ -41,6 +41,11 @@ export interface Schema {
 	readonly debug?: boolean;
 
 	/**
+	 * Exit with failure if there is a flaky test, i.e. if a test recovered in a retry
+	 */
+	readonly failOnFlakyTests?: boolean;
+
+	/**
 	 * Whether to disallow `test.only`, useful on CI
 	 */
 	readonly forbidOnly?: boolean;

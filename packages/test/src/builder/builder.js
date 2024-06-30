@@ -119,6 +119,7 @@ export async function execute(input, context) {
 
 						...(input.browser != null ? ["--browser", input.browser] : []),
 						...(input.debug ? ["--debug"] : []),
+						...(input.failOnFlakyTests ? ["--fail-on-flaky-tests"] : []),
 						...(input.forbidOnly ? ["--forbid-only"] : []),
 						...(input.fullyParallel ? ["--fully-parallel"] : []),
 						...(input.globalTimeout != null ?
