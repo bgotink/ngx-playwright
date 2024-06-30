@@ -1,3 +1,0 @@
-releases:
-  "@ngx-playwright/test": patch
-  composed-dom: minor

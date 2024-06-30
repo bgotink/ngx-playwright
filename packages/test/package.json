@@ -1,6 +1,6 @@
 {
 	"name": "@ngx-playwright/test",
-	"version": "0.5.7",
+	"version": "0.5.8",
 	"type": "module",
 	"license": "MIT",
 	"author": {
@@ -49,7 +49,7 @@
 		"@snuggery/architect": "^0.10.1",
 		"@snuggery/schematics": "^0.10.1",
 		"@snuggery/snuggery": "^0.12.3",
-		"composed-dom": "^1.0.0"
+		"composed-dom": "^1.1.0"
 	},
 	"devDependencies": {
 		"@angular/build": "^18.0.0-rc",
