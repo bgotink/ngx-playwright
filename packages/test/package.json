@@ -43,26 +43,26 @@
 		}
 	},
 	"dependencies": {
-		"@angular-devkit/schematics": "^17.0.0",
+		"@angular-devkit/schematics": "^18.2.0",
 		"@ngx-playwright/harness": "^0.11.1",
 		"@playwright/test": "^1.20.2",
-		"@snuggery/architect": "^0.10.1",
-		"@snuggery/schematics": "^0.10.1",
-		"@snuggery/snuggery": "^0.12.3",
+		"@snuggery/architect": "^0.11.0",
+		"@snuggery/schematics": "^0.11.0",
+		"@snuggery/snuggery": "^0.13.0",
 		"composed-dom": "^1.1.0"
 	},
 	"devDependencies": {
-		"@angular/build": "^18.0.0-rc",
-		"@angular/cdk": "^18.0.0-rc",
-		"@angular/common": "^18.0.0-rc",
-		"@angular/compiler": "^18.0.0-rc",
-		"@angular/compiler-cli": "^18.0.0-rc",
-		"@angular/core": "^18.0.0-rc",
+		"@angular/build": "^18.2.0",
+		"@angular/cdk": "^18.2.0",
+		"@angular/common": "^18.2.0",
+		"@angular/compiler": "^18.2.0",
+		"@angular/compiler-cli": "^18.2.0",
+		"@angular/core": "^18.2.0",
 		"@ngx-playwright/workspace-scripts": "workspace:scripts",
 		"@types/node": "^20.12.12",
 		"rxjs": "7.8.0",
-		"typescript": "~5.4.4",
-		"zone.js": "~0.14.0"
+		"typescript": "~5.5.4",
+		"zone.js": "~0.14.10"
 	},
 	"publishConfig": {
 		"exports": {
