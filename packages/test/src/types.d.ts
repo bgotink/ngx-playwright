@@ -8,6 +8,8 @@ import {Page} from "@playwright/test";
 export interface PlaywrightScreenWithPath<T extends AnyComponentHarness>
 	extends ComponentHarnessConstructor<T> {
 	readonly path: string;
+
+	isOpen?(page: Page, baseUrl: string): Promise<boolean>;
 }
 
 export interface PlaywrightScreenWithOpenFunction<T extends AnyComponentHarness>
@@ -17,11 +19,20 @@ export interface PlaywrightScreenWithOpenFunction<T extends AnyComponentHarness>
 		baseUrl: string,
 		opener: PlaywrightScreenOpener,
 	): Promise<void>;
+
+	isOpen?(page: Page, baseUrl: string): Promise<boolean>;
+}
+
+export interface PlaywrightScreenWithIsOpenFunction<
+	T extends AnyComponentHarness,
+> extends ComponentHarnessConstructor<T> {
+	isOpen(page: Page, baseUrl: string): Promise<boolean>;
 }
 
 export type PlaywrightScreen<T extends AnyComponentHarness> =
 	| PlaywrightScreenWithOpenFunction<T>
-	| PlaywrightScreenWithPath<T>;
+	| PlaywrightScreenWithPath<T>
+	| PlaywrightScreenWithIsOpenFunction<T>;
 
 export interface PlaywrightScreenOpener {
 	<T extends AnyComponentHarness>(screen: PlaywrightScreen<T>): Promise<T>;

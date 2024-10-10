@@ -32,12 +32,19 @@ export async function openScreen(baseURL, page, harnessEnvironment, screen) {
 		);
 	}
 
-	if (hasOpenFunction(screen)) {
-		await screen.open(page, baseURL, (screen) =>
-			openScreen(baseURL, page, harnessEnvironment, screen),
-		);
-	} else {
-		await page.goto(new URL(screen.path, baseURL).href);
+	if (
+		typeof screen.isOpen !== "function" ||
+		!(await screen.isOpen(page, baseURL))
+	) {
+		if (hasOpenFunction(screen)) {
+			await screen.open(page, baseURL, (screen) =>
+				openScreen(baseURL, page, harnessEnvironment, screen),
+			);
+		} else if ("path" in screen && typeof screen.path === "string") {
+			await page.goto(new URL(screen.path, baseURL).href);
+		} else {
+			throw new Error("Expected screen to be open but it wasn't");
+		}
 	}
 
 	return harnessEnvironment.getHarness(screen);
