@@ -11,7 +11,11 @@
 
 import type {HarnessLoader} from "./harness-loader.js";
 import type {HarnessQuery} from "./harness-predicate.js";
-import type {LocatorFnResult} from "./locator-factory.js";
+import type {
+	AsyncFactoryFn,
+	LocatorFactory,
+	LocatorFnResult,
+} from "./locator-factory.js";
 import type {TestElement} from "./test-element.js";
 
 /**
