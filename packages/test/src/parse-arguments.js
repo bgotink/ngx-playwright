@@ -134,6 +134,11 @@ function _getDestructuredArguments(fn) {
 		const args = [];
 
 		maybeConsume(WHITESPACE);
+
+		if (maybeConsume("}")) {
+			return /** @type {any} */ (args);
+		}
+
 		// eslint-disable-next-line no-constant-condition
 		while (true) {
 			if (peek() === ".") {
