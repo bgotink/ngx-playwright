@@ -54,7 +54,7 @@ export class HarnessPredicate {
 	harnessType;
 
 	/**
-	 * @param {typeof this['harnessType']} harnessType
+	 * @param {import('./component-harness.js').ComponentHarnessConstructor<T>} harnessType
 	 * @param {BaseHarnessFilters} options
 	 */
 	constructor(harnessType, options) {
