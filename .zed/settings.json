@@ -10,5 +10,14 @@
 			"command": "node_modules/.bin/prettier",
 			"arguments": ["--stdin-filepath", "{buffer_path}"]
 		}
+	},
+
+	"languages": {
+		"TypeScript": {
+			"language_servers": ["typescript-language-server", "!vtsls", "..."]
+		},
+		"JavaScript": {
+			"language_servers": ["typescript-language-server", "!vtsls", "..."]
+		}
 	}
 }
