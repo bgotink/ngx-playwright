@@ -1975,7 +1975,7 @@ __metadata:
     "@playwright/test": "npm:^1.20.2"
     "@snuggery/architect": "npm:^0.11.0"
     "@snuggery/schematics": "npm:^0.11.0"
-    "@snuggery/snuggery": "npm:^0.13.0"
+    "@snuggery/snuggery": "npm:^0.13.1"
     "@types/node": "npm:^20.12.12"
     composed-dom: "npm:^1.1.0"
     rxjs: "npm:7.8.0"
@@ -2497,9 +2497,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@snuggery/snuggery@npm:0.13.0, @snuggery/snuggery@npm:^0.13.0":
-  version: 0.13.0
-  resolution: "@snuggery/snuggery@npm:0.13.0"
+"@snuggery/snuggery@npm:0.13.1, @snuggery/snuggery@npm:^0.13.1":
+  version: 0.13.1
+  resolution: "@snuggery/snuggery@npm:0.13.1"
   dependencies:
     "@angular-devkit/architect": "npm:>= 0.1800.0 < 0.1900.0"
     "@angular-devkit/core": "npm:^18.0.0"
@@ -2519,7 +2519,7 @@ __metadata:
     typanion: "npm:^3.12.1"
   bin:
     sn: bin.js
-  checksum: 6592009cf5191ceb48333d68df5fa0c5acfcfc4637ab435522ac13c60e47f10768365c7a5a0e36819118846a5e19441137c6cc4e120a7162be415d7d2a49b2c5
+  checksum: cdc5d1988613efbc2b40aa3ccc2e5f48a0b656dab42d66c385455f11831ca56b0f2ad92bdaabc7efbb661b2f7a8b852dff1301fb19e235e3878d6385db8c7eb1
   languageName: node
   linkType: hard
 
@@ -7342,7 +7342,7 @@ __metadata:
     "@angular/cli": "npm:^18.2.0"
     "@nrwl/linter": "npm:^12.8.0"
     "@snuggery/build-node": "npm:0.11.0"
-    "@snuggery/snuggery": "npm:0.13.0"
+    "@snuggery/snuggery": "npm:0.13.1"
     "@snuggery/yarn": "npm:0.7.1"
     "@typescript-eslint/eslint-plugin": "npm:^6.14.0"
     "@typescript-eslint/parser": "npm:^6.14.0"

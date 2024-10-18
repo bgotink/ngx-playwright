@@ -101,3 +101,13 @@ jobs:
         shell: bash
         run: |
           yarn ${{matrix.cli}} test integration --configuration production
+
+      - name: "Failing tests"
+        shell: bash
+        run: |
+          set +e
+          yarn ${{matrix.cli}} test integration --configuration failing
+          if [ $? -eq 0 ]; then
+            echo "Expected command to fail"
+            exit 1
+          fi

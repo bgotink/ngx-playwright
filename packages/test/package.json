@@ -48,7 +48,7 @@
 		"@playwright/test": "^1.20.2",
 		"@snuggery/architect": "^0.11.0",
 		"@snuggery/schematics": "^0.11.0",
-		"@snuggery/snuggery": "^0.13.0",
+		"@snuggery/snuggery": "^0.13.1",
 		"composed-dom": "^1.1.0"
 	},
 	"devDependencies": {
