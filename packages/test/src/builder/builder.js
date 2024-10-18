@@ -101,7 +101,7 @@ export async function execute(input, context) {
 	const {baseUrl, stop} = await getBaseUrl(input, context);
 
 	try {
-		await firstValueFrom(
+		const result = await firstValueFrom(
 			context,
 			scheduleTarget(
 				{
@@ -161,6 +161,9 @@ export async function execute(input, context) {
 				context,
 			),
 		);
+
+		// Only pass the status through, playwright will already have printed information on the failure
+		return {success: result.success};
 	} finally {
 		await stop();
 	}

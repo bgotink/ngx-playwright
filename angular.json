@@ -92,6 +92,10 @@
 						},
 						"production": {
 							"devServerTarget": ":serve:production"
+						},
+						"failing": {
+							"baseUrl": "http://localhost:65535",
+							"config": "integration/playwright-test-failure.e2e-config.js"
 						}
 					}
 				}
