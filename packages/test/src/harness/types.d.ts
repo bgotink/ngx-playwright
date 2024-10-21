@@ -1,25 +1,44 @@
 import type {
-	ComponentHarness,
+	ComponentHarness as _CdkComponentHarness,
+	ComponentHarnessConstructor as _CdkComponentHarnessConstructor,
+	HarnessPredicate as _CdkHarnessPredicate,
+} from "@angular/cdk/testing";
+import type {
+	AnyComponentHarness,
 	ComponentHarnessConstructor,
 	HarnessPredicate,
 } from "@ngx-playwright/harness";
 
+export type CdkComponentHarness =
+	true extends _CdkComponentHarness ? never : _CdkComponentHarness;
+export type CdkComponentHarnessConstructor<T extends AnyComponentHarness> =
+	true extends _CdkComponentHarnessConstructor<T & CdkComponentHarness> ? never
+	:	_CdkComponentHarnessConstructor<T & CdkComponentHarness>;
+export type CdkHarnessPredicate<T extends AnyComponentHarness> =
+	true extends _CdkHarnessPredicate<T & CdkComponentHarness> ? never
+	:	_CdkHarnessPredicate<T & CdkComponentHarness>;
+export type CdkHarnessQuery<T extends AnyComponentHarness> =
+	| CdkComponentHarnessConstructor<T>
+	| CdkHarnessPredicate<T>;
+
 /** Parsed form of the queries passed to the `locatorFor*` methods. */
-export type ParsedQueries<T extends ComponentHarness> = {
+export type ParsedQueries<T extends AnyComponentHarness> = {
 	/** The full list of queries, in their original order. */
-	allQueries: (string | HarnessPredicate<T>)[];
+	allQueries: (string | HarnessPredicate<T> | CdkHarnessPredicate<T>)[];
 	/**
 	 * A filtered view of `allQueries` containing only the queries that are looking for a
 	 * `ComponentHarness`
 	 */
-	harnessQueries: HarnessPredicate<T>[];
+	harnessQueries: (HarnessPredicate<T> | CdkHarnessPredicate)[];
 	/**
 	 * A filtered view of `allQueries` containing only the queries that are looking for a
 	 * `TestElement`
 	 */
 	elementQueries: string[];
 	/** The set of all `ComponentHarness` subclasses represented in the original query list. */
-	harnessTypes: Set<ComponentHarnessConstructor<T>>;
+	harnessTypes: Set<
+		ComponentHarnessConstructor<T> | CdkComponentHarnessConstructor<T>
+	>;
 };
 
 export interface PlaywrightHarnessEnvironmentOptions {

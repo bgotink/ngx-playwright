@@ -1,4 +1,8 @@
 import {
+	ComponentHarnessConstructor as _AngularComponentHarnessConstructor,
+	ComponentHarness as _AngularComponentHarness,
+} from "@angular/cdk/testing";
+import {
 	AnyComponentHarness,
 	AsyncFactoryFn,
 	ComponentHarnessConstructor,
@@ -29,13 +33,51 @@ export interface PlaywrightScreenWithIsOpenFunction<
 	isOpen(page: Page, baseUrl: string): Promise<boolean>;
 }
 
+type AngularComponentHarness =
+	true extends _AngularComponentHarness ? never : _AngularComponentHarness;
+type AngularComponentHarnessConstructor<T extends AngularComponentHarness> =
+	true extends _AngularComponentHarnessConstructor<T> ? never
+	:	_AngularComponentHarnessConstructor<T>;
+
+export interface CdkPlaywrightScreenWithPath<T extends AngularComponentHarness>
+	extends AngularComponentHarnessConstructor<T> {
+	readonly path: string;
+
+	isOpen?(page: Page, baseUrl: string): Promise<boolean>;
+}
+
+export interface CdkPlaywrightScreenWithOpenFunction<
+	T extends AngularComponentHarness,
+> extends AngularComponentHarnessConstructor<T> {
+	open(
+		page: Page,
+		baseUrl: string,
+		opener: PlaywrightScreenOpener,
+	): Promise<void>;
+
+	isOpen?(page: Page, baseUrl: string): Promise<boolean>;
+}
+
+export interface CdkPlaywrightScreenWithIsOpenFunction<
+	T extends AngularComponentHarness,
+> extends AngularComponentHarnessConstructor<T> {
+	isOpen(page: Page, baseUrl: string): Promise<boolean>;
+}
+
 export type PlaywrightScreen<T extends AnyComponentHarness> =
 	| PlaywrightScreenWithOpenFunction<T>
 	| PlaywrightScreenWithPath<T>
-	| PlaywrightScreenWithIsOpenFunction<T>;
+	| PlaywrightScreenWithIsOpenFunction<T>
+	| CdkPlaywrightScreenWithOpenFunction<T & AngularComponentHarness>
+	| CdkPlaywrightScreenWithPath<T & AngularComponentHarness>
+	| CdkPlaywrightScreenWithIsOpenFunction<T & AngularComponentHarness>;
 
 export interface PlaywrightScreenOpener {
-	<T extends AnyComponentHarness>(screen: PlaywrightScreen<T>): Promise<T>;
+	<T extends AnyComponentHarness>(
+		screen:
+			| PlaywrightScreen<T>
+			| CdkPlaywrightScreen<T & AngularComponentHarness>,
+	): Promise<T>;
 }
 
 export interface InScreenFn {

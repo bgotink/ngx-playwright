@@ -60,7 +60,7 @@
 		"@angular/core": "^18.2.0",
 		"@ngx-playwright/workspace-scripts": "workspace:scripts",
 		"@types/node": "^20.12.12",
-		"rxjs": "7.8.0",
+		"rxjs": "^7.8.1",
 		"typescript": "~5.5.4",
 		"zone.js": "~0.14.10"
 	},

@@ -1,5 +1,13 @@
-import type {AnyComponentHarness} from "./component-harness";
-import type {HarnessQuery} from "./harness-predicate";
+import type {
+	HarnessQuery as _AngularHarnessQuery,
+	ComponentHarness as AngularComponentHarness,
+} from "@angular/cdk/testing";
+
+import type {AnyComponentHarness} from "./component-harness.js";
+import type {HarnessQuery} from "./harness-predicate.js";
+
+type AngularHarnessQuery<T extends AngularComponentHarness> =
+	true extends _AngularHarnessQuery<T> ? never : _AngularHarnessQuery<T>;
 
 /**
  * Interface used to load ComponentHarness objects. This interface is used by test authors to
@@ -34,7 +42,9 @@ export interface HarnessLoader {
 	 * @return An instance of the given harness type
 	 * @throws If a matching component instance can't be found.
 	 */
-	getHarness<T extends AnyComponentHarness>(query: HarnessQuery<T>): Promise<T>;
+	getHarness<T extends AnyComponentHarness>(
+		query: HarnessQuery<T> | AngularHarnessQuery<T>,
+	): Promise<T>;
 
 	/**
 	 * Searches for an instance of the component corresponding to the given harness type under the
@@ -45,7 +55,7 @@ export interface HarnessLoader {
 	 * @return An instance of the given harness type (or null if not found).
 	 */
 	getHarnessOrNull<T extends AnyComponentHarness>(
-		query: HarnessQuery<T>,
+		query: HarnessQuery<T> | AngularHarnessQuery<T>,
 	): Promise<T | null>;
 
 	/**
@@ -55,7 +65,7 @@ export interface HarnessLoader {
 	 * @return A list instances of the given harness type.
 	 */
 	getAllHarnesses<T extends AnyComponentHarness>(
-		query: HarnessQuery<T>,
+		query: HarnessQuery<T> | AngularHarnessQuery<T>,
 	): Promise<T[]>;
 
 	/**
@@ -65,6 +75,6 @@ export interface HarnessLoader {
 	 * @return A boolean indicating if an instance was found.
 	 */
 	hasHarness<T extends AnyComponentHarness>(
-		query: HarnessQuery<T>,
+		query: HarnessQuery<T> | AngularHarnessQuery<T>,
 	): Promise<boolean>;
 }

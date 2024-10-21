@@ -1978,7 +1978,7 @@ __metadata:
     "@snuggery/snuggery": "npm:^0.13.1"
     "@types/node": "npm:^20.12.12"
     composed-dom: "npm:^1.1.0"
-    rxjs: "npm:7.8.0"
+    rxjs: "npm:^7.8.1"
     typescript: "npm:~5.5.4"
     zone.js: "npm:~0.14.10"
   peerDependencies:
@@ -7376,15 +7376,6 @@ __metadata:
   peerDependencies:
     rxjs: ^6.0.0
   checksum: 20f98281b1e9f7bf9c0da52f58e9d1404e875c71cf124a7672da2e43654b27e869aaf39fab60fed41d012cc6b8724206beb1156b506e9a7b9a8962d8b4ab9671
-  languageName: node
-  linkType: hard
-
-"rxjs@npm:7.8.0":
-  version: 7.8.0
-  resolution: "rxjs@npm:7.8.0"
-  dependencies:
-    tslib: "npm:^2.1.0"
-  checksum: c48833638ae5d339332f8b792e716c3c662950ba95ba04e9e97a8cfd4628d8f009129672793c6c067c872a4dab5757231d41d7256a2114a5fabbf30d8a5b9d67
   languageName: node
   linkType: hard
 

@@ -110,7 +110,7 @@ export class MainComponentHarness extends ComponentHarness {
 		SubComponentHarness.with({ancestor: ".other >"}),
 	);
 	compoundSelectorWithAncestor = this.locatorForAll(
-		CompoundSelectorHarness.with({ancestor: ".parent"}),
+		CompoundSelectorHarness.with({ancestor: ".parent"}).asAngularPredicate(),
 	);
 	quotedContentSelectorWithAncestor = this.locatorFor(
 		QuotedCommaSelectorHarness.with({ancestor: ".quoted-comma-parent"}),

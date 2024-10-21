@@ -1,12 +1,20 @@
 // Keep using any to ensure compatibility with Angular's interfaces
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import type {
+	HarnessQuery as _AngularHarnessQuery,
+	ComponentHarness as AngularComponentHarness,
+} from "@angular/cdk/testing";
+
 import type {HarnessLoader} from "./harness-loader.js";
 import type {HarnessQuery} from "./harness-predicate.js";
 import type {TestElement} from "./test-element.js";
 
 /** An async function that returns a promise when called. */
 export type AsyncFactoryFn<T> = () => Promise<T>;
+
+type AngularHarnessQuery<T extends AngularComponentHarness> =
+	true extends _AngularHarnessQuery<T> ? never : _AngularHarnessQuery<T>;
 
 /**
  * The result type obtained when searching using a particular list of queries. This type depends on
@@ -30,7 +38,9 @@ export type AsyncFactoryFn<T> = () => Promise<T>;
  * is equivalent to:
  * `MyHarness | MyOtherHarness | TestElement`.
  */
-export type LocatorFnResult<T extends (HarnessQuery<any> | string)[]> = {
+export type LocatorFnResult<
+	T extends (HarnessQuery<any> | AngularHarnessQuery<any> | string)[],
+> = {
 	[I in keyof T]: T[I] extends (
 		new (...args: any[]) => infer C // Map `ComponentHarnessConstructor<C>` to `C`.
 	) ?
@@ -170,4 +180,14 @@ export interface LocatorFactory {
 	 * @return A list of `HarnessLoader`, one rooted at each element matching the given selector.
 	 */
 	harnessLoaderForAll(selector: string): Promise<HarnessLoader[]>;
+
+	/**
+	 * @deprecated Only added for compatibility with @angular/cdk/testing
+	 */
+	forceStabilize(): Promise<void>;
+
+	/**
+	 * @deprecated Only added for compatibility with @angular/cdk/testing
+	 */
+	waitForTasksOutsideAngular(): Promise<void>;
 }

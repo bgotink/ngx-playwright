@@ -174,6 +174,18 @@ export class HarnessPredicate {
 
 		return `:is(${this.#ancestor}) :is(${this.harnessType.hostSelector || ""})`;
 	}
+
+	/**
+	 * Returns this predicate in angular format
+	 *
+	 * Note the returned predicate only works if the HarnessEnvironment supports non-Angular
+	 * predicates, e.g. the environment provided by `@ngx-playwright/test`.
+	 *
+	 * @returns {import('@angular/cdk/testing').HarnessPredicate<T & import('@angular/cdk/testing').ComponentHarness>}
+	 */
+	asAngularPredicate() {
+		return /** @type {any} */ (this);
+	}
 }
 
 /**
