@@ -2163,7 +2163,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@ngx-playwright/harness@npm:^0.11.2, @ngx-playwright/harness@workspace:packages/harness":
+"@ngx-playwright/harness@npm:^0.11.3, @ngx-playwright/harness@workspace:packages/harness":
   version: 0.0.0-use.local
   resolution: "@ngx-playwright/harness@workspace:packages/harness"
   peerDependencies:
@@ -2185,7 +2185,7 @@ __metadata:
     "@angular/compiler": "npm:^19.0.0"
     "@angular/compiler-cli": "npm:^19.0.0"
     "@angular/core": "npm:^19.0.0"
-    "@ngx-playwright/harness": "npm:^0.11.2"
+    "@ngx-playwright/harness": "npm:^0.11.3"
     "@ngx-playwright/workspace-scripts": "workspace:scripts"
     "@playwright/test": "npm:^1.20.2"
     "@snuggery/architect": "npm:^0.11.1"
@@ -2198,7 +2198,7 @@ __metadata:
     zone.js: "npm:~0.15.0"
   peerDependencies:
     "@angular/cdk": ^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0 || ^18.0.0-rc.0 || ^19.0.0
-    "@ngx-playwright/harness": ^0.11.2
+    "@ngx-playwright/harness": ^0.11.3
     "@playwright/test": ^1.20.2
   peerDependenciesMeta:
     "@angular/cdk":
