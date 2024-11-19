@@ -6,6 +6,7 @@
  * found in the LICENSE file at https://angular.io/license
  */
 
+import {NgFor} from "@angular/common";
 import {
 	ChangeDetectionStrategy,
 	Component,
@@ -21,6 +22,7 @@ import {
 		</ul>`,
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [NgFor],
 })
 export class TestSubComponent {
 	@Input() title: string;

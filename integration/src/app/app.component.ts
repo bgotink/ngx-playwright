@@ -13,6 +13,7 @@ import {
 import {FormControl} from "@angular/forms";
 
 @Component({
+	standalone: false,
 	selector: "test-main",
 	templateUrl: "./app.component.html",
 	encapsulation: ViewEncapsulation.None,

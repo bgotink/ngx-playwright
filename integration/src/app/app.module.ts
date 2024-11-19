@@ -4,20 +4,19 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
 
 import {AppComponent} from "./app.component";
-import {
-	TestShadowBoundary,
-	TestSubShadowBoundary,
-} from "./test-shadow-boundary";
+import {TestShadowBoundary} from "./test-shadow-boundary";
 import {TestSubComponent} from "./test-sub-component";
 
 @NgModule({
-	imports: [BrowserModule, CommonModule, FormsModule, ReactiveFormsModule],
-	declarations: [
-		AppComponent,
+	imports: [
+		BrowserModule,
 		TestSubComponent,
 		TestShadowBoundary,
-		TestSubShadowBoundary,
+		CommonModule,
+		FormsModule,
+		ReactiveFormsModule,
 	],
+	declarations: [AppComponent],
 	bootstrap: [AppComponent],
 })
 export class AppModule {}
