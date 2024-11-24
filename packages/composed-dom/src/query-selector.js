@@ -161,40 +161,40 @@ function parseNth(nth) {
 			indexMatches = (i) => i % 2 !== 0;
 			break;
 		default: {
-			let [a, b] =
+			let [aString, bString] =
 				anb.includes("n") ?
 					/** @type {[string, string]} */ (anb.split("n"))
 				:	["0", anb];
-			a = a.trim();
-			b = b.trim();
+			aString = aString.trim();
+			bString = bString.trim();
 
-			let aNumber = 1;
-			if (a) {
-				aNumber = a === "-" ? -1 : parseInt(a);
+			let a = 1;
+			if (aString) {
+				a = aString === "-" ? -1 : parseInt(aString);
 			}
 
-			let bNumber = 0;
-			if (b) {
-				switch (b[0]) {
+			let b = 0;
+			if (bString) {
+				switch (bString[0]) {
 					case "-":
-						bNumber = -1 * parseInt(b.slice(1).trim());
+						b = -1 * parseInt(bString.slice(1).trim());
 						break;
 					case "+":
-						bNumber = parseInt(b.slice(1).trim());
+						b = parseInt(bString.slice(1).trim());
 						break;
 					default:
-						bNumber = parseInt(b);
+						b = parseInt(bString);
 						break;
 				}
 			}
 
-			if (aNumber === 0) {
-				indexMatches = (i) => i === bNumber;
+			if (a === 0) {
+				indexMatches = (i) => i === b;
 			} else {
 				indexMatches = (i) => {
-					i = i - bNumber;
+					const n = (i - b) / a;
 
-					return i % aNumber === 0 && i / aNumber >= 0;
+					return Number.isInteger(n) && n >= 0;
 				};
 			}
 		}
