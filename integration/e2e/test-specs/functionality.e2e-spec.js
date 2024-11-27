@@ -1,8 +1,9 @@
 /* spell-checker: disable */
 import {parallel} from "@angular/cdk/testing";
-import {test, expect} from "@ngx-playwright/test";
 
 import {MainComponentHarness} from "../harnesses/app-component-harness.js";
+
+import {test, expect} from "./test.js";
 
 test.describe.parallel("PlaywrightHarnessEnvironment", () => {
 	test.beforeEach(async ({page}) => {

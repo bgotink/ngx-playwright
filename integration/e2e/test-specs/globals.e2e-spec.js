@@ -1,4 +1,4 @@
-import {test, expect} from "@ngx-playwright/test";
+import {test, expect} from "./test.js";
 
 test.describe.parallel("fixtures", () => {
 	test("it should have browser", ({browser}) => {

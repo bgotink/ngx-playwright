@@ -18,7 +18,8 @@ const config = {
 	testDir: join(__dirname, "e2e/failing-specs"),
 	testMatch: "**/*.e2e-spec.js",
 
-	reporter: process.env.CI ? "github" : "list",
+	// Don't use the github reporter here, because we expect this test to fail!
+	reporter: "list",
 };
 
 export default config;

@@ -97,17 +97,22 @@ jobs:
         run: |
           yarn ${{matrix.cli}} test integration
 
+          echo "## Coverage" > "$GITHUB_STEP_SUMMARY"
+          grep -vF '==' integration/results/e2e-coverage/summary.txt >> "$GITHUB_STEP_SUMMARY"
+
       - name: "Run tests in production"
         shell: bash
         run: |
           yarn ${{matrix.cli}} test integration --configuration production
 
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "## Coverage (production)" >> "$GITHUB_STEP_SUMMARY"
+          grep -vF '==' integration/results/e2e-coverage/summary.txt >> "$GITHUB_STEP_SUMMARY"
+
       - name: "Failing tests"
         shell: bash
         run: |
-          set +e
-          yarn ${{matrix.cli}} test integration --configuration failing
-          if [ $? -eq 0 ]; then
+          if yarn ${{matrix.cli}} test integration --configuration failing; then
             echo "Expected command to fail"
             exit 1
           fi

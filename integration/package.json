@@ -14,6 +14,7 @@
 		"@angular/build": "^19.0.0",
 		"@angular/cdk": "^19.0.0",
 		"@angular/compiler-cli": "^19.0.0",
+		"@bgotink/playwright-coverage": "^0.3.0",
 		"@ngx-playwright/test": "workspace:packages/test",
 		"@playwright/test": "^1.20.2",
 		"typescript": "~5.5.4"
