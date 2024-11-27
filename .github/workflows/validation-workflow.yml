@@ -59,22 +59,24 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-        node:
-          - 18.x
-          - 20.x
-        cli:
-          - sn
         include:
+          # Two main LTS releases, test one with @angular/cli and one with @snuggery/snuggery
+          - os: ubuntu-latest
+            node: 22.x
+            cli: sn
           # Verify that everything works if using the @angular/cli
           - os: ubuntu-latest
-            node: 18.x
+            node: 20.x
             cli: ng
-          # Test future node version(s)
+          # Test other node version(s)
           - os: ubuntu-latest
+            node: 18.x
+            cli: sn
+          # Test on other Operating Systems
+          - os: macos-latest
+            node: 22.x
+            cli: sn
+          - os: windows-latest
             node: 22.x
             cli: sn
 
