@@ -359,36 +359,36 @@ function parseNth(nth) {
       indexMatches = (i) => i % 2 !== 0;
       break;
     default: {
-      let [a, b] = anb.includes("n") ? (
+      let [aString, bString] = anb.includes("n") ? (
         /** @type {[string, string]} */
         anb.split("n")
       ) : ["0", anb];
-      a = a.trim();
-      b = b.trim();
-      let aNumber = 1;
-      if (a) {
-        aNumber = a === "-" ? -1 : parseInt(a);
+      aString = aString.trim();
+      bString = bString.trim();
+      let a = 1;
+      if (aString) {
+        a = aString === "-" ? -1 : parseInt(aString);
       }
-      let bNumber = 0;
-      if (b) {
-        switch (b[0]) {
+      let b = 0;
+      if (bString) {
+        switch (bString[0]) {
           case "-":
-            bNumber = -1 * parseInt(b.slice(1).trim());
+            b = -1 * parseInt(bString.slice(1).trim());
             break;
           case "+":
-            bNumber = parseInt(b.slice(1).trim());
+            b = parseInt(bString.slice(1).trim());
             break;
           default:
-            bNumber = parseInt(b);
+            b = parseInt(bString);
             break;
         }
       }
-      if (aNumber === 0) {
-        indexMatches = (i) => i === bNumber;
+      if (a === 0) {
+        indexMatches = (i) => i === b;
       } else {
         indexMatches = (i) => {
-          i = i - bNumber;
-          return i % aNumber === 0 && i / aNumber >= 0;
+          const n = (i - b) / a;
+          return Number.isInteger(n) && n >= 0;
         };
       }
     }
@@ -400,6 +400,7 @@ function parseNth(nth) {
 }
 function matchesSelector(element, scope, ast) {
   switch (ast.type) {
+    // First, the simple selectors, e.g. `.lorem`, `#ipsum`
     case "universal":
       return true;
     case "attribute":
@@ -410,6 +411,7 @@ function matchesSelector(element, scope, ast) {
       return element.id === ast.name;
     case "type":
       return element.tagName.toLowerCase() === ast.name.toLowerCase();
+    // Compound selectors, e.g. `.lorem#ipsum`
     case "compound":
       for (const child of ast.list) {
         if (!matchesSelector(element, scope, child)) {
@@ -417,6 +419,7 @@ function matchesSelector(element, scope, ast) {
         }
       }
       return true;
+    // Complex selectors, e.g. `.lorem > #ipsum`
     case "complex":
       switch (ast.combinator) {
         case ">": {
@@ -456,6 +459,7 @@ function matchesSelector(element, scope, ast) {
         default:
           return unreachable();
       }
+    // List of selectors, e.g. `.lorem, #ipsum`
     case "list":
       for (const child of ast.list) {
         if (matchesSelector(element, scope, child)) {
@@ -463,8 +467,18 @@ function matchesSelector(element, scope, ast) {
         }
       }
       return false;
+    // Pseudo-elements are not supported.
+    // There are only two types of pseudo-elements that actually yield elements:
+    // - `::slotted()` is superfluous because you can simply use the `>` combinator
+    // - `::part()` doesn't seem like it's useful? idk
+    //
+    // See https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements
     case "pseudo-element":
       return invalidSelector(ast.content);
+    // Now the hard part: pseudo-classes...
+    // Add a custom implementation for all pseudo-classes that depend on the DOM
+    // tree itself and for pseudo-classes that contain sub-selectors, use the
+    // native Element#matches() for all other pseudos.
     case "pseudo-class":
       switch (ast.name) {
         case "root":

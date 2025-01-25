@@ -37,7 +37,7 @@
 		"./package.json": "./package.json"
 	},
 	"devDependencies": {
-		"esbuild": "0.19.11",
+		"esbuild": "0.24.0",
 		"parsel-js": "^1.1.2"
 	},
 	"publishConfig": {
