@@ -47,6 +47,9 @@ export async function openScreen(baseURL, page, harnessEnvironment, screen) {
 		}
 	}
 
+	// Give the page some time to load
+	await page.waitForSelector(screen.hostSelector);
+
 	return harnessEnvironment.getHarness(screen);
 }
 
