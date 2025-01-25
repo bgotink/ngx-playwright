@@ -58,7 +58,6 @@
 		"@angular/compiler": "^19.0.0",
 		"@angular/compiler-cli": "^19.0.0",
 		"@angular/core": "^19.0.0",
-		"@ngx-playwright/workspace-scripts": "workspace:scripts",
 		"@types/node": "^20.12.12",
 		"rxjs": "^7.8.1",
 		"typescript": "~5.5.4",

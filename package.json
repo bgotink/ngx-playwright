@@ -2,8 +2,7 @@
 	"private": true,
 	"workspaces": [
 		"packages/*",
-		"integration",
-		"scripts"
+		"integration"
 	],
 	"scripts": {
 		"postinstall": "is-ci || husky install",
