@@ -32,10 +32,24 @@ export async function openScreen(baseURL, page, harnessEnvironment, screen) {
 		);
 	}
 
-	if (
-		typeof screen.isOpen !== "function" ||
-		!(await screen.isOpen(page, baseURL))
-	) {
+	let isOpen;
+	if (typeof screen.isOpen === "function") {
+		isOpen = await screen.isOpen(page, baseURL);
+	}
+
+	if (isOpen == null && "path" in screen && typeof screen.path === "string") {
+		const url = new URL(screen.path, baseURL);
+		const currentUrl = new URL(page.url());
+
+		// Should this be more intelligent? e.g. if the page to open is example.com/lorem
+		// and the currently open page is example.com/lorem?ipsum, then the page is actually
+		// already open
+		// Then again, that sounds like it could be a problem if you want to use the open
+		// function to clear the URL's search and hash?
+		isOpen = url.href === currentUrl.href;
+	}
+
+	if (!isOpen) {
 		if (hasOpenFunction(screen)) {
 			await screen.open(page, baseURL, (screen) =>
 				openScreen(baseURL, page, harnessEnvironment, screen),
