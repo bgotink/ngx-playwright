@@ -1,22 +1,23 @@
 {
 	"type": "module",
 	"dependencies": {
-		"@angular/common": "^19.0.0",
-		"@angular/compiler": "^19.0.0",
-		"@angular/core": "^19.0.0",
-		"@angular/forms": "^19.0.0",
-		"@angular/platform-browser": "^19.0.0",
-		"@angular/platform-browser-dynamic": "^19.0.0",
+		"@angular/common": "^20.0.0-rc.0",
+		"@angular/compiler": "^20.0.0-rc.0",
+		"@angular/core": "^20.0.0-rc.0",
+		"@angular/forms": "^20.0.0-rc.0",
+		"@angular/platform-browser": "^20.0.0-rc.0",
+		"@angular/platform-browser-dynamic": "^20.0.0-rc.0",
 		"rxjs": "^7.8.1",
 		"zone.js": "~0.15.0"
 	},
 	"devDependencies": {
-		"@angular/build": "^19.0.0",
-		"@angular/cdk": "^19.0.0",
-		"@angular/compiler-cli": "^19.0.0",
+		"@angular/build": "^20.0.0-rc.0",
+		"@angular/cdk": "^20.0.0-rc.0",
+		"@angular/compiler-cli": "^20.0.0-rc.0",
 		"@bgotink/playwright-coverage": "^0.3.0",
 		"@ngx-playwright/test": "workspace:packages/test",
 		"@playwright/test": "^1.20.2",
-		"typescript": "~5.5.4"
+		"tslib": "^2.8.1",
+		"typescript": "~5.8.3"
 	}
 }

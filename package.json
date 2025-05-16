@@ -10,11 +10,11 @@
 		"test": "sn test"
 	},
 	"devDependencies": {
-		"@angular/cli": "^19.0.0",
+		"@angular/cli": "^20.0.0-rc.0",
 		"@nrwl/linter": "^12.8.0",
-		"@snuggery/build-node": "0.11.0",
-		"@snuggery/snuggery": "0.13.1",
-		"@snuggery/yarn": "0.8.0",
+		"@snuggery/build-node": "0.12.0",
+		"@snuggery/snuggery": "0.14.0",
+		"@snuggery/yarn": "0.9.0",
 		"@typescript-eslint/eslint-plugin": "^6.14.0",
 		"@typescript-eslint/parser": "^6.14.0",
 		"cspell-lib": "^8.14.4",
@@ -25,7 +25,7 @@
 		"husky": "^9.1.6",
 		"is-ci": "^3.0.1",
 		"prettier": "^3.3.3",
-		"typescript": "~5.5.4"
+		"typescript": "~5.8.3"
 	},
 	"dependenciesMeta": {
 		"esbuild": {

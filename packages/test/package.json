@@ -33,7 +33,7 @@
 		"build": "sn build"
 	},
 	"peerDependencies": {
-		"@angular/cdk": "^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0 || ^18.0.0-rc.0 || ^19.0.0",
+		"@angular/cdk": "^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0 || ^18.0.0-rc.0 || ^19.0.0 || ^20.0.0-rc.0",
 		"@ngx-playwright/harness": "^0.11.3",
 		"@playwright/test": "^1.20.2"
 	},
@@ -46,21 +46,22 @@
 		"@angular-devkit/schematics": "^19.0.0",
 		"@ngx-playwright/harness": "^0.11.3",
 		"@playwright/test": "^1.20.2",
-		"@snuggery/architect": "^0.11.1",
-		"@snuggery/schematics": "^0.11.2",
-		"@snuggery/snuggery": "^0.13.2",
+		"@snuggery/architect": "^0.12.0",
+		"@snuggery/schematics": "^0.12.0",
+		"@snuggery/snuggery": "^0.14.0",
 		"composed-dom": "^1.1.0"
 	},
 	"devDependencies": {
-		"@angular/build": "^19.0.0",
-		"@angular/cdk": "^19.0.0",
-		"@angular/common": "^19.0.0",
-		"@angular/compiler": "^19.0.0",
-		"@angular/compiler-cli": "^19.0.0",
-		"@angular/core": "^19.0.0",
+		"@angular/build": "^20.0.0-rc.0",
+		"@angular/cdk": "^20.0.0-rc.0",
+		"@angular/common": "^20.0.0-rc.0",
+		"@angular/compiler": "^20.0.0-rc.0",
+		"@angular/compiler-cli": "^20.0.0-rc.0",
+		"@angular/core": "^20.0.0-rc.0",
 		"@types/node": "^20.12.12",
 		"rxjs": "^7.8.1",
-		"typescript": "~5.5.4",
+		"tslib": "^2.8.1",
+		"typescript": "~5.8.3",
 		"zone.js": "~0.15.0"
 	},
 	"publishConfig": {
