@@ -2,6 +2,7 @@
 
 const {readFileSync} = require("fs");
 const {dirname, resolve} = require("path");
+const {pathToFileURL} = require("url");
 
 const playwrightPkgJsonPath = require.resolve("@playwright/test/package.json");
 
@@ -18,4 +19,5 @@ if (typeof relativeBin !== "string") {
 	);
 }
 
-import(resolve(dirname(playwrightPkgJsonPath), relativeBin));
+const target = resolve(dirname(playwrightPkgJsonPath), relativeBin);
+import(pathToFileURL(target).href);
