@@ -1,15 +1,13 @@
 // @ts-check
 // cspell:ignore lcovonly lcov
 
+import {defineConfig} from "@ngx-playwright/test";
 import {join, dirname} from "path";
 import {fileURLToPath} from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-/**
- * @type {import('../packages/test/src/index.js').PlaywrightTestConfig}
- */
-const config = {
+export default defineConfig({
 	use: {
 		channel: "chrome",
 		headless: true,
@@ -20,6 +18,4 @@ const config = {
 
 	// Don't use the github reporter here, because we expect this test to fail!
 	reporter: "list",
-};
-
-export default config;
+});

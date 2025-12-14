@@ -1,15 +1,13 @@
 // @ts-check
 // cspell:ignore lcovonly lcov
 
+import {defineConfig} from "@ngx-playwright/test";
 import {join, dirname} from "path";
 import {fileURLToPath} from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-/**
- * @type {import('@ngx-playwright/test').PlaywrightTestConfig}
- */
-const config = {
+export default defineConfig({
 	use: {
 		channel: "chrome",
 		headless: true,
@@ -68,6 +66,4 @@ const config = {
 			},
 		],
 	],
-};
-
-export default config;
+});
