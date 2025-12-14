@@ -93,17 +93,17 @@ export function isAngularBootstrapped() {
  * @returns {Promise<void>}
  */
 export async function waitUntilAngularStable() {
-	if (
-		typeof (
-			/** @type {import('./angular-types.js').AngularWindow} */ (globalThis)
-				.frameworkStabilizers
-		) !== "undefined"
-	) {
-		await Promise.all(
-			/** @type {import('./angular-types.js').AngularWindow} */ (
-				globalThis
-			).frameworkStabilizers.map((fn) => new Promise(fn)),
-		);
+	const frameworkStabilizers =
+		/** @type {import('./angular-types.js').AngularWindow} */ (globalThis)
+			.frameworkStabilizers;
+
+	if (frameworkStabilizers != null) {
+		let numberOfFrameworkStabilizers;
+
+		do {
+			numberOfFrameworkStabilizers = frameworkStabilizers.length;
+			await Promise.all(frameworkStabilizers.map((fn) => new Promise(fn)));
+		} while (numberOfFrameworkStabilizers !== frameworkStabilizers.length);
 	}
 }
 

@@ -1,20 +1,11 @@
-import {ApplicationRef, enableProdMode} from "@angular/core";
-import {enableDebugTools} from "@angular/platform-browser";
-import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
+import {provideZoneChangeDetection} from "@angular/core";
+import {
+	bootstrapApplication,
+	provideProtractorTestingSupport,
+} from "@angular/platform-browser";
 
-import {AppModule} from "./app/app.module";
-import {production} from "./env/env";
+import {AppComponent} from "./app/app.component";
 
-if (production) {
-	enableProdMode();
-}
-
-platformBrowserDynamic()
-	.bootstrapModule(AppModule)
-	.then((appModuleRef) => {
-		if (!production) {
-			enableDebugTools(
-				appModuleRef.injector.get(ApplicationRef).components[0]!,
-			);
-		}
-	});
+bootstrapApplication(AppComponent, {
+	providers: [provideProtractorTestingSupport(), provideZoneChangeDetection()],
+});

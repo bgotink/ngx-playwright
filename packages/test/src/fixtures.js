@@ -115,6 +115,11 @@ const ngxPlaywrightFixtures = {
 		await context.addInitScript({
 			path: fileURLToPath(new URL("harness/zone/patch.js", import.meta.url)),
 		});
+		await context.addInitScript({
+			path: fileURLToPath(
+				new URL("harness/setup-framework-stabilizers.js", import.meta.url),
+			),
+		});
 
 		return use(context);
 	},

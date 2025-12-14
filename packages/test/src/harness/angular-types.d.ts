@@ -1,5 +1,5 @@
 export type AngularWindow = typeof globalThis & {
-	readonly frameworkStabilizers:
+	frameworkStabilizers:
 		| ((callback: (didWork: boolean) => void) => void)[]
 		| undefined;
 };

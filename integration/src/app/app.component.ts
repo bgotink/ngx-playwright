@@ -1,3 +1,4 @@
+import {CommonModule} from "@angular/common";
 import {
 	ChangeDetectionStrategy,
 	ChangeDetectorRef,
@@ -8,14 +9,23 @@ import {
 	ViewChild,
 	ViewEncapsulation,
 } from "@angular/core";
-import {FormControl} from "@angular/forms";
+import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+
+import {TestShadowBoundary} from "./test-shadow-boundary";
+import {TestSubComponent} from "./test-sub-component";
 
 @Component({
-	standalone: false,
 	selector: "test-main",
 	templateUrl: "./app.component.html",
 	encapsulation: ViewEncapsulation.None,
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	imports: [
+		TestSubComponent,
+		TestShadowBoundary,
+		CommonModule,
+		FormsModule,
+		ReactiveFormsModule,
+	],
 })
 export class AppComponent implements OnDestroy {
 	username: string;
