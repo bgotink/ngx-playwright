@@ -1,0 +1,6 @@
+releases:
+  "@ngx-playwright/harness": minor
+  "@ngx-playwright/test": minor
+
+declined:
+  - composed-dom

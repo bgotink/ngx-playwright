@@ -126,6 +126,16 @@ export abstract class ComponentHarness implements AnyComponentHarness {
 	protected locatorForAll<T extends (HarnessQuery<any> | string)[]>(
 		...queries: T
 	): AsyncFactoryFn<LocatorFnResult<T>[]>;
+
+	/**
+	 * @deprecated Only added for compatibility with @angular/cdk/testing
+	 */
+	protected forceStabilize(): Promise<void>;
+
+	/**
+	 * @deprecated Only added for compatibility with @angular/cdk/testing
+	 */
+	protected waitForTasksOutsideAngular(): Promise<void>;
 }
 
 /**

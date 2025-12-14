@@ -1,11 +1,49 @@
-import type {TestElement as AngularTestElement} from "@angular/cdk/testing";
-import type {TestElement} from "@ngx-playwright/harness";
+import {
+	type TestElement as AngularTestElement,
+	ComponentHarness as AngularComponentHarness,
+	type HarnessLoader as AngularHarnessLoader,
+	type HarnessPredicate as AngularHarnessPredicate,
+} from "@angular/cdk/testing";
+import {
+	type TestElement,
+	type LocatorFnResult,
+	ComponentHarness,
+	type HarnessLoader,
+	type HarnessPredicate,
+} from "@ngx-playwright/harness";
 
-let ours: TestElement = null!;
-let angular: AngularTestElement = null!;
+function verifyAssignable<T>(value: Pick<T, keyof T>): void;
+function verifyAssignable() {}
 
-ours = angular;
-angular = ours;
+function create<T>(): T {
+	return null!;
+}
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-(function noop(..._args: unknown[]) {})(ours, angular);
+class TestHarness extends ComponentHarness {
+	static hostSelector = "my-test";
+
+	header = this.locatorFor("header");
+}
+
+class AngularTestHarness extends AngularComponentHarness {
+	static hostSelector = "my-test";
+
+	footer = this.locatorFor("footer");
+}
+
+verifyAssignable<AngularTestElement>(create<TestElement>());
+verifyAssignable<TestElement>(create<AngularTestElement>());
+
+verifyAssignable<AngularComponentHarness>(create<ComponentHarness>());
+verifyAssignable<ComponentHarness>(create<AngularComponentHarness>());
+
+verifyAssignable<AngularHarnessLoader>(create<HarnessLoader>());
+// verifyAssignable<HarnessLoader>(create<AngularHarnessLoader>());
+
+verifyAssignable<TestHarness>(create<LocatorFnResult<[typeof TestHarness]>>());
+verifyAssignable<TestHarness>(
+	create<LocatorFnResult<[HarnessPredicate<TestHarness>]>>(),
+);
+verifyAssignable<AngularTestHarness>(
+	create<LocatorFnResult<[AngularHarnessPredicate<AngularTestHarness>]>>(),
+);

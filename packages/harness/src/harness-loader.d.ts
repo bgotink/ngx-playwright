@@ -59,6 +59,20 @@ export interface HarnessLoader {
 	): Promise<T | null>;
 
 	/**
+	 * Searches for an instance of the component corresponding to the given harness type under the
+	 * `HarnessLoader`'s root element, and returns a `ComponentHarness` for the instance on the page
+	 * at the given index. If no matching component exists at that index, an error is thrown.
+	 * @param query A query for a harness to create
+	 * @param index The zero-indexed offset of the matching component instance to return
+	 * @return An instance of the given harness type.
+	 * @throws If a matching component instance can't be found at the given index.
+	 */
+	getHarnessAtIndex<T extends AnyComponentHarness>(
+		query: HarnessQuery<T> | AngularHarnessQuery<T>,
+		index: number,
+	): Promise<T>;
+
+	/**
 	 * Searches for all instances of the component corresponding to the given harness type under the
 	 * `HarnessLoader`'s root element, and returns a list `ComponentHarness` for each instance.
 	 * @param query A query for a harness to create
@@ -77,4 +91,14 @@ export interface HarnessLoader {
 	hasHarness<T extends AnyComponentHarness>(
 		query: HarnessQuery<T> | AngularHarnessQuery<T>,
 	): Promise<boolean>;
+
+	/**
+	 * Searches for all instances of the component corresponding to the given harness type under the
+	 * `HarnessLoader`'s root element, and returns the total count of all matching components.
+	 * @param query A query for a harness to create
+	 * @return An integer indicating the number of instances that were found.
+	 */
+	countHarnesses<T extends AnyComponentHarness>(
+		query: HarnessQuery<T> | AngularHarnessQuery<T>,
+	): Promise<number>;
 }

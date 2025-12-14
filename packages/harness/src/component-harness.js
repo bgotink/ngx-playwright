@@ -126,4 +126,18 @@ export class ContentContainerComponentHarness extends ComponentHarness {
 	async getRootHarnessLoader() {
 		return this.locatorFactory.rootHarnessLoader();
 	}
+
+	/**
+	 * @deprecated Only added for compatibility with @angular/cdk/testing
+	 */
+	forceStabilize() {
+		return this.locatorFactory.forceStabilize();
+	}
+
+	/**
+	 * @deprecated Only added for compatibility with @angular/cdk/testing
+	 */
+	waitForTasksOutsideAngular() {
+		return this.locatorFactory.waitForTasksOutsideAngular();
+	}
 }

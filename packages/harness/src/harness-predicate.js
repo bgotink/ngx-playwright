@@ -1,3 +1,5 @@
+import {parallel} from "./change-detection.js";
+
 /**
  * A query for a `ComponentHarness`, which is expressed as either a `ComponentHarnessConstructor` or
  * a `HarnessPredicate`.
@@ -5,8 +7,6 @@
  * @template {import('./component-harness.js').AnyComponentHarness} T
  * @typedef {import('./component-harness.js').ComponentHarnessConstructor<T> | HarnessPredicate<T>} HarnessQuery
  */
-
-import {parallel} from "./change-detection.js";
 
 /**
  * An async function that takes an item and returns a boolean promise

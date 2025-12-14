@@ -266,6 +266,23 @@ export class PlaywrightHarnessEnvironment {
 	/**
 	 * @template {import('@ngx-playwright/harness').AnyComponentHarness} T
 	 * @param {import("@ngx-playwright/harness").HarnessQuery<T> | import("./types.js").CdkHarnessQuery<T>} query
+	 * @param {number} offset
+	 * @returns {Promise<T>}
+	 */
+	async getHarnessAtIndex(query, offset) {
+		if (offset < 0) {
+			throw Error("Index must not be negative");
+		}
+		const harnesses = await this.getAllHarnesses(query);
+		if (offset >= harnesses.length) {
+			throw Error(`No harness was located at index ${offset}`);
+		}
+		return /** @type {T} */ (harnesses[offset]);
+	}
+
+	/**
+	 * @template {import('@ngx-playwright/harness').AnyComponentHarness} T
+	 * @param {import("@ngx-playwright/harness").HarnessQuery<T> | import("./types.js").CdkHarnessQuery<T>} query
 	 * @returns {Promise<T[]>}
 	 */
 	async getAllHarnesses(query) {
@@ -279,6 +296,15 @@ export class PlaywrightHarnessEnvironment {
 	 */
 	async hasHarness(query) {
 		return (await this.locatorForOptional(query)()) !== null;
+	}
+
+	/**
+	 * @template {import('@ngx-playwright/harness').AnyComponentHarness} T
+	 * @param {import("@ngx-playwright/harness").HarnessQuery<T> | import("./types.js").CdkHarnessQuery<T>} query
+	 * @returns {Promise<number>}
+	 */
+	async countHarnesses(query) {
+		return (await this.getAllHarnesses(query)).length;
 	}
 
 	// LocatorFactory API
@@ -305,7 +331,7 @@ export class PlaywrightHarnessEnvironment {
 	/**
 	 * @template {(import("@ngx-playwright/harness").HarnessQuery<any> | import("./types.js").CdkHarnessQuery<any> | string)[]} T
 	 * @param  {T} queries
-	 * @returns {import("@ngx-playwright/harness").AsyncFactoryFn<import("@ngx-playwright/harness").LocatorFnResult<T>>}
+	 * @returns {() => Promise<import("@ngx-playwright/harness").LocatorFnResult<T>>}
 	 */
 	locatorFor(...queries) {
 		return () =>
@@ -318,7 +344,7 @@ export class PlaywrightHarnessEnvironment {
 	/**
 	 * @template {(import("@ngx-playwright/harness").HarnessQuery<any> | import("./types.js").CdkHarnessQuery<any> | string)[]} T
 	 * @param  {T} queries
-	 * @returns {import("@ngx-playwright/harness").AsyncFactoryFn<import("@ngx-playwright/harness").LocatorFnResult<T> | null>}
+	 * @returns {() => Promise<import("@ngx-playwright/harness").LocatorFnResult<T> | null>}
 	 */
 	locatorForOptional(...queries) {
 		return async () =>
@@ -328,7 +354,7 @@ export class PlaywrightHarnessEnvironment {
 	/**
 	 * @template {(import("@ngx-playwright/harness").HarnessQuery<any> | import("./types.js").CdkHarnessQuery<any> | string)[]} T
 	 * @param  {T} queries
-	 * @returns {import("@ngx-playwright/harness").AsyncFactoryFn<import("@ngx-playwright/harness").LocatorFnResult<T>[]>}
+	 * @returns {() => Promise<import("@ngx-playwright/harness").LocatorFnResult<T>[]>}
 	 */
 	locatorForAll(...queries) {
 		return () => this.#getAllHarnessesAndTestElements(queries);

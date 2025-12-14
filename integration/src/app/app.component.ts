@@ -1,5 +1,3 @@
-import {ENTER} from "@angular/cdk/keycodes";
-import {_supportsShadowDom} from "@angular/cdk/platform";
 import {
 	ChangeDetectionStrategy,
 	ChangeDetectorRef,
@@ -37,7 +35,6 @@ export class AppComponent implements OnDestroy {
 	multiSelectChangeEventCount = 0;
 	basicEvent = 0;
 	customEventData: string | null = null;
-	_shadowDomSupported = _supportsShadowDom();
 	clickResult = {x: -1, y: -1};
 	rightClickResult = {x: -1, y: -1, button: -1};
 	numberControl = new FormControl<number | null>(null);
@@ -86,7 +83,7 @@ export class AppComponent implements OnDestroy {
 	}
 
 	onKeyDown(event: KeyboardEvent) {
-		if (event.keyCode === ENTER && event.key === "Enter") {
+		if (event.key === "Enter") {
 			this.specialKey = "enter";
 		}
 		if (event.key === "j" && event.altKey) {

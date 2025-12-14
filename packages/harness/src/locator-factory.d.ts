@@ -39,7 +39,7 @@ type AngularHarnessQuery<T extends AngularComponentHarness> =
  * `MyHarness | MyOtherHarness | TestElement`.
  */
 export type LocatorFnResult<
-	T extends (HarnessQuery<any> | AngularHarnessQuery<any> | string)[],
+	T extends readonly (HarnessQuery<any> | AngularHarnessQuery<any> | string)[],
 > = {
 	[I in keyof T]: T[I] extends (
 		new (...args: any[]) => infer C // Map `ComponentHarnessConstructor<C>` to `C`.

@@ -1,7 +1,7 @@
 {
 	"extends": "../../tsconfig.base.json",
 	"compilerOptions": {
-		"lib": ["es2020", "dom", "DOM.Iterable", "ES2021.WeakRef"],
+		"lib": ["es2022", "dom", "DOM.Iterable"],
 		"outDir": "./dist",
 		"rootDir": "./src",
 		"mapRoot": ".",
