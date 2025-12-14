@@ -27,7 +27,7 @@ yarn ng e2e
 
 # Playwright has the annoying tendency to succeed if there are no tests, and
 # certain errors cause it to detect no tests without detecting the errors themselves
-if [ ! -f playwright/results/junit.xml ]; then
+if [ ! -f playwright/test-results/junit.xml ]; then
 	echo "Didn't find test result file, did the tests run?" >&2
 	exit 1
 fi

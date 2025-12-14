@@ -2,7 +2,7 @@
 /dist
 node_modules
 
-/integration/results
+/integration/test-results
 .angular
 
 *.tsbuildinfo

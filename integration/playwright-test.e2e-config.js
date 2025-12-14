@@ -44,12 +44,12 @@ export default defineConfig({
 
 	reporter: [
 		[process.env.CI ? "github" : "list"],
-		["junit", {outputFile: join(__dirname, "results/junit.xml")}],
+		["junit", {outputFile: join(__dirname, "test-results/junit.xml")}],
 
 		[
 			"@bgotink/playwright-coverage",
 			{
-				resultDir: join(__dirname, "results/e2e-coverage"),
+				resultDir: join(__dirname, "test-results/e2e-coverage"),
 				sourceRoot: join(__dirname, ".."),
 				exclude: ["**/$_lazy_route_resources*", "**/client"],
 				reports:
