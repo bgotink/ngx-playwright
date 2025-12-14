@@ -43,7 +43,9 @@ export default defineConfig({
 	],
 
 	reporter: [
-		[process.env.CI ? "github" : "list"],
+		.../** @type {import("@ngx-playwright/test").ReporterDescription[]} */ (
+			process.env.CI ? [["github"], ["dot"]] : [["list"]]
+		),
 		["junit", {outputFile: join(__dirname, "test-results/junit.xml")}],
 
 		[
