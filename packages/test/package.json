@@ -35,7 +35,7 @@
 	"peerDependencies": {
 		"@angular/cdk": "^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0 || ^18.0.0-rc.0 || ^19.0.0 || ^21.0.0 || ^21.0.0",
 		"@ngx-playwright/harness": "^0.11.4",
-		"@playwright/test": "^1.20.2"
+		"@playwright/test": "^1.57.0"
 	},
 	"peerDependenciesMeta": {
 		"@angular/cdk": {
@@ -45,7 +45,7 @@
 	"dependencies": {
 		"@angular-devkit/schematics": "^21.0.0",
 		"@ngx-playwright/harness": "^0.11.4",
-		"@playwright/test": "^1.20.2",
+		"@playwright/test": "^1.57.0",
 		"@snuggery/architect": "^0.13.0",
 		"@snuggery/schematics": "^0.13.0",
 		"@snuggery/snuggery": "^0.15.0",

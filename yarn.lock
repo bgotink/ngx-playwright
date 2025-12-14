@@ -2335,7 +2335,7 @@ __metadata:
     "@angular/compiler-cli": "npm:^21.0.0"
     "@angular/core": "npm:^21.0.0"
     "@ngx-playwright/harness": "npm:^0.11.4"
-    "@playwright/test": "npm:^1.20.2"
+    "@playwright/test": "npm:^1.57.0"
     "@snuggery/architect": "npm:^0.13.0"
     "@snuggery/schematics": "npm:^0.13.0"
     "@snuggery/snuggery": "npm:^0.15.0"
@@ -2348,7 +2348,7 @@ __metadata:
   peerDependencies:
     "@angular/cdk": ^13.3.2 || ^14.0.0-rc.0 || ^15.0.0-rc.0 || ^16.0.0-rc.0 || ^17.0.0 || ^18.0.0-rc.0 || ^19.0.0 || ^21.0.0 || ^21.0.0
     "@ngx-playwright/harness": ^0.11.4
-    "@playwright/test": ^1.20.2
+    "@playwright/test": ^1.57.0
   peerDependenciesMeta:
     "@angular/cdk":
       optional: true
@@ -2700,14 +2700,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@playwright/test@npm:^1.20.2":
-  version: 1.41.1
-  resolution: "@playwright/test@npm:1.41.1"
+"@playwright/test@npm:^1.57.0":
+  version: 1.57.0
+  resolution: "@playwright/test@npm:1.57.0"
   dependencies:
-    playwright: "npm:1.41.1"
+    playwright: "npm:1.57.0"
   bin:
     playwright: cli.js
-  checksum: 72bd5bb67c512027d214b9c54c2a22a469bd19d7809771e53a5bfdcc11330591e01579bb22f807d1ebbcdcea35d625e0fc9eb9791cebcc63bf55b82dd1cdefdd
+  checksum: 35ba4b28be72bf0a53e33dbb11c6cff848fb9a37f49e893ce63a90675b5291ec29a1ba82c8a3b043abaead129400f0589623e9ace2e6a1c8eaa409721ecc3774
   languageName: node
   linkType: hard
 
@@ -6180,7 +6180,7 @@ __metadata:
     "@angular/platform-browser-dynamic": "npm:^21.0.0"
     "@bgotink/playwright-coverage": "npm:^0.3.0"
     "@ngx-playwright/test": "workspace:packages/test"
-    "@playwright/test": "npm:^1.20.2"
+    "@playwright/test": "npm:^1.57.0"
     "@standard-schema/spec": "npm:^1.0.0"
     rxjs: "npm:^7.8.1"
     tslib: "npm:^2.8.1"
@@ -7813,27 +7813,27 @@ __metadata:
   languageName: node
   linkType: hard
 
-"playwright-core@npm:1.41.1":
-  version: 1.41.1
-  resolution: "playwright-core@npm:1.41.1"
+"playwright-core@npm:1.57.0":
+  version: 1.57.0
+  resolution: "playwright-core@npm:1.57.0"
   bin:
     playwright-core: cli.js
-  checksum: cdd91267ca23e3f65d519100e956859c70e3e9ca29e3fe00e700b457903129e41dfa17752f1ea37ad0a8a7c6330baf9f3be503e4cbfa3e8833e80a037f899aee
+  checksum: 798e35d83bf48419a8c73de20bb94d68be5dde68de23f95d80a0ebe401e3b83e29e3e84aea7894d67fa6c79d2d3d40cc5bcde3e166f657ce50987aaa2421b6a9
   languageName: node
   linkType: hard
 
-"playwright@npm:1.41.1":
-  version: 1.41.1
-  resolution: "playwright@npm:1.41.1"
+"playwright@npm:1.57.0":
+  version: 1.57.0
+  resolution: "playwright@npm:1.57.0"
   dependencies:
     fsevents: "npm:2.3.2"
-    playwright-core: "npm:1.41.1"
+    playwright-core: "npm:1.57.0"
   dependenciesMeta:
     fsevents:
       optional: true
   bin:
     playwright: cli.js
-  checksum: 32d48c1f8ff881770a19c9245fb4191fc36b5e97ab5f48effa0b1cf5e83fa958f6fdd7e4268dd984aa306ac5fe9e4324510211910751fb52cebb9bae819d13ca
+  checksum: ab03c99a67b835bdea9059f516ad3b6e42c21025f9adaa161a4ef6bc7ca716dcba476d287140bb240d06126eb23f889a8933b8f5f1f1a56b80659d92d1358899
   languageName: node
   linkType: hard
 

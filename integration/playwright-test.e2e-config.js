@@ -9,7 +9,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
 	use: {
-		channel: "chrome",
+		browserName: "chromium",
 		headless: true,
 	},
 

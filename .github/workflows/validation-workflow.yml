@@ -62,15 +62,15 @@ jobs:
         include:
           # Two main LTS releases, test one with @angular/cli and one with @snuggery/snuggery
           - os: ubuntu-latest
-            node: 22.x
+            node: 24.x
             cli: sn
           # Verify that everything works if using the @angular/cli
           - os: ubuntu-latest
-            node: 20.x
+            node: 22.x
             cli: ng
           # Test other node version(s)
           - os: ubuntu-latest
-            node: 18.x
+            node: 20.x
             cli: sn
           # Test on other Operating Systems
           - os: macos-latest
@@ -93,6 +93,7 @@ jobs:
         shell: bash
         run: |
           yarn install --immutable
+          yarn ./integration playwright install chromium
 
       - name: "Run tests"
         shell: bash
