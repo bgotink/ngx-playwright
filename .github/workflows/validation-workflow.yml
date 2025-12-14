@@ -93,7 +93,6 @@ jobs:
         shell: bash
         run: |
           yarn install --immutable
-          yarn ./integration playwright install chromium
 
       - name: "Run tests"
         shell: bash
