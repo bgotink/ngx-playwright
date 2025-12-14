@@ -55,12 +55,6 @@
 					},
 					"configurations": {
 						"production": {
-							"fileReplacements": [
-								{
-									"replace": "integration/src/env/env.ts",
-									"with": "integration/src/env/env.prod.ts"
-								}
-							],
 							"extractLicenses": true,
 							"namedChunks": false,
 							"optimization": true,
