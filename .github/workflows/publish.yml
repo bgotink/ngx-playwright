@@ -1,0 +1,45 @@
+name: Publish
+on:
+  workflow_dispatch:
+
+permissions:
+  # to push to the repo
+  contents: write
+  # for NPM provenance & NPM trusted publisher
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Set up
+      - if: github.ref != 'refs/heads/main'
+        run: |
+          echo "::error::This workflow can only be run on main"
+          exit 1
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24.x
+          cache: yarn
+      - run: |
+          npm i -g corepack
+          corepack enable yarn
+
+      # Prepare for release
+      - name: Install dependencies
+        run: |
+          yarn install --immutable
+      - name: Build
+        run: |
+          yarn tsc -b
+          yarn sn build
+
+      # Release to NPM
+      - name: Publish package on NPM
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+
+          yarn sn deploy
+          git push --follow-tags

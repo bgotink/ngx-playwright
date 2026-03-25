@@ -74,10 +74,10 @@ jobs:
             cli: sn
           # Test on other Operating Systems
           - os: macos-latest
-            node: 22.x
+            node: 24.x
             cli: sn
           - os: windows-latest
-            node: 22.x
+            node: 24.x
             cli: sn
 
     steps:

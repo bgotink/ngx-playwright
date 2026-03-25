@@ -6,7 +6,7 @@
 	"license": "MIT",
 	"author": {
 		"name": "Bram Gotink",
-		"email": "bram@gotink.me",
+		"email": "bram@gotink.be",
 		"url": "https://github.com/bgotink"
 	},
 	"homepage": "https://github.com/bgotink/ngx-playwright/tree/main/packages/composed-dom#readme",

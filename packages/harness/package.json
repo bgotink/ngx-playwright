@@ -2,6 +2,18 @@
 	"name": "@ngx-playwright/harness",
 	"version": "0.12.0",
 	"type": "module",
+	"license": "MIT",
+	"author": {
+		"name": "Bram Gotink",
+		"email": "bram@gotink.be",
+		"url": "https://github.com/bgotink"
+	},
+	"homepage": "https://github.com/bgotink/ngx-playwright/tree/main/packages/harness#readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/bgotink/ngx-playwright",
+		"directory": "packages/harness"
+	},
 	"exports": {
 		".": {
 			"types": "./src/index.d.ts",
