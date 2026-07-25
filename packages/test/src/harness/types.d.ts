@@ -18,8 +18,7 @@ export type CdkHarnessPredicate<T extends AnyComponentHarness> =
 	true extends _CdkHarnessPredicate<T & CdkComponentHarness> ? never
 	:	_CdkHarnessPredicate<T & CdkComponentHarness>;
 export type CdkHarnessQuery<T extends AnyComponentHarness> =
-	| CdkComponentHarnessConstructor<T>
-	| CdkHarnessPredicate<T>;
+	CdkComponentHarnessConstructor<T> | CdkHarnessPredicate<T>;
 
 /** Parsed form of the queries passed to the `locatorFor*` methods. */
 export type ParsedQueries<T extends AnyComponentHarness> = {

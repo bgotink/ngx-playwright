@@ -1,0 +1,6 @@
+releases:
+  "@ngx-playwright/harness": patch
+  "@ngx-playwright/test": patch
+
+declined:
+  - composed-dom

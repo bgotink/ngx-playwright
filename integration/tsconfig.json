@@ -4,9 +4,10 @@
 		"module": "esnext",
 		"moduleResolution": "bundler",
 		"lib": ["es2020", "dom"],
-		"experimentalDecorators": true
+		"experimentalDecorators": true,
+		"types": ["zone.js"]
 	},
-	"files": ["src/main.ts", "src/polyfills.ts"],
+	"files": ["src/main.ts"],
 	"angularCompilerOptions": {
 		"disableTypeScriptVersionCheck": true,
 		"strictTemplates": true

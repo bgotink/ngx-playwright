@@ -205,7 +205,7 @@ export function innerText(element, exclude) {
 	 * @returns {node is Text}
 	 */
 	function isText(node) {
-		return node.nodeType === 3 /* Node.TEXT_NODE */;
+		return node.nodeType === 3; /* Node.TEXT_NODE */
 	}
 
 	/**
@@ -213,6 +213,6 @@ export function innerText(element, exclude) {
 	 * @returns {node is Element}
 	 */
 	function isElement(node) {
-		return node.nodeType === 1 /* Node.ELEMENT_NODE */;
+		return node.nodeType === 1; /* Node.ELEMENT_NODE */
 	}
 }

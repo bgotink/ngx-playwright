@@ -143,8 +143,8 @@ export abstract class ComponentHarness implements AnyComponentHarness {
  * of the harness may want to access other harnesses within the `<ng-content>` of the component.
  */
 export abstract class ContentContainerComponentHarness<
-		S extends string = string,
-	>
+	S extends string = string,
+>
 	extends ComponentHarness
 	implements HarnessLoader
 {

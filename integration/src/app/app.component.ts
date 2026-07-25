@@ -6,7 +6,8 @@ import {
 	ElementRef,
 	NgZone,
 	OnDestroy,
-	ViewChild,
+	untracked,
+	viewChild,
 	ViewEncapsulation,
 } from "@angular/core";
 import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -31,15 +32,15 @@ export class AppComponent implements OnDestroy {
 	username: string;
 	counter: number;
 	asyncCounter: number;
-	input: string;
+	input: string = "";
 	memo: string;
 	testTools: string[];
 	testMethods: string[];
 	isHovering = false;
 	isPointerOver = false;
 	specialKey = "";
-	modifiers: string;
-	singleSelect: string;
+	modifiers: string = "";
+	singleSelect: string = "";
 	singleSelectChangeEventCount = 0;
 	multiSelect: string[] = [];
 	multiSelectChangeEventCount = 0;
@@ -49,8 +50,12 @@ export class AppComponent implements OnDestroy {
 	rightClickResult = {x: -1, y: -1, button: -1};
 	numberControl = new FormControl<number | null>(null);
 
-	@ViewChild("clickTestElement") clickTestElement: ElementRef<HTMLElement>;
-	@ViewChild("taskStateResult") taskStateResultElement: ElementRef<HTMLElement>;
+	taskStateResultElement = viewChild.required<
+		ElementRef<Element>,
+		ElementRef<Element>
+	>("taskStateResult", {
+		read: ElementRef,
+	});
 
 	private _fakeOverlayElement: HTMLElement;
 
@@ -128,7 +133,8 @@ export class AppComponent implements OnDestroy {
 	runTaskOutsideZone() {
 		this._zone.runOutsideAngular(() =>
 			setTimeout(() => {
-				this.taskStateResultElement.nativeElement.textContent = "result";
+				untracked(this.taskStateResultElement).nativeElement.textContent =
+					"result";
 			}, 100),
 		);
 	}

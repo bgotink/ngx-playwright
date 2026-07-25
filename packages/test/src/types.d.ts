@@ -9,15 +9,17 @@ import {
 } from "@ngx-playwright/harness";
 import {Page} from "@playwright/test";
 
-export interface PlaywrightScreenWithPath<T extends AnyComponentHarness>
-	extends ComponentHarnessConstructor<T> {
+export interface PlaywrightScreenWithPath<
+	T extends AnyComponentHarness,
+> extends ComponentHarnessConstructor<T> {
 	readonly path: string;
 
 	isOpen?(page: Page, baseUrl: string): Promise<boolean>;
 }
 
-export interface PlaywrightScreenWithOpenFunction<T extends AnyComponentHarness>
-	extends ComponentHarnessConstructor<T> {
+export interface PlaywrightScreenWithOpenFunction<
+	T extends AnyComponentHarness,
+> extends ComponentHarnessConstructor<T> {
 	open(
 		page: Page,
 		baseUrl: string,
@@ -39,8 +41,9 @@ type AngularComponentHarnessConstructor<T extends AngularComponentHarness> =
 	true extends _AngularComponentHarnessConstructor<T> ? never
 	:	_AngularComponentHarnessConstructor<T>;
 
-export interface CdkPlaywrightScreenWithPath<T extends AngularComponentHarness>
-	extends AngularComponentHarnessConstructor<T> {
+export interface CdkPlaywrightScreenWithPath<
+	T extends AngularComponentHarness,
+> extends AngularComponentHarnessConstructor<T> {
 	readonly path: string;
 
 	isOpen?(page: Page, baseUrl: string): Promise<boolean>;
@@ -75,8 +78,7 @@ export type PlaywrightScreen<T extends AnyComponentHarness> =
 export interface PlaywrightScreenOpener {
 	<T extends AnyComponentHarness>(
 		screen:
-			| PlaywrightScreen<T>
-			| CdkPlaywrightScreen<T & AngularComponentHarness>,
+			PlaywrightScreen<T> | CdkPlaywrightScreen<T & AngularComponentHarness>,
 	): Promise<T>;
 }
 
