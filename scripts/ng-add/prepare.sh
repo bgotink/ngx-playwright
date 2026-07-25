@@ -33,7 +33,7 @@ log: { type: stdout, format: pretty, level: http }
 EOF
 
 # Start verdaccio
-nohup npx verdaccio@5.13.3 --config ./verdaccio-config.yaml &>verdaccio.log &
+nohup npx verdaccio@6.8.0 --config ./verdaccio-config.yaml &>verdaccio.log &
 
 # wait for verdaccio to be ready
 grep -q 'http address' <(tail -f verdaccio.log)
