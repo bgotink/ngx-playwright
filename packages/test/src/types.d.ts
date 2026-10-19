@@ -9,7 +9,7 @@ import {
 } from "@ngx-playwright/harness";
 import {Page} from "@playwright/test";
 
-export interface PlaywrightScreenWithPath<
+export interface PlaywrightOpenableHarnessWithPath<
 	T extends AnyComponentHarness,
 > extends ComponentHarnessConstructor<T> {
 	readonly path: string;
@@ -17,19 +17,19 @@ export interface PlaywrightScreenWithPath<
 	isOpen?(page: Page, baseUrl: string): Promise<boolean>;
 }
 
-export interface PlaywrightScreenWithOpenFunction<
+export interface PlaywrightOpenableHarnessWithOpenFunction<
 	T extends AnyComponentHarness,
 > extends ComponentHarnessConstructor<T> {
 	open(
 		page: Page,
 		baseUrl: string,
-		opener: PlaywrightScreenOpener,
+		opener: PlaywrightHarnessOpener,
 	): Promise<void>;
 
 	isOpen?(page: Page, baseUrl: string): Promise<boolean>;
 }
 
-export interface PlaywrightScreenWithIsOpenFunction<
+export interface PlaywrightOpenableHarnessWithIsOpenFunction<
 	T extends AnyComponentHarness,
 > extends ComponentHarnessConstructor<T> {
 	isOpen(page: Page, baseUrl: string): Promise<boolean>;
@@ -41,7 +41,7 @@ type AngularComponentHarnessConstructor<T extends AngularComponentHarness> =
 	true extends _AngularComponentHarnessConstructor<T> ? never
 	:	_AngularComponentHarnessConstructor<T>;
 
-export interface CdkPlaywrightScreenWithPath<
+export interface CdkPlaywrightOpenableHarnessWithPath<
 	T extends AngularComponentHarness,
 > extends AngularComponentHarnessConstructor<T> {
 	readonly path: string;
@@ -49,79 +49,76 @@ export interface CdkPlaywrightScreenWithPath<
 	isOpen?(page: Page, baseUrl: string): Promise<boolean>;
 }
 
-export interface CdkPlaywrightScreenWithOpenFunction<
+export interface CdkPlaywrightOpenableHarnessWithOpenFunction<
 	T extends AngularComponentHarness,
 > extends AngularComponentHarnessConstructor<T> {
 	open(
 		page: Page,
 		baseUrl: string,
-		opener: PlaywrightScreenOpener,
+		opener: PlaywrightHarnessOpener,
 	): Promise<void>;
 
 	isOpen?(page: Page, baseUrl: string): Promise<boolean>;
 }
 
-export interface CdkPlaywrightScreenWithIsOpenFunction<
+export interface CdkPlaywrightOpenableHarnessWithIsOpenFunction<
 	T extends AngularComponentHarness,
 > extends AngularComponentHarnessConstructor<T> {
 	isOpen(page: Page, baseUrl: string): Promise<boolean>;
 }
 
-export type PlaywrightScreen<T extends AnyComponentHarness> =
-	| PlaywrightScreenWithOpenFunction<T>
-	| PlaywrightScreenWithPath<T>
-	| PlaywrightScreenWithIsOpenFunction<T>
-	| CdkPlaywrightScreenWithOpenFunction<T & AngularComponentHarness>
-	| CdkPlaywrightScreenWithPath<T & AngularComponentHarness>
-	| CdkPlaywrightScreenWithIsOpenFunction<T & AngularComponentHarness>;
+export type PlaywrightOpenableHarness<T extends AnyComponentHarness> =
+	| PlaywrightOpenableHarnessWithOpenFunction<T>
+	| PlaywrightOpenableHarnessWithPath<T>
+	| PlaywrightOpenableHarnessWithIsOpenFunction<T>
+	| CdkPlaywrightOpenableHarnessWithOpenFunction<T & AngularComponentHarness>
+	| CdkPlaywrightOpenableHarnessWithPath<T & AngularComponentHarness>
+	| CdkPlaywrightOpenableHarnessWithIsOpenFunction<T & AngularComponentHarness>;
 
-export interface PlaywrightScreenOpener {
+export interface PlaywrightHarnessOpener {
 	<T extends AnyComponentHarness>(
-		screen:
-			PlaywrightScreen<T> | CdkPlaywrightScreen<T & AngularComponentHarness>,
+		harness: PlaywrightOpenableHarness<T>,
 	): Promise<T>;
 }
 
-export interface InScreenFn {
+export interface InHarnessFn {
 	/**
-	 * [experimental] Open the given screen and execute the given function
+	 * [experimental] Open the given harness and execute the given function
 	 *
-	 * @param page Page to open the screen in
-	 * @param screen The screen to open
-	 * @param fn Function to execute once the given screen is opened
+	 * @param page Page to open the harness in
+	 * @param harness The harness to open
+	 * @param fn Function to execute once the given harness is opened
 	 */
 	<T extends AnyComponentHarness>(
 		page: Page,
-		screen: PlaywrightScreen<T>,
+		harness: PlaywrightOpenableHarness<T>,
 		fn: (
-			props: ExtractablePropertiesOfScreen<T>,
-			screen: T,
+			props: ExtractablePropertiesOfHarness<T>,
+			harness: T,
 		) => void | Promise<void>,
 	): Promise<void>;
 
 	/**
-	 * [experimental] Open the given screen and execute the given function
+	 * [experimental] Open the given harness and execute the given function
 	 *
-	 * @param screen The screen to open
-	 * @param fn Function to execute once the given screen is opened
+	 * @param harness The harness to open
+	 * @param fn Function to execute once the given harness is opened
 	 */
 	<T extends AnyComponentHarness>(
-		screen: PlaywrightScreen<T>,
+		harness: PlaywrightOpenableHarness<T>,
 		fn: (
-			props: ExtractablePropertiesOfScreen<T>,
-			screen: T,
+			props: ExtractablePropertiesOfHarness<T>,
+			harness: T,
 		) => void | Promise<void>,
 	): Promise<void>;
 }
 
-export type ExtractablePropertyNamesOfScreen<T extends AnyComponentHarness> = {
+export type ExtractablePropertyNamesOfHarness<T extends AnyComponentHarness> = {
 	[K in keyof T]: T[K] extends AsyncFactoryFn<unknown> ? K : never;
 }[keyof T];
 
-export type ExtractablePropertiesOfScreen<T extends AnyComponentHarness> = {
-	// Once updated to angular 12 (typescript 4.2) replace the intermediary type with
-	// [K in ExtractablePropertyNamesOfScreen<T> as T[K] extends AsyncFactoryFn<unknown> ? K : never]
-	[K in ExtractablePropertyNamesOfScreen<T>]: T[K] extends (
+export type ExtractablePropertiesOfHarness<T extends AnyComponentHarness> = {
+	[K in ExtractablePropertyNamesOfHarness<T>]: T[K] extends (
 		AsyncFactoryFn<infer P>
 	) ?
 		P

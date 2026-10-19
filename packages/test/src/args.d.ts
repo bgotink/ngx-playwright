@@ -13,16 +13,21 @@ import {
 	PlaywrightHarnessEnvironmentOptions,
 } from "./harness/index.js";
 import {
-	ExtractablePropertiesOfScreen,
-	InScreenFn,
-	PlaywrightScreenOpener,
+	ExtractablePropertiesOfHarness,
+	InHarnessFn,
+	PlaywrightHarnessOpener,
 } from "./types.js";
 
 export interface NgxPlaywrightTestArgs {
 	/**
-	 * Open the given screen
+	 * Open the given harness
 	 */
-	open: PlaywrightScreenOpener;
+	openHarness: PlaywrightHarnessOpener;
+	/**
+	 * Open the given harness
+	 * @deprecated Renamed to `openHarness`
+	 */
+	open: PlaywrightHarnessOpener;
 
 	/**
 	 * Harness environment for the active page
@@ -30,9 +35,15 @@ export interface NgxPlaywrightTestArgs {
 	harnessEnvironment: PlaywrightHarnessEnvironment;
 
 	/**
-	 * [experimental] Open the given screen and execute the given function
+	 * [experimental] Open the given harness and execute the given function
 	 */
-	inScreen: InScreenFn;
+	inHarness: InHarnessFn;
+
+	/**
+	 * [experimental] Open the given harness and execute the given function
+	 * @deprecated Renamed to `inHarness`
+	 */
+	inScreen: InHarnessFn;
 
 	/**
 	 * Fixture to set up automatic stabilization on all pages
@@ -123,11 +134,11 @@ export type PlaywrightTestConfig<
 	WorkerArgs = {},
 > = BaseTestConfig<NgxPlaywrightTestOptions & TestArgs, WorkerArgs>;
 
-export type NgxPlaywrightScreenTestArgs<C extends AnyComponentHarness> = {
+export type NgxPlaywrightHarnessTestArgs<C extends AnyComponentHarness> = {
 	/**
-	 * The screen instance
+	 * The harness instance
 	 */
-	screen: C;
+	harness: C;
 
 	/**
 	 * A special fixture that has to be destructured in the parameter of the test
@@ -138,7 +149,7 @@ export type NgxPlaywrightScreenTestArgs<C extends AnyComponentHarness> = {
 	 *
 	 * This fixture is not available to other fixtures, it can only be used in the test function.
 	 */
-	$: ExtractablePropertiesOfScreen<C>;
+	$: ExtractablePropertiesOfHarness<C>;
 };
 
 export type NgxPlaywrightFixtures = Fixtures<
@@ -148,9 +159,9 @@ export type NgxPlaywrightFixtures = Fixtures<
 	PlaywrightWorkerArgs & PlaywrightWorkerOptions
 >;
 
-export type NgxPlaywrightScreenFixtures<C extends AnyComponentHarness> =
+export type NgxPlaywrightHarnessFixtures<C extends AnyComponentHarness> =
 	Fixtures<
-		NgxPlaywrightScreenTestArgs<C>,
+		NgxPlaywrightHarnessTestArgs<C>,
 		// eslint-disable-next-line @typescript-eslint/ban-types
 		{},
 		NgxPlaywrightTestArgs &

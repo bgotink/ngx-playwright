@@ -64,10 +64,10 @@ On top of [the built-in fixtures](https://playwright.dev/docs/api/class-fixtures
   Setting this to true (which is the default) makes all elements created on the current page automatically wait upon interaction. Waiting is done before anything is read from the page, and after anything is done to the page.
   Setting this to false disables this behavior, requiring manual stabilization when needed.
   This only influences the main page. Manual stabilization is always required on secondary pages.
-- `open`: Function that takes an openable screen (see below), navigates the main page to the screen and returns an instance of the screen's component harness
-- `inScreen`: Function that takes an openable screen (see below), navigates to it and runs the given test function. This test function can destructure properties on the screen's component harness without having to `await`, making for more ergonomic tests.
+- `open`: Function that takes an openable harness class (see below), navigates the main `page` to the harness and returns an instance of the harness
+- `inScreen`: Function that takes an openable harness class (see below), navigates to it and runs the given test function. This test function can destructure properties on the harness without having to `await`, making for more ergonomic tests.
 
-An "openable screen" is a component harness class with one of the following properties:
+An "openable harness class" is a component harness class with one of the following properties:
 
 - A static `path` property, a string that is resolved with the `baseURL` and then navigated towards.
 
@@ -82,7 +82,7 @@ An "openable screen" is a component harness class with one of the following prop
   }
   ```
 
-- A static `open` function that takes the `page` and the `baseURL` and navigates the page to the correct screen. This allows for more complex scenarios, by e.g. first passing a logon screen and then opening the screen itself.
+- A static `open` function that takes the `page` and the `baseURL` and navigates the page to the correct screen. This allows for more complex scenarios, by e.g. first passing a logon screen and then navigate to the target screen via on-screen buttons.
 
   ```js
   class AuthenticatedHomepageScreen extends ComponentHarness {
@@ -113,7 +113,7 @@ import {test as base} from "@playwright/test";
 const test = mixinCoverage(mixinNgxPlaywright(base));
 ```
 
-The package also exposes a `createTest` function that generates a `test` function linked to a given screen:
+The package also exposes a `createTest` function that generates a `test` function linked to a given openable harness (see above):
 
 ```js
 import {createTest} from "@ngx-playwright/test";
@@ -121,17 +121,17 @@ import {createTest} from "@ngx-playwright/test";
 const test = createTest(LoginScreen);
 ```
 
-There's also a `mixinScreenFixtures` function that can be used to combine multiple fixture libraries:
+There's also a `mixinHarnessFixtures` function that can be used to combine multiple fixture libraries:
 
 ```js
 import {mixinFixtures as mixinCoverage} from "@bgotink/playwright-coverage";
-import {mixinScreenFixtures} from "@ngx-playwright/test";
+import {mixinHarnessFixtures} from "@ngx-playwright/test";
 import {test as base} from "@playwright/test";
 
-const test = mixinCoverage(mixinScreenFixtures(LoginScreen, base));
+const test = mixinCoverage(mixinHarnessFixtures(LoginScreen, base));
 ```
 
-The test function created by `mixinScreenFixtures` or `createTest` automatically opens the passed in screen in the tests it's used in.
+The test function created by `mixinHarnessFixtures` or `createTest` automatically opens the passed in screen in the tests it's used in.
 It also exposes an extra special `$` fixture. This fixture can only be used via destructuring:
 
 ```js
@@ -149,7 +149,7 @@ test("submitting login form successfully should navigate away from login screen"
 });
 ```
 
-All properties on the screen class that was passed into `createTest` or `mixinScreenFixtures` and that are of type `() => Promise<T>` are available on the `$` fixture. All properties that are destructured are created by calling their respective functions and awaiting the promises. Only the properties that are destructured will be created this way, other functions will not be called.
+All properties on the screen class that was passed into `createTest` or `mixinHarnessFixtures` and that are of type `() => Promise<T>` are available on the `$` fixture. All properties that are destructured are created by calling their respective functions and awaiting the promises. Only the properties that are destructured will be created this way, other functions will not be called.
 
 ## License
 

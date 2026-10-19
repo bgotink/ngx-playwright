@@ -2,52 +2,52 @@ import {MainComponentHarness} from "../harnesses/app-component-harness.js";
 
 import {test, createTest, expect} from "./test.js";
 
-test.describe.parallel("the inScreen fixture", () => {
+test.describe.parallel("the inHarness fixture", () => {
 	test.describe("without passing a page", () => {
-		test("it should pass in a screen", ({inScreen}) =>
-			inScreen(MainComponentHarness, (_, screen) => {
+		test("it should pass in a harness", ({inHarness}) =>
+			inHarness(MainComponentHarness, (_, harness) => {
 				expect(_).toEqual({});
-				expect(screen).toEqual(expect.any(MainComponentHarness));
+				expect(harness).toEqual(expect.any(MainComponentHarness));
 			}));
 
-		test("it should destructure", ({inScreen}) =>
-			inScreen(MainComponentHarness, ({button}, screen) => {
+		test("it should destructure", ({inHarness}) =>
+			inHarness(MainComponentHarness, ({button}, harness) => {
 				expect(isATestElement(button)).toBe(true);
-				expect(screen).toEqual(expect.any(MainComponentHarness));
+				expect(harness).toEqual(expect.any(MainComponentHarness));
 			}));
 
-		test("it should destructure multiple properties", ({inScreen}) =>
-			inScreen(MainComponentHarness, ({button, allLabels}, screen) => {
+		test("it should destructure multiple properties", ({inHarness}) =>
+			inHarness(MainComponentHarness, ({button, allLabels}, harness) => {
 				expect(isATestElement(button)).toBe(true);
 				expect(isATestElement(allLabels[0])).toBe(true);
 
-				expect(screen).toEqual(expect.any(MainComponentHarness));
+				expect(harness).toEqual(expect.any(MainComponentHarness));
 			}));
 
-		test("it should destructure renamed properties", ({inScreen}) =>
-			inScreen(
+		test("it should destructure renamed properties", ({inHarness}) =>
+			inHarness(
 				MainComponentHarness,
-				({button: one, allLabels: two}, screen) => {
+				({button: one, allLabels: two}, harness) => {
 					expect(isATestElement(one)).toBe(true);
 					expect(isATestElement(two[0])).toBe(true);
 
-					expect(screen).toEqual(expect.any(MainComponentHarness));
+					expect(harness).toEqual(expect.any(MainComponentHarness));
 				},
 			));
 
-		test("it should destructure destructured properties", ({inScreen}) =>
-			inScreen(
+		test("it should destructure destructured properties", ({inHarness}) =>
+			inHarness(
 				MainComponentHarness,
-				({button: one, allLabels: [two]}, screen) => {
+				({button: one, allLabels: [two]}, harness) => {
 					expect(isATestElement(one)).toBe(true);
 					expect(isATestElement(two)).toBe(true);
 
-					expect(screen).toEqual(expect.any(MainComponentHarness));
+					expect(harness).toEqual(expect.any(MainComponentHarness));
 				},
 			));
 
-		test("it should destructure with comments", ({inScreen}) =>
-			inScreen(
+		test("it should destructure with comments", ({inHarness}) =>
+			inHarness(
 				MainComponentHarness,
 				// prettier-ignore
 				({
@@ -59,26 +59,26 @@ test.describe.parallel("the inScreen fixture", () => {
           /* other */ allLabels /** comment*/: //
            [two //
           ]//
-        ,}, screen) => {
+        ,}, harness) => {
           expect(isATestElement(one)).toBe(true);
           expect(isATestElement(two)).toBe(true);
 
-          expect(screen).toEqual(expect.any(MainComponentHarness));
+          expect(harness).toEqual(expect.any(MainComponentHarness));
         },
 			));
 	});
 
 	test.describe("passing the global page", () => {
-		test("it should pass in a screen", ({inScreen, page}) =>
-			inScreen(page, MainComponentHarness, (_, screen) => {
+		test("it should pass in a harness", ({inHarness, page}) =>
+			inHarness(page, MainComponentHarness, (_, harness) => {
 				expect(_).toEqual({});
-				expect(screen).toEqual(expect.any(MainComponentHarness));
+				expect(harness).toEqual(expect.any(MainComponentHarness));
 			}));
 
-		test("it should destructure", ({inScreen, page}) =>
-			inScreen(page, MainComponentHarness, ({button}, screen) => {
+		test("it should destructure", ({inHarness, page}) =>
+			inHarness(page, MainComponentHarness, ({button}, harness) => {
 				expect(isATestElement(button)).toBe(true);
-				expect(screen).toEqual(expect.any(MainComponentHarness));
+				expect(harness).toEqual(expect.any(MainComponentHarness));
 			}));
 	});
 
@@ -90,16 +90,16 @@ test.describe.parallel("the inScreen fixture", () => {
 			otherPage = await context.newPage();
 		});
 
-		test("it should pass in a screen", ({inScreen}) =>
-			inScreen(otherPage, MainComponentHarness, (_, screen) => {
+		test("it should pass in a harness", ({inHarness}) =>
+			inHarness(otherPage, MainComponentHarness, (_, harness) => {
 				expect(_).toEqual({});
-				expect(screen).toEqual(expect.any(MainComponentHarness));
+				expect(harness).toEqual(expect.any(MainComponentHarness));
 			}));
 
-		test("it should destructure", ({inScreen}) =>
-			inScreen(otherPage, MainComponentHarness, ({button}, screen) => {
+		test("it should destructure", ({inHarness}) =>
+			inHarness(otherPage, MainComponentHarness, ({button}, harness) => {
 				expect(isATestElement(button)).toBe(true);
-				expect(screen).toEqual(expect.any(MainComponentHarness));
+				expect(harness).toEqual(expect.any(MainComponentHarness));
 			}));
 	});
 
@@ -112,24 +112,24 @@ test.describe.parallel("the inScreen fixture", () => {
 test.describe("the createTest function", () => {
 	const test = createTest(MainComponentHarness);
 
-	test("it should pass in a screen", ({screen, $}) => {
+	test("it should pass in a harness", ({harness, $}) => {
 		expect($).toEqual({});
-		expect(screen).toEqual(expect.any(MainComponentHarness));
+		expect(harness).toEqual(expect.any(MainComponentHarness));
 	});
 
-	test("it should destructure", ({$: {button}, screen}) => {
+	test("it should destructure", ({$: {button}, harness}) => {
 		expect(isATestElement(button)).toBe(true);
-		expect(screen).toEqual(expect.any(MainComponentHarness));
+		expect(harness).toEqual(expect.any(MainComponentHarness));
 	});
 
 	test("it should destructure multiple properties", ({
 		$: {button, allLabels},
-		screen,
+		harness,
 	}) => {
 		expect(isATestElement(button)).toBe(true);
 		expect(isATestElement(allLabels[0])).toBe(true);
 
-		expect(screen).toEqual(expect.any(MainComponentHarness));
+		expect(harness).toEqual(expect.any(MainComponentHarness));
 	});
 
 	test("it should destructure renamed properties", ({
@@ -144,12 +144,12 @@ test.describe("the createTest function", () => {
 			button: one,
 			allLabels: [two],
 		},
-		screen,
+		harness,
 	}) => {
 		expect(isATestElement(one)).toBe(true);
 		expect(isATestElement(two)).toBe(true);
 
-		expect(screen).toEqual(expect.any(MainComponentHarness));
+		expect(harness).toEqual(expect.any(MainComponentHarness));
 	});
 
 	// prettier-ignore
@@ -164,11 +164,11 @@ test.describe("the createTest function", () => {
           [two //
         ]//
       ,}
-    , screen}) => {
+    , harness}) => {
     expect(isATestElement(one)).toBe(true);
     expect(isATestElement(two)).toBe(true);
 
-    expect(screen).toEqual(expect.any(MainComponentHarness));
+    expect(harness).toEqual(expect.any(MainComponentHarness));
   });
 
 	/** @param {import('@angular/cdk/testing').TestElement} el */

@@ -7,4 +7,8 @@ export {
 } from "./harness/index.js";
 
 export {mixinFixtures, test} from "./fixtures.js";
-export {createTest, mixinScreenFixtures} from "./factory.js";
+export {
+	createTest,
+	mixinHarnessFixtures,
+	mixinHarnessFixtures as mixinScreenFixtures,
+} from "./factory.js";

@@ -4,14 +4,14 @@ import {createEnvironment} from "./harness/index.js";
 import {getDestructuredArguments} from "./parse-arguments.js";
 
 /**
- * @param {import('./types.js').PlaywrightScreen<import("@ngx-playwright/harness").AnyComponentHarness>} screen
- * @returns {screen is import('./types.js').PlaywrightScreenWithOpenFunction<import("@ngx-playwright/harness").AnyComponentHarness>}
+ * @param {import('./types.js').PlaywrightOpenableHarness<import("@ngx-playwright/harness").AnyComponentHarness>} harness
+ * @returns {harness is import('./types.js').PlaywrightOpenableHarnessWithOpenFunction<import("@ngx-playwright/harness").AnyComponentHarness>}
  */
-function hasOpenFunction(screen) {
+function hasOpenFunction(harness) {
 	return (
 		typeof (
-			/** @type {import('./types.js').PlaywrightScreenWithOpenFunction<import("@ngx-playwright/harness").AnyComponentHarness>} */ (
-				screen
+			/** @type {import('./types.js').PlaywrightOpenableHarnessWithOpenFunction<import("@ngx-playwright/harness").AnyComponentHarness>} */ (
+				harness
 			).open
 		) === "function"
 	);
@@ -22,10 +22,10 @@ function hasOpenFunction(screen) {
  * @param {string | undefined} baseURL
  * @param {import('@playwright/test').Page} page
  * @param {import('./harness/index.js').PlaywrightHarnessEnvironment} harnessEnvironment
- * @param {import('./types.js').PlaywrightScreen<T>} screen
+ * @param {import('./types.js').PlaywrightOpenableHarness<T>} harness
  * @returns {Promise<T>}
  */
-export async function openScreen(baseURL, page, harnessEnvironment, screen) {
+export async function openHarness(baseURL, page, harnessEnvironment, harness) {
 	if (baseURL == null) {
 		throw new Error(
 			"Expected baseURL to be set, did you run via @ngx-playwright/test:run?",
@@ -33,12 +33,12 @@ export async function openScreen(baseURL, page, harnessEnvironment, screen) {
 	}
 
 	let isOpen;
-	if (typeof screen.isOpen === "function") {
-		isOpen = await screen.isOpen(page, baseURL);
+	if (typeof harness.isOpen === "function") {
+		isOpen = await harness.isOpen(page, baseURL);
 	}
 
-	if (isOpen == null && "path" in screen && typeof screen.path === "string") {
-		const url = new URL(screen.path, baseURL);
+	if (isOpen == null && "path" in harness && typeof harness.path === "string") {
+		const url = new URL(harness.path, baseURL);
 		const currentUrl = new URL(page.url());
 
 		// Should this be more intelligent? e.g. if the page to open is example.com/lorem
@@ -50,87 +50,89 @@ export async function openScreen(baseURL, page, harnessEnvironment, screen) {
 	}
 
 	if (!isOpen) {
-		if (hasOpenFunction(screen)) {
-			await screen.open(page, baseURL, (screen) =>
-				openScreen(baseURL, page, harnessEnvironment, screen),
+		if (hasOpenFunction(harness)) {
+			await harness.open(page, baseURL, (harness) =>
+				openHarness(baseURL, page, harnessEnvironment, harness),
 			);
-		} else if ("path" in screen && typeof screen.path === "string") {
-			await page.goto(new URL(screen.path, baseURL).href);
+		} else if ("path" in harness && typeof harness.path === "string") {
+			await page.goto(new URL(harness.path, baseURL).href);
 		} else {
-			throw new Error("Expected screen to be open but it wasn't");
+			throw new Error(
+				`Expected harness ${JSON.stringify(harness.name)} to be open but it wasn't`,
+			);
 		}
 	}
 
 	// Give the page some time to load
-	await page.waitForSelector(screen.hostSelector);
+	await page.waitForSelector(harness.hostSelector);
 
-	return harnessEnvironment.getHarness(screen);
+	return harnessEnvironment.getHarness(harness);
 }
 
 /**
  * @param {import('@playwright/test').Page} page
  * @param {import('./harness/index.js').PlaywrightHarnessEnvironment} harnessEnvironment
  * @param {string | undefined} baseURL
- * @returns {import('./types.js').InScreenFn}
+ * @returns {import('./types.js').InHarnessFn}
  */
-export function createInScreenFn(page, harnessEnvironment, baseURL) {
+export function createInHarnessFn(page, harnessEnvironment, baseURL) {
 	/**
 	 * @template {import("@ngx-playwright/harness").AnyComponentHarness} T
-	 * @param {import('@playwright/test').Page | import('./types.js').PlaywrightScreen<T>} pageOrScreen
-	 * @param {import('./types.js').PlaywrightScreen<T> | ((props: import('./types.js').ExtractablePropertiesOfScreen<T>, screen: T) => void | Promise<void>)} screenOrFn
-	 * @param {((props: import('./types.js').ExtractablePropertiesOfScreen<T>, screen: T) => void | Promise<void>)=} fn
+	 * @param {import('@playwright/test').Page | import('./types.js').PlaywrightOpenableHarness<T>} pageOrHarness
+	 * @param {import('./types.js').PlaywrightOpenableHarness<T> | ((props: import('./types.js').ExtractablePropertiesOfHarness<T>, harness: T) => void | Promise<void>)} harnessOrFn
+	 * @param {((props: import('./types.js').ExtractablePropertiesOfHarness<T>, harness: T) => void | Promise<void>)=} fn
 	 * @returns {Promise<void>}
 	 */
-	async function inScreen(pageOrScreen, screenOrFn, fn) {
+	async function inHarness(pageOrHarness, harnessOrFn, fn) {
 		/** @type {import('@playwright/test').Page} */
 		let _page;
-		/** @type {import('./types.js').PlaywrightScreen<T>} */
-		let Screen;
-		/** @type {(props: import('./types.js').ExtractablePropertiesOfScreen<T>, screen: T) => void | Promise<void>} */
+		/** @type {import('./types.js').PlaywrightOpenableHarness<T>} */
+		let Harness;
+		/** @type {(props: import('./types.js').ExtractablePropertiesOfHarness<T>, harness: T) => void | Promise<void>} */
 		let testFunction;
 
-		if (typeof pageOrScreen === "function") {
+		if (typeof pageOrHarness === "function") {
 			_page = page;
-			Screen = pageOrScreen;
-			testFunction = /** @type {typeof testFunction} */ (screenOrFn);
+			Harness = pageOrHarness;
+			testFunction = /** @type {typeof testFunction} */ (harnessOrFn);
 		} else {
-			_page = pageOrScreen;
-			Screen = /** @type {typeof Screen} */ (screenOrFn);
+			_page = pageOrHarness;
+			Harness = /** @type {typeof Harness} */ (harnessOrFn);
 			testFunction = /** @type {typeof testFunction} */ (fn);
 		}
 
 		const args =
-			/** @type {(keyof import('./types.js').ExtractablePropertiesOfScreen<T>)[]} */ (
+			/** @type {(keyof import('./types.js').ExtractablePropertiesOfHarness<T>)[]} */ (
 				getDestructuredArguments(testFunction)
 			);
 
 		const _harnessEnvironment =
 			_page === page ? harnessEnvironment : createEnvironment(_page);
-		const screen = await openScreen(
+		const harnessInstance = await openHarness(
 			baseURL,
 			_page,
 			_harnessEnvironment,
-			Screen,
+			Harness,
 		);
 
 		if (args == null) {
 			await testFunction(
-				/** @type {import('./types.js').ExtractablePropertiesOfScreen<T>} */ ({}),
-				screen,
+				/** @type {import('./types.js').ExtractablePropertiesOfHarness<T>} */ ({}),
+				harnessInstance,
 			);
 		} else {
 			const properties = await parallel(() =>
 				args.map(async (name) => {
-					// @ts-expect-error Typescript doesn't realize name indexes screen
-					const value = await screen[name]?.();
+					// @ts-expect-error Typescript doesn't realize name indexes harnessInstance
+					const value = await harnessInstance[name]?.();
 
 					return [name, value];
 				}),
 			);
 
-			await testFunction(Object.fromEntries(properties), screen);
+			await testFunction(Object.fromEntries(properties), harnessInstance);
 		}
 	}
 
-	return inScreen;
+	return inHarness;
 }

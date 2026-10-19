@@ -1,6 +1,5 @@
 import {_setParallelImplementation} from "@ngx-playwright/harness";
 import {test as base} from "@playwright/test";
-import {createRequire} from "node:module";
 import {fileURLToPath} from "node:url";
 
 import {
@@ -8,7 +7,7 @@ import {
 	autoStabilize,
 	manuallyStabilize,
 } from "./harness/index.js";
-import {openScreen, createInScreenFn} from "./screen.js";
+import {openHarness, createInHarnessFn} from "./screen.js";
 
 /** @type {import('./args.js').NgxPlaywrightFixtures} */
 const ngxPlaywrightFixtures = {
@@ -101,12 +100,14 @@ const ngxPlaywrightFixtures = {
 		});
 	},
 
-	inScreen: ({page, baseURL, harnessEnvironment}, use) => {
-		return use(createInScreenFn(page, harnessEnvironment, baseURL));
+	inHarness: ({page, baseURL, harnessEnvironment}, use) => {
+		return use(createInHarnessFn(page, harnessEnvironment, baseURL));
 	},
+	inScreen: ({inHarness}, use) => use(inHarness),
 
-	open: ({page, baseURL, harnessEnvironment}, use) =>
-		use((screen) => openScreen(baseURL, page, harnessEnvironment, screen)),
+	openHarness: ({page, baseURL, harnessEnvironment}, use) =>
+		use((harness) => openHarness(baseURL, page, harnessEnvironment, harness)),
+	open: ({openHarness}, use) => use(openHarness),
 
 	harnessEnvironment: ({page, _harnessEnvironmentOptions}, use) =>
 		use(createEnvironment(page, _harnessEnvironmentOptions)),
@@ -130,9 +131,8 @@ const ngxPlaywrightFixtures = {
 			await playwright.selectors.register(
 				"composed-css",
 				{
-					// Replace with import.meta.resolve() once targeting only Node ≥20.6.0
-					path: createRequire(import.meta.url).resolve(
-						"composed-dom/selector-engine",
+					path: fileURLToPath(
+						import.meta.resolve("composed-dom/selector-engine"),
 					),
 				},
 				{contentScript: true},

@@ -9,7 +9,12 @@ export {
 } from "./harness/index.js";
 
 export {mixinFixtures, test} from "./fixtures.js";
-export {createTest, mixinScreenFixtures} from "./factory.js";
+export {
+	createTest,
+	mixinHarnessFixtures,
+	/** @deprecated Renamed to `mixinHarnessFixtures` */
+	mixinHarnessFixtures as mixinScreenFixtures,
+} from "./factory.js";
 
 export type {
 	NgxPlaywrightTestArgs,
@@ -17,8 +22,16 @@ export type {
 	NgxPlaywrightTestWorkerArgs,
 	PlaywrightTestConfig,
 } from "./args.js";
-export type {NgxPlaywrightScreenTestArgs} from "./args.js";
-export type {PlaywrightScreen} from "./types.js";
+export type {
+	NgxPlaywrightHarnessTestArgs,
+	/** @deprecated Renamed to `NgxPlaywrightHarnessTestArgs` */
+	NgxPlaywrightHarnessTestArgs as NgxPlaywrightScreenTestArgs,
+} from "./args.js";
+export type {
+	PlaywrightOpenableHarness,
+	/** @deprecated Renamed to `PlaywrightOpenableHarness` */
+	PlaywrightOpenableHarness as PlaywrightScreen,
+} from "./types.js";
 
 export function defineConfig(
 	config: PlaywrightTestConfig,
